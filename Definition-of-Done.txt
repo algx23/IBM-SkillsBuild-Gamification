@@ -1,3 +1,4 @@
 - All necessary testing complete and passed
 - All data collection must be GDPR compliant
 - Program reviewed by client and necessary improvements made based on feedback
+- All features must be recorded in the user manual
