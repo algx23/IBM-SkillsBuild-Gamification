@@ -1,1 +1,1 @@
-- All testing complete
+- All necessary testing complete and passed
