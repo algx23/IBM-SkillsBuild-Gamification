@@ -1,1 +1,2 @@
 - All necessary testing complete and passed
+- All data collection must be GDPR compliant
