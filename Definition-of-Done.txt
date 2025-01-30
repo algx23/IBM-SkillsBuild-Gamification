@@ -1,5 +1,5 @@
 - All necessary testing complete and passed.
 - Code reviewed by peers and necessary improvements made based on feedback.
 - All features must be recorded in the user manual.
-- All user stories function as intended.
+- All user stories correctly implemented.
 
