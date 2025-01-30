@@ -1,5 +1,5 @@
 - All necessary testing complete and passed.
-- All data collection must be GDPR compliant.
-- Program reviewed by client and necessary improvements made based on feedback.
+- Code reviewed by peers and necessary improvements made based on feedback.
 - All features must be recorded in the user manual.
-- All code should follow the principles found in the google style guide.
+- All user stories function as intended.
+
