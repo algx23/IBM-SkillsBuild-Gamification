@@ -2,4 +2,4 @@
 - Code reviewed by peers and necessary improvements made based on feedback.
 - All features must be recorded in the user manual.
 - All user stories correctly implemented.
-
+- All code should be adequately commented.
