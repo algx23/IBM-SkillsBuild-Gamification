@@ -3,38 +3,35 @@ package com.example.skillsbuildgamification;
 import com.example.skillsbuildgamification.config.PasswordEncoder;
 import com.example.skillsbuildgamification.model.Student;
 import com.example.skillsbuildgamification.repository.StudentRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.beans.Transient;
+
 @SpringBootApplication
 public class SkillsBuildGamificationApplication implements CommandLineRunner {
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
+    // Includes demo code which should be removed later
 
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private PasswordEncoder encoder;
 
     public static void main(String[] args) {
         SpringApplication.run(SkillsBuildGamificationApplication.class, args);
     }
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
-
-//        test data
         Student student1 = new Student();
-        student1.setUsername("alex");
-        student1.setPassword(passwordEncoder.encoder().encode("qwerty"));
-        student1.setPoints(42);
-        studentRepository.save(student1);
+        student1.setUsername("bob12");
+        student1.setPassword(encoder.encoder().encode("password"));
 
-        Student student2 = new Student();
-        student2.setUsername("bob");
-        student2.setPassword(passwordEncoder.encoder().encode("qwerty"));
-        student2.setPoints(69);
-        studentRepository.save(student2);
+        student1 = studentRepository.save(student1);
     }
-
 }
