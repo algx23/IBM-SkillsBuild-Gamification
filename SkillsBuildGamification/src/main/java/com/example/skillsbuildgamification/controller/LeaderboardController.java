@@ -16,25 +16,18 @@ public class LeaderboardController {
 
     @GetMapping("/leaderboard")
     public String leaderboard(Model model, Principal principal) {
-//        fetch currently logged in student
-//        Student student = studentRepository.findByUsername(principal.getName());
+        /*
+         * if a student is logged in, they can view the leaderboard,
+         * if not, they will be redirected to login-page
+         */
 
-/*        if a student is logged in, they can view the leaderboard,
- *        if not, they will be redirected to login-page
-*/
+        if (principal == null) {
+            return "redirect:/login-page";
+        } else {
 
-//        NOTE: THE BELOW IF STATEMENT HAS BEEN COMMENTED OUT FOR TESTING THE LEADERBOARD WORKS
-//        it will be properly implemented, once login functionality has been finalized
-//  ----------------------------------------------------------------------------------------
-//        if (student == null) {
-//        this should work when login is fully implemented
-//            return "redirect:/login-page";
-//        } else {}
-// -------------------------------------------------------------------------------------------
-
-////            add all students to the repo, so they can ALL be ordered TODO: order students
+            // add all students to the repo, so they can ALL be ordered
             model.addAttribute("students", studentRepository.findAllByOrderByPointsDesc());
             return "leaderboard/leaderboard";
-//        }
         }
+    }
 }
