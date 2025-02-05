@@ -28,8 +28,10 @@ input[type="password"] {
     padding-inline: 0%;
 }
 
-input[type="submit"] {
+input[type="submit"],
+input[type="button"] {
     margin-top: 5px;
+    margin-bottom: 15px;
     padding: 1.5%;
     width:100%;
     padding-inline: 0%;

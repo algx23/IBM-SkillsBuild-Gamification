@@ -16,7 +16,9 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" />
 
-            <input type="submit" value="Login"/>
+            <input type="submit" id="submit" value="Login"/>
+            <label for="register">Or:</label>
+            <input type="button" id="register" onclick="location.href='/registration-page';" value="Register" />
         </form:form>
     </div>
 </body>

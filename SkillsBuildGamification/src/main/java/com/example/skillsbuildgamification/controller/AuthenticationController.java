@@ -17,22 +17,7 @@ public class AuthenticationController {
     @RequestMapping("/login-page")
     public String login(Model model) {
         // The login page
-        UserDetails user = new UserDetails() {
-            @Override
-            public Collection<? extends GrantedAuthority> getAuthorities()
-            {
-                return List.of();
-            }
-            @Override
-            public String getPassword() {
-                return "";
-            }
-
-            @Override
-            public String getUsername() {
-                return "";
-            }
-        };
+        UserDetails user = emptyUser();
         model.addAttribute("user", user);
         return "authentication/login";
     }
@@ -60,5 +45,24 @@ public class AuthenticationController {
     @RequestMapping("/denied")
     public String denied(Model model) {
         return "authentication/denied";
+    }
+
+    private UserDetails emptyUser() {
+        return new UserDetails() {
+            @Override
+            public Collection<? extends GrantedAuthority> getAuthorities()
+            {
+                return List.of();
+            }
+            @Override
+            public String getPassword() {
+                return "";
+            }
+
+            @Override
+            public String getUsername() {
+                return "";
+            }
+        };
     }
 }
