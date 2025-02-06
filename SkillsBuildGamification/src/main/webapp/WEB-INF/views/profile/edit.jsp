@@ -2,16 +2,19 @@
 <html>
 <head>
     <title>Edit Profile</title>
-    <style>
-        <%-- empty styles for now --%>
-    </style>
 </head>
 <body>
+<h1>Edit Your Profile</h1>
+<form action="/profile/update" method="post">
+    <input type="hidden" name="username" value="${student.username}">
 
-<div>
+    <label for="rank">Rank:</label>
+    <input type="text" id="rank" name="rank" value="${student.rank}"><br>
 
-    <%-- JSP needs to be filled to display complete user profile --%>
-</div>
+    <label for="completedCourses">Completed Courses:</label>
+    <input type="text" id="completedCourses" name="completedCourses" value="${student.completedCourses}"><br>
 
+    <input type="submit" value="Update">
+</form>
 </body>
 </html>
