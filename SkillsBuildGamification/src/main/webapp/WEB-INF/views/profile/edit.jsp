@@ -8,8 +8,8 @@
 <form action="/profile/update" method="post">
     <input type="hidden" name="username" value="${student.username}">
 
-    <label for="rank">Rank:</label>
-    <input type="text" id="rank" name="rank" value="${student.rank}"><br>
+    <label for="level">Rank:</label>
+    <input type="text" id="level" name="level" value="${student.level}"><br>
 
     <label for="completedCourses">Completed Courses:</label>
     <input type="text" id="completedCourses" name="completedCourses" value="${student.completedCourses}"><br>

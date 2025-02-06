@@ -40,8 +40,9 @@ public class AuthenticationController {
     }
 
     @RequestMapping("/login-success")
-    public String loginSuccess(Principal principal) {
+    public String loginSuccess(Principal principal, Model model) {
         if (principal != null) {
+            model.addAttribute("username", principal.getName()); // passing the logged-in user's username for profile link
             return "dashboard";
         }
         System.out.println("principal doesn't exist");
