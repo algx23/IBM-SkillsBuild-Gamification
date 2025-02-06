@@ -1,10 +1,16 @@
 package com.example.skillsbuildgamification.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.security.Principal;
 import java.util.Collection;
@@ -39,6 +45,14 @@ public class AuthenticationController {
             return "dashboard";
         }
         System.out.println("principal doesn't exist");
+        return "redirect:/login-page";
+    }
+
+    @RequestMapping(value="/logout", method = RequestMethod.GET)
+    public String customLogout(HttpServletRequest request, HttpServletResponse response) {
+        // Method to log the current user out
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        new SecurityContextLogoutHandler().logout(request, response, authentication);
         return "redirect:/login-page";
     }
 

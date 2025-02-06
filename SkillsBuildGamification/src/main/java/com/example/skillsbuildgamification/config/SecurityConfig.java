@@ -11,6 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    // Class to configure the security of the project
 
     @Autowired
     private UserService userService;
@@ -21,14 +22,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.requiresChannel(channel -> channel.anyRequest().requiresSecure())
+                // Configuration for who can access which links
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/login-success").authenticated()
+                        .requestMatchers("/login-success", "/logout").authenticated()
                         .anyRequest().permitAll())
+                // Login configuration
                 .formLogin(form -> form
                         .loginPage("/login-page").loginProcessingUrl("/login-process").successForwardUrl("/login-success").failureForwardUrl("/login-failure")
-                        .permitAll()
-                ).logout(logout -> logout.invalidateHttpSession(true)
-                        .logoutSuccessUrl("/login-page?logout=true")
                         .permitAll());
 
         http.exceptionHandling(ex -> ex
