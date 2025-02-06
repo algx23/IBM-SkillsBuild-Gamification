@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface StudentRepository extends CrudRepository<Student, Integer> {
+public interface StudentRepository extends CrudRepository<Student, String> {
     Student findByUsername(String name);
 
 //    find all students, and order them by the amount of points, with the highest points first

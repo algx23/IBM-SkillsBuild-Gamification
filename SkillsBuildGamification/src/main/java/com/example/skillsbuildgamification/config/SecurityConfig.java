@@ -22,7 +22,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.requiresChannel(channel -> channel.anyRequest().requiresSecure())
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/login-success").authenticated()
+                        .requestMatchers("/login-success", "/leaderboard").authenticated()
                         .anyRequest().permitAll())
                 .formLogin(form -> form
                         .loginPage("/login-page").loginProcessingUrl("/login-process").successForwardUrl("/login-success").failureForwardUrl("/login-failure")
