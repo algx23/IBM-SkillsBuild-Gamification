@@ -1,0 +1,38 @@
+html {
+    font-family: sans-serif;
+    min-height: 100%;
+    display: grid;
+    margin: 0;
+    padding: 0;
+}
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* You need to update this later */
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 50%; /* adjust this value to control the form's width */
+}
+
+input[type="text"],
+input[type="password"] {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 1.5%;
+    width: 100%;
+    padding-inline: 0%;
+}
+
+input[type="submit"],
+input[type="button"] {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    padding: 1.5%;
+    width:100%;
+    padding-inline: 0%;
+}

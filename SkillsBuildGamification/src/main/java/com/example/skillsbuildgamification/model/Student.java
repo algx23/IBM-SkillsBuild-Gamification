@@ -8,19 +8,10 @@ public class Student {
     // Model class to store information related to a student
 
     @Id
-    private int id;
     private String username;
     private String password;
     private int points;
     private int level;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;

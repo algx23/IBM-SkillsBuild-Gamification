@@ -27,6 +27,8 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     runtimeOnly 'com.mysql:mysql-connector-j'
+    runtimeOnly 'org.apache.tomcat.embed:tomcat-embed-jasper:10.1.29' // jsps
+    runtimeOnly 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.0' // jsp tags
 }
 
 tasks.named('test') {
