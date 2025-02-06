@@ -1,0 +1,44 @@
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+
+}
+
+tr:hover {
+    background-color: #4589ff;
+    font-weight: bold;
+}
+
+th, td {
+    padding: 15px
+}
+
+table {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+
+tbody tr:nth-of-type(odd):hover {
+    background-color: #eeee;
+}
+
+tbody tr:last-of-type {
+    border-bottom: 2px solid #4589ff
+}
+
+.button {
+    background-color: #2ecc71;
+    color: #fff;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+}
+
+.button:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+
