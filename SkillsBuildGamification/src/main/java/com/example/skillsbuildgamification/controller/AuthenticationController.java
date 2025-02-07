@@ -42,7 +42,7 @@ public class AuthenticationController {
     @RequestMapping("/login-success")
     public String loginSuccess(Principal principal) {
         if (principal != null) {
-            return "dashboard";
+            return "redirect:/dashboard-page";
         }
         System.out.println("principal doesn't exist");
         return "redirect:/login-page";
