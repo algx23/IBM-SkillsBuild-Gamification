@@ -2,16 +2,19 @@
 <html>
 <head>
     <title>User Profile</title>
-    <style>
-        <%-- empty styles for now --%>
-    </style>
 </head>
 <body>
+<h1>Welcome, ${student.username}!</h1>
+<p><strong>Level:</strong> ${student.level}</p>
+<p><strong>Points:</strong> ${student.points}</p>
+<p><strong>Leaderboard Position:</strong> ${student.leaderboardPosition}</p>
+<p><strong>Completed Courses:</strong> ${student.completedCourses}</p>
 
-<div>
-
-    <%-- JSP needs to be filled to display complete user profile --%>
-</div>
-
+<a href="/profile/${student.username}/edit">Edit Profile</a>
+<br>
+<br>
+<form action="/login-success" method="get">
+    <input type="submit" value="Back to Dashboard">
+</form>
 </body>
 </html>

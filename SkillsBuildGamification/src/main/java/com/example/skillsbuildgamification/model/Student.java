@@ -13,6 +13,9 @@ public class Student {
     private int points;
     private int level;
 
+    private String completedCourses;
+    private int leaderboardPosition;
+
     public String getUsername() {
         return username;
     }
@@ -41,7 +44,13 @@ public class Student {
         return level;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
-    }
+    public void setLevel(int level) {this.level = level;}
+
+    public String getCompletedCourses() {return completedCourses;}
+
+    public void setCompletedCourses(String completedCourses) {this.completedCourses = completedCourses;}
+
+    public int getLeaderboardPosition() {return leaderboardPosition;}
+
+    public void setLeaderboardPosition(int leaderboardPosition) {this.leaderboardPosition = leaderboardPosition;}
 }

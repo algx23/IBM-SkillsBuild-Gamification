@@ -35,6 +35,10 @@
         </c:forEach>
 
     </table>
-
+    <br>
+    <br>
+    <form action="/login-success" method="get">
+        <input type="submit" value="Back to Dashboard">
+    </form>
   </body>
 </html>

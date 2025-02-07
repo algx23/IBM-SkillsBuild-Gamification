@@ -21,28 +21,43 @@ public class ProfileController {
     public String showUserProfile(@PathVariable String username, Model model) {
         Student student = studentRepository.findByUsername(username);
         if (student == null) {
-            return "redirect:/login-page"; // Redirect if user not found
+            return "redirect:/login-page";
         }
         model.addAttribute("student", student);
-        return "profile/profile";  // profile.jsp (view profile page)
+        return "profile/profile";  // This is your profile.jsp
     }
+
 
     /**
      * To display a form for editing profile details.
      */
     @GetMapping("/{username}/edit")
     public String showEditProfileForm(@PathVariable String username, Model model) {
-        // TODO: Retrieve user data and populate edit form
-        return "profile/edit";  // Placeholder for edit profile page (edit.jsp)
+        Student student = studentRepository.findByUsername(username);
+        if (student == null) {
+            return "redirect:/login-page";
+        }
+        model.addAttribute("student", student);
+        return "profile/edit";
     }
+
 
     /**
      * Handle profile updates
      */
 
+    // Needs Correct Implementation to update ones profile. !!!!
     @PostMapping("/update")
-    public String updateProfile() {
-        // TODO: Implement update logic
-        return "redirect:/profile/{username}";  // Redirect back to profile after updating
+    public String updateProfile(@RequestParam String username,
+                                @RequestParam int level,
+                                @RequestParam String completedCourses) {
+        Student student = studentRepository.findByUsername(username);
+        if (student != null) {
+            student.setLevel(level);
+            student.setCompletedCourses(completedCourses);
+            studentRepository.save(student);
+        }
+        return "redirect:/profile/" + username;  // Redirect to updated profile
     }
+
 }
