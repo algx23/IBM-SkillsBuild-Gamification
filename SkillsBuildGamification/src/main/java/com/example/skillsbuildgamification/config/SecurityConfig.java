@@ -24,8 +24,8 @@ public class SecurityConfig {
         http.requiresChannel(channel -> channel.anyRequest().requiresSecure())
                 // Configuration for who can access which links
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/login-success", "/logout").authenticated()
-                        .anyRequest().permitAll())
+                        .requestMatchers("/WEB-INF/views/**","css/*", "/denied","/login-page","/login-process","/login-failure","/registration-page","/registration-process").permitAll()
+                        .anyRequest().authenticated())
                 // Login configuration
                 .formLogin(form -> form
                         .loginPage("/login-page").loginProcessingUrl("/login-process").successForwardUrl("/login-success").failureForwardUrl("/login-failure")
