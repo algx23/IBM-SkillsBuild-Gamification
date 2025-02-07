@@ -19,8 +19,12 @@ table {
 }
 
 
-tbody tr:nth-of-type(odd):hover {
+tbody tr:nth-of-type(odd) {
     background-color: #eeee;
+}
+
+tbody tr:nth-of-type(odd):hover {
+    background-color: #4589ff;
 }
 
 tbody tr:last-of-type {
@@ -39,6 +43,18 @@ tbody tr:last-of-type {
 
 .button:hover {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.currentlyLoggedIn {
+    color: #228B22;
+    font-weight: bold;
+}
+
+.buttonRow {
+    /*background: none;*/
+    border: none;
+    outline: none;
+    padding: 15px;
 }
 
 

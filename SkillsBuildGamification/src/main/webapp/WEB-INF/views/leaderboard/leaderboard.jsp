@@ -19,19 +19,33 @@
         <tr>
             <th>Username</th>
             <th>Points</th>
+            <th>View Profile</th>
         </tr>
 
       <c:forEach var="student" items="${students}">
         <!-- for each row, the username has a url which goes to that users' profile
          the href link for it will be /profile/{username of the user in the table}.
          This is handled in the /{username} endpoint in the ProfileController, written by Shoaib. -->
+
+        <c:choose>
+            <c:when test="${student.username eq loggedInStudentUsername}">
+                <tr id="currentlyLoggedIn">
+                    <td class="currentlyLoggedIn">${student.username}</td>
+                    <td class="currentlyLoggedIn">${student.points}</td>
+                    <td class="buttonRow"><input type="button" onclick="window.location.href='/profile/${student.username}'" value="View and edit your profile!" class="button"></td>
+
+                </tr>
+            </c:when>
+        <c:otherwise>
         <tr>
             <td>${student.username}</td>
             <td>${student.points}</td>
-            <td>
+            <td class="buttonRow">
             <input type="button" onclick="window.location.href='/profile/${student.username}'" value="View ${student.username}'s profile!" class="button">
             </td>
         <tr>
+        </c:otherwise>
+        </c:choose>
         </c:forEach>
 
     </table>
