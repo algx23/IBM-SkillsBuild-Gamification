@@ -21,7 +21,9 @@ public class DashBoardController
     public String dashboardPage(Model model)
     {
         List<Course> courses = (List<Course>) courseRepository.findAll();
+        List<String> courseLinks = courseRepository.findAllCourseLinks();
         model.addAttribute("courses", courses);
+        model.addAttribute("courseLinks", courseLinks);
         return "dashboard";
     }
 }

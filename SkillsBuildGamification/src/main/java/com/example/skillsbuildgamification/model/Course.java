@@ -12,6 +12,15 @@ public class Course
     @GeneratedValue
     private Integer courseID;
     private String courseName;
+    private String courseLink;
+
+    public String getCourseLink() {
+        return courseLink;
+    }
+
+    public void setCourseLink(String courseLink) {
+        this.courseLink = courseLink;
+    }
 
     public Integer getCourseID() {
         return courseID;
