@@ -17,6 +17,9 @@
             >
           </div>
         </c:forEach>
+        <div class="leaderboard-box">
+          <a href="<c:url value='/leaderboard' />">Leaderboard</a>
+        </div>
       </div>
     </main>
   </body>
