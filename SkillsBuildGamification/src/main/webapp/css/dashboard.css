@@ -3,14 +3,13 @@
     flex-wrap: wrap;
     gap: 20px;
     padding: 20px;
-    justify-content: center; 
+    justify-content: center;
     align-items: stretch;
 }
 
 .course-box {
     background-color: #d3d3d3;
     padding: 20px;
-    width: calc(16.66% - 20px);
     min-height: 100px;
     text-align: center;
     border-radius: 5px;
@@ -18,8 +17,8 @@
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    flex-grow: 1;
-    flex-basis: 200px;
+    flex: 1 1 200px; /* Ensures responsiveness */
+    max-width: 300px; /* Prevents oversized boxes on large screens */
 }
 
 .course-box a {
@@ -74,5 +73,18 @@
 
 .leaderboard-box:hover {
     background-color: #a9a9a9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .course-box {
+        flex: 1 1 250px; /* Adjusts width for medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .course-box {
+        flex: 1 1 100%; /* Full width on smaller screens */
+    }
 }
 
