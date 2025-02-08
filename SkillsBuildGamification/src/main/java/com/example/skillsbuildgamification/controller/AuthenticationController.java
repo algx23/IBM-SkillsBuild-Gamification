@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -20,7 +21,7 @@ import java.util.List;
 public class AuthenticationController {
     // Handles requests to login-related endpoints
 
-    @RequestMapping("/login-page")
+    @GetMapping("/login-page")
     public String login(Model model) {
         // The login page
         UserDetails user = emptyUser();
@@ -46,6 +47,11 @@ public class AuthenticationController {
         }
         System.out.println("principal doesn't exist");
         return "redirect:/login-page";
+    }
+
+    @RequestMapping("/test")
+    public String test(Principal principal) {
+        return "dashboard";
     }
 
     @RequestMapping(value="/logout", method = RequestMethod.GET)
