@@ -5,18 +5,15 @@ import com.example.skillsbuildgamification.model.Course;
 import com.example.skillsbuildgamification.model.Student;
 import com.example.skillsbuildgamification.repository.CourseRepository;
 import com.example.skillsbuildgamification.repository.StudentRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.beans.Transient;
-
 @SpringBootApplication
 public class SkillsBuildGamificationApplication implements CommandLineRunner {
-
-    // Includes demo code which should be removed later
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private StudentRepository studentRepository;
@@ -30,11 +27,25 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
     }
 
     @Override
-    @Transactional
     public void run(String... args) throws Exception {
+
+//        test data
         Student student1 = new Student();
         student1.setUsername("bob12");
         student1.setPassword(encoder.encoder().encode("password"));
+        student1.setPoints(12);
+
+//        adding more students to check leaderboard sorting works
+        Student student2 = new Student();
+        student2.setUsername("jeff69");
+        student2.setPassword(encoder.encoder().encode("password"));
+        student2.setCompletedCourses("ArtificialIntellegence Fundamentals");
+        student2.setPoints(200);
+
+        Student student3 = new Student();
+        student3.setUsername("the chosen one");
+        student3.setPassword(encoder.encoder().encode("password"));
+        student3.setPoints(90);
 
         Course course1 = new Course();
         course1.setCourseName("Artifical Intelligence Fundamentals");
@@ -79,5 +90,8 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
 
 
         student1 = studentRepository.save(student1);
+        student2 = studentRepository.save(student2);
+        student3 = studentRepository.save(student3);
     }
+
 }

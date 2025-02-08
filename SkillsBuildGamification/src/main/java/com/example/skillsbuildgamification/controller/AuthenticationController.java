@@ -41,7 +41,7 @@ public class AuthenticationController {
     }
 
     @RequestMapping("/login-success")
-    public String loginSuccess(Principal principal) {
+    public String loginSuccess(Principal principal, Model model) {
         if (principal != null) {
             return "redirect:/dashboard-page";
         }
