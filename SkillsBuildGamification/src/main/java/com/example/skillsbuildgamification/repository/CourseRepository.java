@@ -10,6 +10,8 @@ public interface CourseRepository extends CrudRepository<Course, Integer>
 {
     Course findBycourseName(String courseName);
 
+    Course findBycourseID(Integer courseID);
+
     @Query("SELECT courseLink FROM Course")
     List<String> findAllCourseLinks();
 }
