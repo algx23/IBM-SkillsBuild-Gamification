@@ -1,7 +1,9 @@
 package com.example.skillsbuildgamification.repository;
 
 import com.example.skillsbuildgamification.model.Student;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -19,4 +21,8 @@ public interface StudentRepository extends CrudRepository<Student, String> {
 //    order students alphabetically A-Z and Z-A respectively
     List<Student> findAllByOrderByUsernameAsc();
     List<Student> findAllByOrderByUsernameDesc();
+
+    @Query("SELECT COUNT(s) + 1 FROM Student s WHERE s.points > (SELECT s2.points FROM Student s2 WHERE s2.username = :username)")
+    int findLeaderboardPosition(@Param("username") String username);
+
 }

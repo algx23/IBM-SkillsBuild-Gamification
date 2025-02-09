@@ -39,7 +39,7 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
         Student student2 = new Student();
         student2.setUsername("jeff69");
         student2.setPassword(encoder.encoder().encode("password"));
-        student2.setCompletedCourses("ArtificialIntellegence Fundamentals");
+        student2.setCompletedCourses("Artificial Intelligence Fundamentals");
         student2.setPoints(200);
 
         Student student3 = new Student();
@@ -48,7 +48,7 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
         student3.setPoints(90);
 
         Course course1 = new Course();
-        course1.setCourseName("Artifical Intelligence Fundamentals");
+        course1.setCourseName("Artificial Intelligence Fundamentals");
         course1.setCourseLink("https://students.yourlearning.ibm.com/activity/PLAN-CC702B39D429");
         course1 = courseRepository.save(course1);
         Course course2 = new Course();

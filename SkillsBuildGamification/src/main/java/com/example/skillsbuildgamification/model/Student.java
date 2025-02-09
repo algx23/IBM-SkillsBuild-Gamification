@@ -12,9 +12,10 @@ public class Student {
     private String password;
     private int points;
     private int level;
+    private String bio;
+    private String profilePic; // img url as string
 
     private String completedCourses;
-    private int leaderboardPosition;
 
     public String getUsername() {
         return username;
@@ -50,7 +51,11 @@ public class Student {
 
     public void setCompletedCourses(String completedCourses) {this.completedCourses = completedCourses;}
 
-    public int getLeaderboardPosition() {return leaderboardPosition;}
+    public String getBio() {return bio;}
 
-    public void setLeaderboardPosition(int leaderboardPosition) {this.leaderboardPosition = leaderboardPosition;}
+    public void setBio(String bio) {this.bio = bio;}
+
+    public String getProfilePic() {return profilePic;}
+
+    public void setProfilePic(String profilePic) {this.profilePic = profilePic;}
 }
