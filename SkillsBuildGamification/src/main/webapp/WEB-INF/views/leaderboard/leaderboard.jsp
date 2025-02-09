@@ -7,9 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="stylesheet" href="css/leaderboard.css">
     <title>Leaderboard</title>
-    <style>
-      /* <%--        TODO: make it look not terrible--%> */
-    </style>
   </head>
   <body>
 
@@ -23,25 +20,25 @@
 
       <li>
           <form:form method="post" action="leaderboard?sortBy=lowestScoreFirst">
-            <input type="submit" value="Lowest Points first">
+            <input type="submit" value="Lowest Points first" class="sort-button">
           </form:form>
       </li>
 
       <li>
           <form:form method="post" action="leaderboard?sortBy=A-Z">
-              <input type="submit" value="Username (A-Z)">
+              <input type="submit" value="Username (A-Z)" class="sort-button">
           </form:form>
       </li>
 
       <li>
           <form:form method="post" action="leaderboard?sortBy=Z-A">
-              <input type="submit" value="Username (Z-A)">
+              <input class="sort-button"type="submit" value="Username (Z-A)">
           </form:form>
       </li>
 
       <li>
           <form:form method="post" action="leaderboard?sortBy=">
-            <input type="submit" value="Clear All Sorting">
+            <input type="submit" value="Clear All Sorting" class="clearButton">
           </form:form>
       </li>
   </ul>
@@ -86,7 +83,7 @@
     <br>
     <br>
     <form action="/login-success" method="get">
-        <input type="submit" value="Back to Dashboard">
+        <input type="submit" value="Back to Dashboard" class="back-to-dboard-button">
     </form>
   </body>
 </html>
