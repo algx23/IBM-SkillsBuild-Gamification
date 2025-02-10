@@ -12,20 +12,28 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class AuthenticationController {
     // Handles requests to login-related endpoints
 
     @GetMapping("/login-page")
-    public String login(Model model) {
+    public String login(Model model, @RequestParam("failure") Optional<Boolean> failure) {
         // The login page
         UserDetails user = emptyUser();
         model.addAttribute("user", user);
+        if (failure.isPresent()) {
+            model.addAttribute("failure", failure.get());
+        }
+        else {
+            model.addAttribute("failure", false);
+        }
         return "authentication/login";
     }
 
@@ -37,7 +45,7 @@ public class AuthenticationController {
 
     @RequestMapping("/login-failure")
     public String loginFailure(Model model) {
-        return "redirect:/login-page";
+        return "redirect:/login-page?failure=true";
     }
 
     @RequestMapping("/login-success")
