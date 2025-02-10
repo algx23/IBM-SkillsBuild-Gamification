@@ -28,6 +28,7 @@ public class AuthenticationController {
         // The login page
         UserDetails user = emptyUser();
         model.addAttribute("user", user);
+        // If failure is true, it means that the user has entered some incorrect login details
         if (failure.isPresent()) {
             model.addAttribute("failure", failure.get());
         }
@@ -53,6 +54,7 @@ public class AuthenticationController {
         if (principal != null) {
             return "dashboard";
         }
+        // If the user is not logged in, redirect them to the login page
         System.out.println("principal doesn't exist");
         return "redirect:/login-page";
     }
