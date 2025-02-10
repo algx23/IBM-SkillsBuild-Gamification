@@ -36,3 +36,9 @@ input[type="button"] {
     width:100%;
     padding-inline: 0%;
 }
+
+.error {
+    font-weight: bold;
+    color: crimson;
+    margin-bottom: 15px;
+}
