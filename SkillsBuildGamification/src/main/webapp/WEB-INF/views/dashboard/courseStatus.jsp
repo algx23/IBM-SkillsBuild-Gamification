@@ -14,11 +14,11 @@
     <form action="<c:url value='/${username}/courseStatus/${course.courseID}' />" method="post">
         <div class="status-container">
             <label class="status-box">
-                <input type="checkbox" name="status" value="completed"/>
+                <input type="radio" name="status" value="completed"/>
                 Course Completed
             </label>
             <label class="status-box">
-                <input type="checkbox" name="status" value="inProgress" />
+                <input type="radio" name="status" value="inProgress" />
                 Course In Progress
             </label>
         </div>

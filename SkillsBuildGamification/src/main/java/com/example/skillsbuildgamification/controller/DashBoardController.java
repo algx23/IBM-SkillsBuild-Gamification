@@ -1,7 +1,4 @@
 package com.example.skillsbuildgamification.controller;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import com.example.skillsbuildgamification.model.Course;
 import com.example.skillsbuildgamification.model.Student;
 import com.example.skillsbuildgamification.repository.CourseRepository;
@@ -43,7 +40,7 @@ public class DashBoardController
     }
 
     @RequestMapping("{username}/courseStatus/{courseID}")
-    public String courseStatus(@PathVariable String username, @PathVariable int courseID, Model model, HttpServletResponse response)
+    public String courseStatus(@PathVariable String username, @PathVariable int courseID, Model model)
     {
         
         Course course = courseRepository.findBycourseID(courseID);
