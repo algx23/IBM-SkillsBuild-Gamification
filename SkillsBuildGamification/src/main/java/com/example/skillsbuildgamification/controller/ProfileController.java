@@ -54,7 +54,7 @@ public class ProfileController {
         Student student = studentRepository.findByUsername(username);
         if (student != null) {
             student.setLevel(level);
-            student.setCompletedCourses(completedCourses);
+            //student.setCompletedCourses(completedCourses);
             studentRepository.save(student);
         }
         return "redirect:/profile/" + username;  // Redirect to updated profile

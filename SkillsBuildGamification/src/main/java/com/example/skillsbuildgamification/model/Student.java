@@ -1,7 +1,9 @@
 package com.example.skillsbuildgamification.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Student {
@@ -13,8 +15,10 @@ public class Student {
     private int points;
     private int level;
 
-    private String completedCourses;
     private int leaderboardPosition;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private List<Enrollment> enrollments = new ArrayList<>();
 
     public String getUsername() {
         return username;
@@ -46,11 +50,12 @@ public class Student {
 
     public void setLevel(int level) {this.level = level;}
 
-    public String getCompletedCourses() {return completedCourses;}
-
-    public void setCompletedCourses(String completedCourses) {this.completedCourses = completedCourses;}
 
     public int getLeaderboardPosition() {return leaderboardPosition;}
 
     public void setLeaderboardPosition(int leaderboardPosition) {this.leaderboardPosition = leaderboardPosition;}
+
+    public List<Enrollment> getEnrollments() {return enrollments;}
+
+    public void setEnrollments(List<Enrollment> enrollments) {this.enrollments = enrollments;}
 }

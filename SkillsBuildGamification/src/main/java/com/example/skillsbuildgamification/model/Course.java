@@ -1,9 +1,9 @@
 package com.example.skillsbuildgamification.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Course
@@ -13,6 +13,9 @@ public class Course
     private Integer courseID;
     private String courseName;
     private String courseLink;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Enrollment> enrollments = new ArrayList<>();
 
     public String getCourseLink() {
         return courseLink;

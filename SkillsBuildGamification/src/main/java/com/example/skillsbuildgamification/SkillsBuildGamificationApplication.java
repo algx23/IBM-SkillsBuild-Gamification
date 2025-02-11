@@ -2,8 +2,11 @@ package com.example.skillsbuildgamification;
 
 import com.example.skillsbuildgamification.config.PasswordEncoder;
 import com.example.skillsbuildgamification.model.Course;
+import com.example.skillsbuildgamification.model.Enrollment;
+import com.example.skillsbuildgamification.model.EnrollmentStatus;
 import com.example.skillsbuildgamification.model.Student;
 import com.example.skillsbuildgamification.repository.CourseRepository;
+import com.example.skillsbuildgamification.repository.EnrollmentRepository;
 import com.example.skillsbuildgamification.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -21,6 +24,8 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
     private PasswordEncoder encoder;
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private EnrollmentRepository enrollmentRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(SkillsBuildGamificationApplication.class, args);
@@ -39,7 +44,7 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
         Student student2 = new Student();
         student2.setUsername("jeff69");
         student2.setPassword(encoder.encoder().encode("password"));
-        student2.setCompletedCourses("ArtificialIntellegence Fundamentals");
+        //student2.setCompletedCourses("ArtificialIntellegence Fundamentals");
         student2.setPoints(200);
 
         Student student3 = new Student();
@@ -88,10 +93,13 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
         course10.setCourseLink("https://students.yourlearning.ibm.com/activity/PLAN-43A030B97485");
         course10 = courseRepository.save(course10);
 
-
         student1 = studentRepository.save(student1);
         student2 = studentRepository.save(student2);
         student3 = studentRepository.save(student3);
+
+        Enrollment enrollment1 = new Enrollment(student1, course1, EnrollmentStatus.COMPLETED);
+        enrollment1 = enrollmentRepository.save(enrollment1);
+
     }
 
 }
