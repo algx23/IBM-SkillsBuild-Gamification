@@ -6,10 +6,10 @@ import jakarta.persistence.*;
 public class Enrollment {
     @Id
     @GeneratedValue
-    private int id;
+    private int enrollmentId;
 
     @ManyToOne
-    @JoinColumn(name = "studentID", nullable = false)
+    @JoinColumn(name = "username", nullable = false)
     private Student student;
 
     @ManyToOne
@@ -30,12 +30,12 @@ public class Enrollment {
     }
 
     // Getters and setters
-    public int getId() {
-        return id;
+    public int getEnrollmentId() {
+        return enrollmentId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setEnrollmentId(int enrollmentId) {
+        this.enrollmentId = enrollmentId;
     }
 
     public Student getStudent() {

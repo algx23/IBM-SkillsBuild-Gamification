@@ -9,10 +9,10 @@
     <input type="hidden" name="username" value="${student.username}">
 
     <label for="level">Rank:</label>
-    <input type="text" id="level" name="level" value="${student.level}"><br>
+    <input type="text" enrollmentId="level" name="level" value="${student.level}"><br>
 
     <label for="completedCourses">Completed Courses:</label>
-    <input type="text" id="completedCourses" name="completedCourses" value="${student.completedCourses}"><br>
+    <input type="text" enrollmentId="completedCourses" name="completedCourses" value="${student.completedCourses}"><br>
 
     <input type="submit" value="Update">
 </form>

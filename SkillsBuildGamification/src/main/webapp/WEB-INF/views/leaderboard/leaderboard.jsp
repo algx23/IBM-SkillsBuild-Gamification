@@ -58,7 +58,7 @@
 
         <c:choose>
             <c:when test="${student.username eq loggedInStudentUsername}">
-                <tr id="currentlyLoggedIn">
+                <tr enrollmentId="currentlyLoggedIn">
                     <td class="currentlyLoggedIn">${student.username}</td>
                     <td class="currentlyLoggedIn">${student.points}</td>
                     <td class="currentlyLoggedIn">${student.completedCourses}</td>
