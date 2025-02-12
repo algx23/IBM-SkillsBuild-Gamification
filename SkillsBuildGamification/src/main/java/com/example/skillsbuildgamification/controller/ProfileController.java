@@ -2,8 +2,10 @@ package com.example.skillsbuildgamification.controller;
 
 import com.example.skillsbuildgamification.config.PasswordEncoder;
 import com.example.skillsbuildgamification.model.Course;
+import com.example.skillsbuildgamification.model.Enrollment;
+import com.example.skillsbuildgamification.model.EnrollmentStatus;
 import com.example.skillsbuildgamification.model.Student;
-import com.example.skillsbuildgamification.repository.CourseRepository;
+import com.example.skillsbuildgamification.repository.EnrollmentRepository;
 import com.example.skillsbuildgamification.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/profile")
@@ -24,8 +27,7 @@ public class ProfileController {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private CourseRepository courseRepository;
-
+    private EnrollmentRepository enrollmentRepository;
 
     @GetMapping("/{username}")
     public String showUserProfile(@PathVariable String username, Model model, Principal principal) {
@@ -38,10 +40,25 @@ public class ProfileController {
         boolean isOwner = loggedInUsername != null && loggedInUsername.equals(username);
         int rank = studentRepository.findLeaderboardPosition(username);
 
+        List<Enrollment> enrollments = enrollmentRepository.findByStudent(student);
+
+        // Separate "Completed" & "In Progress" courses
+        List<Course> completedCourses = enrollments.stream()
+                .filter(e -> e.getStatus() == EnrollmentStatus.COMPLETED)
+                .map(Enrollment::getCourse)
+                .collect(Collectors.toList());
+
+        List<Course> inProgressCourses = enrollments.stream()
+                .filter(e -> e.getStatus() == EnrollmentStatus.IN_PROGRESS)
+                .map(Enrollment::getCourse)
+                .collect(Collectors.toList());
+
         model.addAttribute("student", student);
         model.addAttribute("isOwner", isOwner);
         model.addAttribute("loggedInStudentUsername", loggedInUsername);
         model.addAttribute("leaderboardPosition", rank);
+        model.addAttribute("completedCourses", completedCourses);
+        model.addAttribute("inProgressCourses", inProgressCourses);
 
         return "profile/profile"; // profile.jsp
     }
@@ -58,7 +75,23 @@ public class ProfileController {
             return "redirect:/login-page";
         }
 
+        List<Enrollment> enrollments = enrollmentRepository.findByStudent(student);
+
+        // Separate "Completed" & "In Progress" courses
+        List<Course> completedCourses = enrollments.stream()
+                .filter(e -> e.getStatus() == EnrollmentStatus.COMPLETED)
+                .map(Enrollment::getCourse)
+                .collect(Collectors.toList());
+
+        List<Course> inProgressCourses = enrollments.stream()
+                .filter(e -> e.getStatus() == EnrollmentStatus.IN_PROGRESS)
+                .map(Enrollment::getCourse)
+                .collect(Collectors.toList());
+
         model.addAttribute("student", student);
+        model.addAttribute("completedCourses", completedCourses);
+        model.addAttribute("inProgressCourses", inProgressCourses);
+
         return "profile/edit"; // edit.jsp
     }
 
@@ -88,5 +121,4 @@ public class ProfileController {
         }
         return "redirect:/profile/" + newUsername; // Redirect to updated profile
     }
-
 }

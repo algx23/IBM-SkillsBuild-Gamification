@@ -10,9 +10,7 @@
 <div class="profile-container">
     <div class="profile-left">
         <h2>Edit Profile</h2>
-        <form action="/profile/${student.username}/update" method="post">
-
-            <!-- csrf token to allow changes -->
+        <form action="/profile/${student.username}/update" method="post" class="edit-form">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
             <label>New Username:</label>
@@ -35,18 +33,27 @@
         </a>
     </div>
 
-    <!-- Completed Courses -->
+    <!-- Right Section (Completed & In Progress Courses) -->
     <div class="profile-right">
         <h3>Completed Courses</h3>
         <div class="completed-courses">
-            <c:forEach var="courseName" items="${student.completedCourses.split(', ')}">
+            <c:forEach var="course" items="${completedCourses}">
                 <div class="course-box">
-                    <p>${courseName}</p> <!-- course name only for now -->
+                    <p>${course.courseName}</p>
                 </div>
             </c:forEach>
+        </div>
 
+        <h3>In Progress Courses</h3>
+        <div class="in-progress-courses">
+            <c:forEach var="course" items="${inProgressCourses}">
+                <div class="course-box in-progress">
+                    <p>${course.courseName}</p>
+                </div>
+            </c:forEach>
         </div>
     </div>
+
 </div>
 </body>
 </html>
