@@ -3,6 +3,8 @@ package com.example.skillsbuildgamification.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
+import java.util.List;
+
 @Entity
 public class Student {
     // Model class to store information related to a student
@@ -15,7 +17,8 @@ public class Student {
     private String bio;
     private String profilePic; // img url as string
 
-    private String completedCourses;
+    //@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    //private List<Enrollment> enrollments = new ArrayList<>();
 
     public String getUsername() {
         return username;
@@ -47,10 +50,6 @@ public class Student {
 
     public void setLevel(int level) {this.level = level;}
 
-    public String getCompletedCourses() {return completedCourses;}
-
-    public void setCompletedCourses(String completedCourses) {this.completedCourses = completedCourses;}
-
     public String getBio() {return bio;}
 
     public void setBio(String bio) {this.bio = bio;}
@@ -58,4 +57,9 @@ public class Student {
     public String getProfilePic() {return profilePic;}
 
     public void setProfilePic(String profilePic) {this.profilePic = profilePic;}
+
+    //public List<Enrollment> getEnrollments() {return enrollments;}
+
+    //public void setEnrollments(List<Enrollment> enrollments) {this.enrollments = enrollments;}
+
 }
