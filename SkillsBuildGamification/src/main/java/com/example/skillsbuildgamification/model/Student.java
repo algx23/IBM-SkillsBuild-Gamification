@@ -20,8 +20,8 @@ public class Student {
     private String bio;
     private String profilePic; // img url as string
 
-    //@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    //private List<Enrollment> enrollments = new ArrayList<>();
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private List<Enrollment> enrollments = new ArrayList<>();
 
     public String getUsername() {
         return username;
@@ -61,8 +61,8 @@ public class Student {
 
     public void setProfilePic(String profilePic) {this.profilePic = profilePic;}
 
-    //public List<Enrollment> getEnrollments() {return enrollments;}
+    public List<Enrollment> getEnrollments() {return enrollments;}
 
-    //public void setEnrollments(List<Enrollment> enrollments) {this.enrollments = enrollments;}
+    public void setEnrollments(List<Enrollment> enrollments) {this.enrollments = enrollments;}
 
 }
