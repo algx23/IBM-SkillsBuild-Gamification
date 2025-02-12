@@ -43,7 +43,8 @@ public class AuthenticationController {
     @RequestMapping("/login-success")
     public String loginSuccess(Principal principal, Model model) {
         if (principal != null) {
-            return "redirect:/dashboard-page";
+            String username = principal.getName();
+            return "redirect:" + username + "/dashboard-page";
         }
         System.out.println("principal doesn't exist");
         return "redirect:/login-page";
