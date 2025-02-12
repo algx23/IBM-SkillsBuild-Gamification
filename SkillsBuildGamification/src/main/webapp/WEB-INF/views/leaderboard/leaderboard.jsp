@@ -38,10 +38,24 @@
       </li>
 
       <li>
+        <form:form method="post" action="leaderboard?sortBy=HighestCourseFirst">
+          <input type="submit" value="Courses Completed (high to low)" class="sort-button">
+        </form:form>
+      </li>
+
+            <li>
+        <form:form method="post" action="leaderboard?sortBy=LowestCourseFirst">
+          <input type="submit" value="Courses Completed (low to high)" class="sort-button">
+        </form:form>
+      </li>
+
+      
+      <li>
           <form:form method="post" action="leaderboard?sortBy=">
             <input type="submit" value="Clear All Sorting" class="clearButton">
           </form:form>
       </li>
+
   </ul>
 
   <p>Current Sort: ${sortingOrder}</p>
@@ -65,7 +79,7 @@
                     <td class="currentlyLoggedIn">${loggedInStudentPos}</td>
                     <td class="currentlyLoggedIn">${loggedInStudent.username}</td>
                     <td class="currentlyLoggedIn">${loggedInStudent.points}</td>
-                    <td class="currentlyLoggedIn">${loggedInStudent.completedCourses}</td>
+                    <td class="currentlyLoggedIn">${loggedInStudent.numCompletedCourses}</td>
                     <td class="buttonRow"><input type="button" onclick="window.location.href='/profile/${loggedInStudent.username}'" value="View and edit your profile!" class="button"></td>
                 </tr>
       <c:forEach var="student" items="${students}" varStatus="s">
@@ -83,7 +97,7 @@
                     <td class="currentlyLoggedIn Position">${s.index + 1}</td>
                     <td class="currentlyLoggedIn">${student.username}</td>
                     <td class="currentlyLoggedIn ">${student.points}</td>
-                    <td class="currentlyLoggedIn ">${student.completedCourses}</td>
+                    <td class="currentlyLoggedIn ">${coursesCompleted[s.index]}</td>
                     <td class="buttonRow"><input type="button" onclick="window.location.href='/profile/${student.username}'" value="View and edit your profile!" class="button"></td>
 
                 </tr>
@@ -93,7 +107,7 @@
             <td class="Position">${s.index + 1}</td>
             <td >${student.username}</td>
             <td >${student.points}</td>
-            <td >${student.completedCourses}</td>
+            <td >${coursesCompleted[s.index]}</td>
             <td class="buttonRow">
             <input type="button" onclick="window.location.href='/profile/${student.username}'" value="View ${student.username}'s profile!" class="button">
             </td>

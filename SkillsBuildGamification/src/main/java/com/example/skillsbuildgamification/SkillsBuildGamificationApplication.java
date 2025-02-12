@@ -34,17 +34,17 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-//        test data
+        // test data
         Student student1 = new Student();
         student1.setUsername("bob12");
         student1.setPassword(encoder.encoder().encode("password"));
         student1.setPoints(12);
 
-//        adding more students to check leaderboard sorting works
+        // adding more students to check leaderboard sorting works
         Student student2 = new Student();
         student2.setUsername("jeff69");
         student2.setPassword(encoder.encoder().encode("password"));
-        //student2.setCompletedCourses("ArtificialIntellegence Fundamentals");
+        // student2.setCompletedCourses("ArtificialIntellegence Fundamentals");
         student2.setPoints(200);
 
         Student student3 = new Student();
@@ -70,35 +70,48 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
         course4 = courseRepository.save(course4);
         Course course5 = new Course();
         course5.setCourseName("Quantum Enigmas");
-        course5.setCourseLink("https://students.yourlearning.ibm.com/activity/PLAN-63384B7F59EC?channelId=CNL_LCB_1596832013328");
+        course5.setCourseLink(
+                "https://students.yourlearning.ibm.com/activity/PLAN-63384B7F59EC?channelId=CNL_LCB_1596832013328");
         course5 = courseRepository.save(course5);
         Course course6 = new Course();
         course6.setCourseName("Learn Python Tutorial");
-        course6.setCourseLink("https://students.yourlearning.ibm.com/activity/URL-B634D08B3DF9?channelId=CNL_LCB_1595012253103");
+        course6.setCourseLink(
+                "https://students.yourlearning.ibm.com/activity/URL-B634D08B3DF9?channelId=CNL_LCB_1595012253103");
         course6 = courseRepository.save(course6);
         Course course7 = new Course();
         course7.setCourseName("Python Basics for Data Analytics");
-        course7.setCourseLink("https://students.yourlearning.ibm.com/activity/URL-4FE5409FB67B?channelId=CNL_LCB_1595012253103");
+        course7.setCourseLink(
+                "https://students.yourlearning.ibm.com/activity/URL-4FE5409FB67B?channelId=CNL_LCB_1595012253103");
         course7 = courseRepository.save(course7);
         Course course8 = new Course();
         course8.setCourseName("Learn Programming with Java");
-        course8.setCourseLink("https://students.yourlearning.ibm.com/activity/URL-442069BB6CBD?channelId=CNL_LCB_1595012253103");
+        course8.setCourseLink(
+                "https://students.yourlearning.ibm.com/activity/URL-442069BB6CBD?channelId=CNL_LCB_1595012253103");
         course8 = courseRepository.save(course8);
         Course course9 = new Course();
         course9.setCourseName("Machine Learning with Python");
-        course9.setCourseLink("https://students.yourlearning.ibm.com/activity/URL-64A72F641931?channelId=CNL_LCB_1595012253103");
+        course9.setCourseLink(
+                "https://students.yourlearning.ibm.com/activity/URL-64A72F641931?channelId=CNL_LCB_1595012253103");
         course9 = courseRepository.save(course9);
         Course course10 = new Course();
         course10.setCourseName("Web Development Basics");
         course10.setCourseLink("https://students.yourlearning.ibm.com/activity/PLAN-43A030B97485");
         course10 = courseRepository.save(course10);
 
-        student1 = studentRepository.save(student1);
-        student2 = studentRepository.save(student2);
-        student3 = studentRepository.save(student3);
+        studentRepository.save(student1);
+        studentRepository.save(student2);
+        studentRepository.save(student3);
 
         Enrollment enrollment1 = new Enrollment(student1, course1, EnrollmentStatus.COMPLETED);
+        Enrollment enrollment2 = new Enrollment(student2, course3, EnrollmentStatus.COMPLETED);
+        Enrollment enrollment3 = new Enrollment(student2, course4, EnrollmentStatus.COMPLETED);
+        student1.setNumCompletedCourses(1);
+        student2.setNumCompletedCourses(2);
         enrollment1 = enrollmentRepository.save(enrollment1);
+        enrollment2 = enrollmentRepository.save(enrollment2);
+        enrollment3 = enrollmentRepository.save(enrollment3);
+        student1 = studentRepository.save(student1);
+        student2 = studentRepository.save(student2);
 
     }
 
