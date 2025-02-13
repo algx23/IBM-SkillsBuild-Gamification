@@ -38,19 +38,19 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
         Student student1 = new Student();
         student1.setUsername("bob12");
         student1.setPassword(encoder.encoder().encode("password"));
-        student1.setPoints(12);
+//        student1.setPoints(12);
 
         // adding more students to check leaderboard sorting works
         Student student2 = new Student();
         student2.setUsername("jeff69");
         student2.setPassword(encoder.encoder().encode("password"));
         // student2.setCompletedCourses("ArtificialIntellegence Fundamentals");
-        student2.setPoints(200);
+//        student2.setPoints(200);
 
         Student student3 = new Student();
         student3.setUsername("the chosen one");
         student3.setPassword(encoder.encoder().encode("password"));
-        student3.setPoints(90);
+//        student3.setPoints(90);
 
         Course course1 = new Course();
         course1.setCourseName("Artifical Intelligence Fundamentals");
@@ -102,16 +102,16 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
         studentRepository.save(student2);
         studentRepository.save(student3);
 
-        Enrollment enrollment1 = new Enrollment(student1, course1, EnrollmentStatus.COMPLETED);
-        Enrollment enrollment2 = new Enrollment(student2, course3, EnrollmentStatus.COMPLETED);
-        Enrollment enrollment3 = new Enrollment(student2, course4, EnrollmentStatus.COMPLETED);
-        student1.setNumCompletedCourses(1);
-        student2.setNumCompletedCourses(2);
-        enrollment1 = enrollmentRepository.save(enrollment1);
-        enrollment2 = enrollmentRepository.save(enrollment2);
-        enrollment3 = enrollmentRepository.save(enrollment3);
-        student1 = studentRepository.save(student1);
-        student2 = studentRepository.save(student2);
+//        Enrollment enrollment1 = new Enrollment(student1, course1, EnrollmentStatus.COMPLETED);
+//        Enrollment enrollment2 = new Enrollment(student2, course3, EnrollmentStatus.COMPLETED);
+//        Enrollment enrollment3 = new Enrollment(student2, course4, EnrollmentStatus.COMPLETED);
+//        student1.setNumCompletedCourses(1);
+//        student2.setNumCompletedCourses(2);
+//        enrollment1 = enrollmentRepository.save(enrollment1);
+//        enrollment2 = enrollmentRepository.save(enrollment2);
+//        enrollment3 = enrollmentRepository.save(enrollment3);
+//        student1 = studentRepository.save(student1);
+//        student2 = studentRepository.save(student2);
 
     }
 
