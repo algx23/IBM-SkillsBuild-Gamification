@@ -43,9 +43,8 @@ public class EnrollmentService {
             enrollment = enrollmentOpt.get();
             enrollment.setStatus(status);
             if (enrollment.getStatus() == EnrollmentStatus.COMPLETED) {
-                int a = student.getNumCompletedCourses();
-                int b = a + 1;
-                student.setNumCompletedCourses(b);
+                student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
+                student.setPoints(student.getPoints() + 1);
             }
         } else {
             enrollment = new Enrollment(student, course, status);
@@ -55,6 +54,12 @@ public class EnrollmentService {
             List<Enrollment> currentEnrollments = student.getEnrollments();
             currentEnrollments.add(enrollment);
             student.setEnrollments(currentEnrollments);
+
+//            check if they chose the status as Completed straight away rather than in progress
+            if (status == EnrollmentStatus.COMPLETED) {
+                student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
+                student.setPoints(student.getPoints() + 1);
+            }
 
         }
 
