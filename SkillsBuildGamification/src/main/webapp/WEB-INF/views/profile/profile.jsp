@@ -27,15 +27,24 @@
         </form>
     </div>
 
+    <!-- Right Section (Completed & In Progress Courses) -->
     <div class="profile-right">
         <h3>Completed Courses</h3>
         <div class="completed-courses">
-            <c:forEach var="courseName" items="${student.completedCourses.split(', ')}">
+            <c:forEach var="course" items="${completedCourses}">
                 <div class="course-box">
-                    <p>${courseName}</p> <!-- course name only for now -->
+                    <p>${course.courseName}</p>
                 </div>
             </c:forEach>
+        </div>
 
+        <h3>In Progress Courses</h3>
+        <div class="in-progress-courses">
+            <c:forEach var="course" items="${inProgressCourses}">
+                <div class="course-box in-progress">
+                    <p>${course.courseName}</p>
+                </div>
+            </c:forEach>
         </div>
     </div>
 </div>

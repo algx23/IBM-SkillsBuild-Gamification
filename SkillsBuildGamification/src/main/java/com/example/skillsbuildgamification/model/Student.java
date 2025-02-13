@@ -72,9 +72,7 @@ public class Student {
         this.profilePic = profilePic;
     }
 
-    public List<Enrollment> getEnrollments() {
-        return enrollments;
-    }
+    public List<Enrollment> getEnrollments() {return enrollments;}
 
     public void setEnrollments(List<Enrollment> enrollments) {
         this.enrollments = enrollments;
