@@ -21,6 +21,17 @@ import java.util.Optional;
 
 @Controller
 public class AuthenticationController {
+
+    @RequestMapping("/")
+    public String index(Principal principal) {
+        if (principal != null) {
+            String username = principal.getName();
+            return "redirect:/" + username + "/dashboard-page";
+        } else {
+            return "redirect:/login-page";
+        }
+    }
+
     // Handles requests to login-related endpoints
 
     @GetMapping("/login-page")
