@@ -56,6 +56,11 @@ public class LeaderboardController {
                         studentRepository.findLeaderboardPosition(loggedInStudent.getUsername()));
                 break;
 
+            case ("lowestScoreFirst"):
+                sortedList = studentRepository.findAllByOrderByPointsAsc();
+                sortingOrder = "lowest score first";
+                break;
+
             case ("A-Z"):
                 sortedList = studentRepository.findAllByOrderByUsernameAsc();
                 sortingOrder = "Username (A-Z)";
@@ -76,19 +81,13 @@ public class LeaderboardController {
                 sortingOrder = "Courses Completed (high to low)";
                 break;
 
-            case ("lowestScoreFirst"):
-                sortedList = studentRepository.findAllByOrderByPointsAsc();
-                sortingOrder = "lowest score first";
-                break;
-
         }
 
         model.addAttribute("coursesCompleted",
                 leaderboardService.findNumberOfCoursesCompleted(sortedList));
         model.addAttribute("sortingOrder", sortingOrder);
         model.addAttribute("students", sortedList);
-        model.addAttribute("loggedInStudentPos",
-                leaderboardService.findPrincipalPosInSortedLB(loggedInStudent, sortedList));
+        model.addAttribute("leaderboardPos", leaderboardService.findAndHandleJointLBPos(sortedList));
 
         return "leaderboard/leaderboard";
     }
