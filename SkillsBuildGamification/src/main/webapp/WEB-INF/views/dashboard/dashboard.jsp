@@ -9,6 +9,26 @@
 <body>
 <main>
   <h1 class="dashboard-title">Dashboard</h1>
+  <div name="navigation-filter/search">
+    <!--This is to clearly separate the filter and search functions from each other and allow the users to type up the name of the course or select one from the dropdown menu-->
+    <div class=filter">
+      <form action id="Filter-Courses">
+        <label for="courses">Please select the course that you want to appear on the website:</label>
+        <select id="courses">
+          <c:forEach var="course" items="${courses}">
+            <option value="${course.courseName}">${course.courseName}</option>
+          </c:forEach>
+        </select>
+      </form>
+    </div>
+
+    <div class="search">
+      <label for="textInput">Please enter the name of the course manually that you wish to select:</label>
+      <input type="text" id="textInput" placeholder="Search for course...">
+    </div>
+  </div>
+
+  <!--This is to get each of the courses to appear on the webpage-->
   <div class="course-container">
     <c:forEach var="course" items="${courses}">
       <div class="course-box">
