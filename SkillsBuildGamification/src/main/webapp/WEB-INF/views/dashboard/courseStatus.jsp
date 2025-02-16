@@ -34,11 +34,9 @@
                 ${courseStatus eq 'IN_PROGRESS' ? 'checked' : ''} required />
                 Course In Progress
             </label>
-            <label class="status-box">
-                <input type="radio" name="notStarted" onclick="handleNotStartedSelection()" />
-                Course Not Started
-            </label>
         </div>
+
+        <button type="button" class="back-button" onclick="handleNotStartedSelection()">Go Back</button>
 
         <button type="submit" class="submit-button">Save Status</button>
     </form>
