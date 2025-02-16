@@ -9,6 +9,7 @@
 <body>
 <main>
   <h1 class="dashboard-title">Dashboard</h1>
+
   <div name="navigation-filter/search">
     <!--This is to clearly separate the filter and search functions from each other and allow the users to type up the name of the course or select one from the dropdown menu-->
     <div class=filter">
