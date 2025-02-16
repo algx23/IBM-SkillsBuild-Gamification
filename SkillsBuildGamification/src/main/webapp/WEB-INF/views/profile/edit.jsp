@@ -13,9 +13,6 @@
         <form action="/profile/${student.username}/update" method="post" class="edit-form">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
-            <label>New Username:</label>
-            <input type="text" name="newUsername" class="input-field" value="${student.username}" required><br>
-
             <label>New Password</label>
             <input type="password" name="password" class="input-field"><br>
 

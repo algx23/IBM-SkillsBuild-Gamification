@@ -18,7 +18,7 @@
         <p><strong>Leaderboard Position:</strong> ${leaderboardPosition}</p>
         <p><strong>Bio:</strong> ${student.bio}</p>
 
-        <a href="/profile/${student.username}/edit">
+        <a href="/profile/${student.username}/edit" style="${isOwner ? '' : 'display: none;'}">
             <button class="edit-profile-btn">Edit Profile</button>
         </a>
 
