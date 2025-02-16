@@ -21,18 +21,20 @@
           </c:forEach>
         </select>
       </form>
+      <button type="button" onclick="filterCourse()">Enter course filter</button>
     </div>
 
     <div class="search">
       <label for="textInput">Please enter the name of the course manually that you wish to select:</label>
       <input type="text" id="textInput" placeholder="Search for course...">
+      <button type="button" onclick="searchCourses()">Enter course search</button>
     </div>
   </div>
 
   <!--This is to get each of the courses to appear on the webpage-->
   <div class="course-container">
     <c:forEach var="course" items="${courses}">
-      <div class="course-box">
+      <div class="course-box ${course.courseName}">
         <a href="${course.courseLink}" target="_blank" data-courseid="${course.courseID}">
             ${course.courseName}
         </a>
@@ -73,6 +75,37 @@
       }
     });
   });
+
+  function filterCourses(courseName){
+    let courseSelections, i;
+    courseSelections = document.getElementsByClassName("course-box")
+    if(courseName == "Artificial Intelligence Fundamentals") courseName="";
+    for(i=0;  i<courseName.length;  i++){
+      removeCourse(courseSelections,"show")
+      if(courseSelections[i].className.indexOf(courseName)>-1) addCourse(courseSelections,"show");
+    }
+  }
+
+  function removeCourse(courseSelections, name){
+    let classNamesArr,courseNamesArr,i;
+    classNamesArr= courseSelections.className.split(" ")
+    courseNamesArr = name.split(" ")
+    for(i=0; i < courseNamesArr.length;i++){
+      classNamesArr.splice(classNamesArr.indexOf(courseNamesArr[i]),1)
+    }
+    courseSelections.className = classNamesArr.join(" ")
+  }
+  function addCourse(courseSelections, name){
+    let classes,classesOfClasses;
+
+    classes = element.className.split(" ");
+    classesOfClasses = name.split(" ");
+    for (i = 0; i < classesOfClasses.length; i++) {
+      if (arr1.indexOf(classesOfClasses[i]) == -1) {
+        courseSelections.className += " " + classesOfClasses[i];
+      }
+    }
+  }
 </script>
 
 </body>
