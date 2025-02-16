@@ -6,7 +6,7 @@
     <title>Course Status</title>
     <link rel="stylesheet" href="/css/dashboard.css" />
 
-    <script>
+    <script> <!-- Needs proper implementation upon correct button name by John-->
         function handleNotStartedSelection() {
             alert("Redirecting to the dashboard...");
             window.location.href = "/${username}/dashboard-page";
