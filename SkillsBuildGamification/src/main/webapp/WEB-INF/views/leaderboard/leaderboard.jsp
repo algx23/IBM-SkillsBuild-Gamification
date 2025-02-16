@@ -56,8 +56,11 @@
 
   </ul>
   <br>
-  <p>Current Sort: ${sortingOrder}. Positions are only shown when sorting by Highest Points first (this is the default, and you can go back to this by selecting "Clear all sorting" above). Rewards are based off points.</p>
-
+  <div class="info-box">
+  <p id="sort-method">Current Sort: ${sortingOrder}. </p>
+    <p>Positions are only shown when sorting by Highest Points First (this is the default, and you can go back to this by selecting "Clear all sorting" above).</p>
+    <p>Rewards are based off points.</p>
+    </div>
 
   <h3>Your Position in the leaderboard</h3>
   <br>

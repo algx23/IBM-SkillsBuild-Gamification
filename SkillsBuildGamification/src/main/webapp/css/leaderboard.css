@@ -124,3 +124,21 @@ tbody tr:last-of-type {
 .table-container {
   border: 2px solid black;
 }
+
+.info-box {
+  border: 1px transparent black;
+  border-radius: 5px;
+  padding: 5px;
+  box-shadow: 1px black;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.info-box #sort-method {
+  font-weight: bold;
+}
+
+.info-box:hover {
+  background-color: #d9f7ff;
+}
