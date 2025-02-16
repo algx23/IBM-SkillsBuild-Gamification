@@ -19,6 +19,7 @@ public class Student {
     private int level;
     private String bio;
     private String profilePic; // img url as string
+    private int numCompletedCourses;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<Enrollment> enrollments = new ArrayList<>();
@@ -51,18 +52,38 @@ public class Student {
         return level;
     }
 
-    public void setLevel(int level) {this.level = level;}
+    public void setLevel(int level) {
+        this.level = level;
+    }
 
-    public String getBio() {return bio;}
+    public String getBio() {
+        return bio;
+    }
 
-    public void setBio(String bio) {this.bio = bio;}
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
 
-    public String getProfilePic() {return profilePic;}
+    public String getProfilePic() {
+        return profilePic;
+    }
 
-    public void setProfilePic(String profilePic) {this.profilePic = profilePic;}
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
 
     public List<Enrollment> getEnrollments() {return enrollments;}
 
-    public void setEnrollments(List<Enrollment> enrollments) {this.enrollments = enrollments;}
+    public void setEnrollments(List<Enrollment> enrollments) {
+        this.enrollments = enrollments;
+    }
+
+    public void setNumCompletedCourses(int num) {
+        this.numCompletedCourses = num;
+    }
+
+    public int getNumCompletedCourses() {
+        return numCompletedCourses;
+    }
 
 }

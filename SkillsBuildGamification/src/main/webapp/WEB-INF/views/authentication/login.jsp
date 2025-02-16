@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
@@ -10,6 +11,11 @@
 <body>
     <div class="login-container">
         <form:form class="form" action="/login-process" method="post" modelAttribute="user">
+            <!-- JSTL to show an error if the user did not enter correct credentials -->
+            <c:if test="${failure == true}">
+                <p class="error">Could not log in. Please ensure that the username and password are entered correctly.</p>
+            </c:if>
+
             <label for="username">Username:</label>
             <input type="text" enrollmentId="username" name="username" />
 

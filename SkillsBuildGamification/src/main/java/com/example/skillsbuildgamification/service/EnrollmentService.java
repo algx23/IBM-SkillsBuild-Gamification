@@ -10,6 +10,7 @@ import com.example.skillsbuildgamification.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 import java.util.Optional;
 
@@ -41,11 +42,28 @@ public class EnrollmentService {
         if (enrollmentOpt.isPresent()) {
             enrollment = enrollmentOpt.get();
             enrollment.setStatus(status);
+            if (enrollment.getStatus() == EnrollmentStatus.COMPLETED) {
+                student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
+                student.setPoints(student.getPoints() + 1);
+            }
         } else {
             enrollment = new Enrollment(student, course, status);
+
+//            get the current enrollments of the student
+//            add the current enrollment to the students' enrollment list
+            List<Enrollment> currentEnrollments = student.getEnrollments();
+            currentEnrollments.add(enrollment);
+            student.setEnrollments(currentEnrollments);
+
+//            check if they chose the status as Completed straight away rather than in progress
+            if (status == EnrollmentStatus.COMPLETED) {
+                student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
+                student.setPoints(student.getPoints() + 1);
+            }
+
         }
 
         enrollmentRepository.save(enrollment);
+        studentRepository.save(student);
     }
 }
-

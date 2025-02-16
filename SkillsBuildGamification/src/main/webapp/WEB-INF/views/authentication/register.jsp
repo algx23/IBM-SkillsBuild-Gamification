@@ -11,10 +11,12 @@
     <div class="login-container">
         <form:form class="form" action="/registration-process" method="post" modelAttribute="student">
             <label for="username">Username:</label>
-            <input type="text" enrollmentId="username" name="username" />
+            <input type="text" id="username" name="username" />
+            <form:errors class="error" path="username"/>
 
             <label for="password">Password:</label>
-            <input type="password" enrollmentId="password" name="password" />
+            <input type="password" id="password" name="password" />
+            <form:errors class="error" path="password"/>
 
             <input type="submit" enrollmentId="submit" value="Register"/>
         </form:form>
