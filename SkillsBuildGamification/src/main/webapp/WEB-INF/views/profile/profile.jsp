@@ -8,6 +8,8 @@
 </head>
 <body>
 <div class="profile-container">
+
+    <!-- Left Section - Profile Details -->
     <div class="profile-left">
         <div class="profile-pic-container">
             <img src="${student.profilePic}" class="profile-pic" alt=" ">
@@ -17,23 +19,15 @@
         <p><strong>Points:</strong> ${student.points}</p>
         <p><strong>Leaderboard Position:</strong> ${leaderboardPosition}</p>
         <p><strong>Bio:</strong> ${student.bio}</p>
-
-        <a href="/profile/${student.username}/edit">
-            <button class="edit-profile-btn">Edit Profile</button>
-        </a>
-
-        <form action="/login-success" method="get">
-            <button class="back-to-dashboard">Back to Dashboard</button>
-        </form>
     </div>
 
-    <!-- Right Section (Completed & In Progress Courses) -->
+    <!-- Right Section - Courses -->
     <div class="profile-right">
         <h3>Completed Courses</h3>
         <div class="completed-courses">
             <c:forEach var="course" items="${completedCourses}">
                 <div class="course-box">
-                    <p>${course.courseName}</p>
+                    <a href="${course.courseLink}" target="_blank">${course.courseName}</a>
                 </div>
             </c:forEach>
         </div>
@@ -42,11 +36,24 @@
         <div class="in-progress-courses">
             <c:forEach var="course" items="${inProgressCourses}">
                 <div class="course-box in-progress">
-                    <p>${course.courseName}</p>
+                    <a href="${course.courseLink}" target="_blank">${course.courseName}</a>
                 </div>
             </c:forEach>
         </div>
     </div>
 </div>
+
+<!-- Common Buttons BELOW Both Sections -->
+<div class="profile-actions">
+    <c:if test="${isOwner}">
+        <a href="/profile/${student.username}/edit">
+            <button class="save-btn">Modify Details & Courses</button>
+        </a>
+    </c:if>
+    <form action="/login-success" method="get">
+        <button class="back-btn">Back to Dashboard</button>
+    </form>
+</div>
+
 </body>
 </html>

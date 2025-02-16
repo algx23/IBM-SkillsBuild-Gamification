@@ -98,7 +98,6 @@ public class ProfileController {
 
     @PostMapping("/{username}/update")
     public String updateProfile(@PathVariable String username,
-                                @RequestParam String newUsername,
                                 @RequestParam String password,
                                 @RequestParam String bio,
                                 @RequestParam String profilePic,
@@ -110,8 +109,6 @@ public class ProfileController {
 
         Student student = studentRepository.findByUsername(username);
         if (student != null) {
-            student.setUsername(newUsername);
-
             if (!password.isEmpty()) {
                 student.setPassword(passwordEncoder.encoder().encode(password));
             }
@@ -119,6 +116,6 @@ public class ProfileController {
             student.setProfilePic(profilePic);
             studentRepository.save(student);
         }
-        return "redirect:/profile/" + newUsername; // Redirect to updated profile
+        return "redirect:/profile/" + username; // Redirect to updated profile
     }
 }
