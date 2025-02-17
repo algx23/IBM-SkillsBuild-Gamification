@@ -19,8 +19,17 @@
         <p><strong>Points:</strong> ${student.points}</p>
         <p><strong>Leaderboard Position:</strong> ${leaderboardPosition}</p>
         <!-- Badges Section -->
-        <h3>Badges Earned</h3>
-        <div class="badges-container">
+        <p><strong>Badges:</strong></p>
+        <div class="badge-container">
+            <c:forEach var="badge" items="${student.earnedBadges}">
+                <div class="badge-box">
+                    <img src="/images/badges/${badge}.png" class="badge-icon">
+                    <div class="badge-tooltip">
+                        <strong>${badge}</strong><br>
+                        Earned by completing ${badgeRequirements[badge]} course(s)
+                    </div>
+                </div>
+            </c:forEach>
         </div>
         <p><strong>Bio:</strong> ${student.bio}</p>
     </div>

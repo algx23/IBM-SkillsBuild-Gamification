@@ -45,6 +45,7 @@ public class EnrollmentService {
             if (enrollment.getStatus() == EnrollmentStatus.COMPLETED) {
                 student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
                 student.setPoints(student.getPoints() + 1);
+                awardBadges(student);
             }
         } else {
             enrollment = new Enrollment(student, course, status);
