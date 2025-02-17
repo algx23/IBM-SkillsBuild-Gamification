@@ -14,14 +14,15 @@
     <!--This is to clearly separate the filter and search functions from each other and allow the users to type up the name of the course or select one from the dropdown menu-->
     <div class=filter">
       <form action id="Filter-Courses">
-        <label for="courses">Please select the course that you want to appear on the website:</label>
-        <select id="courses">
+        <label for="courses-available">Please select the course that you want to appear on the website:</label>
+        <select id="courses-available">
+          <option value=""> -- select an option -- </option>
           <c:forEach var="course" items="${courses}">
             <option value="${course.courseName}">${course.courseName}</option>
           </c:forEach>
         </select>
+        <button type="button" onclick="filterCourses()">Enter course filter</button>
       </form>
-      <button type="button" onclick="filterCourse()">Enter course filter</button>
     </div>
 
     <div class="search">
@@ -34,7 +35,7 @@
   <!--This is to get each of the courses to appear on the webpage-->
   <div class="course-container">
     <c:forEach var="course" items="${courses}">
-      <div class="course-box ${course.courseName}">
+      <div class="course-box" id="${course.courseName}">
         <a href="${course.courseLink}" target="_blank" data-courseid="${course.courseID}">
             ${course.courseName}
         </a>
@@ -55,6 +56,7 @@
 
 
 <script>
+  document.getElementById("courses-available").value="";
   document.addEventListener("DOMContentLoaded", function () {
     let lastCourseID = localStorage.getItem("lastCourseID");
     if (lastCourseID) {
@@ -76,36 +78,29 @@
     });
   });
 
-  function filterCourses(courseName){
-    let courseSelections, i;
-    courseSelections = document.getElementsByClassName("course-box")
-    if(courseName == "Artificial Intelligence Fundamentals") courseName="";
-    for(i=0;  i<courseName.length;  i++){
-      removeCourse(courseSelections,"show")
-      if(courseSelections[i].className.indexOf(courseName)>-1) addCourse(courseSelections,"show");
-    }
-  }
-
-  function removeCourse(courseSelections, name){
-    let classNamesArr,courseNamesArr,i;
-    classNamesArr= courseSelections.className.split(" ")
-    courseNamesArr = name.split(" ")
-    for(i=0; i < courseNamesArr.length;i++){
-      classNamesArr.splice(classNamesArr.indexOf(courseNamesArr[i]),1)
-    }
-    courseSelections.className = classNamesArr.join(" ")
-  }
-  function addCourse(courseSelections, name){
-    let classes,classesOfClasses;
-
-    classes = element.className.split(" ");
-    classesOfClasses = name.split(" ");
-    for (i = 0; i < classesOfClasses.length; i++) {
-      if (arr1.indexOf(classesOfClasses[i]) == -1) {
-        courseSelections.className += " " + classesOfClasses[i];
+  function filterCourses() {
+    let selectedValue, selectElement, courseBoxs, i;
+    selectElement = document.getElementById("courses-available")
+    selectedValue = selectElement.value;
+    courseBoxs = document.getElementsByClassName("course-box")
+    if (selectedValue !== "") {
+      for (i = 0; i < courseBoxs.length; i++) {
+        if (courseBoxs[i].id !== selectedValue) {
+          courseBoxs[i].style.display = 'none';
+        }
+        else{
+          courseBoxs[i].style.display = 'block'
+        }
+      }
+    } else {
+      for (i = 0; i < courseBoxs.length; i++) {
+        if (courseBoxs[i].id !== selectedValue) {
+          courseBoxs[i].style.display = 'block';
+        }
       }
     }
   }
+
 </script>
 
 </body>
