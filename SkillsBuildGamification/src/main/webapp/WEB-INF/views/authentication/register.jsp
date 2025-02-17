@@ -8,6 +8,14 @@
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
+<header>
+    <div class="logo-container">
+        <div class="logo">
+            <span class="ibm">IBM</span>
+            <span class="skillsbuild">SkillsBuild Gamification</span>
+        </div>
+    </div>
+</header>
     <div class="login-container">
         <form:form class="form" action="/registration-process" method="post" modelAttribute="student">
             <label for="username">Username:</label>

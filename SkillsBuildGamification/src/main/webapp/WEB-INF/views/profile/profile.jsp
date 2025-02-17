@@ -5,8 +5,17 @@
     <meta charset="UTF-8">
     <title>User Profile</title>
     <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/logo.css">
 </head>
 <body>
+<header>
+    <div class="logo-container">
+        <div class="logo">
+            <span class="ibm">IBM</span>
+            <span class="skillsbuild">SkillsBuild Gamification</span>
+        </div>
+    </div>
+</header>
 <div class="profile-container">
     <div class="profile-left">
         <div class="profile-pic-container">

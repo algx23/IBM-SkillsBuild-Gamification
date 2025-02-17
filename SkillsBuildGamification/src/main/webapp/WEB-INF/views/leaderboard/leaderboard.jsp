@@ -7,9 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="stylesheet" href="css/leaderboard.css">
       <script src="javascript/leaderboard.js" defer></script>
+      <link rel="stylesheet" href="/css/logo.css">
     <title>Leaderboard</title>
   </head>
   <body>
+  <header>
+      <div class="logo-container">
+          <div class="logo">
+              <span class="ibm">IBM</span>
+              <span class="skillsbuild">SkillsBuild Gamification</span>
+          </div>
+      </div>
+  </header>
 
   <h1>Leaderboards</h1>
 
