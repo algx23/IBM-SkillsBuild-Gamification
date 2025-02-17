@@ -55,5 +55,13 @@
     </form>
 </div>
 
+<!-- Logout Button -->
+<div class="logout-container">
+    <form action="/logout" method="post">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+</div>
+
 </body>
 </html>
