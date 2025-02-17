@@ -59,11 +59,29 @@ public class EnrollmentService {
             if (status == EnrollmentStatus.COMPLETED) {
                 student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
                 student.setPoints(student.getPoints() + 1);
+                awardBadges(student);
             }
 
         }
 
         enrollmentRepository.save(enrollment);
         studentRepository.save(student);
+    }
+
+    // Award badges based on completed courses
+    private void awardBadges(Student student) {
+        int completedCourses = student.getNumCompletedCourses();
+        List<String> earnedBadges = student.getEarnedBadges();
+
+        if (completedCourses >= 1 && !earnedBadges.contains("Novice Badge"))
+            earnedBadges.add("Novice Badge");
+        if (completedCourses >= 3 && !earnedBadges.contains("Intermediate Badge"))
+            earnedBadges.add("Intermediate Badge");
+        if (completedCourses >= 5 && !earnedBadges.contains("Advanced Badge"))
+            earnedBadges.add("Advanced Badge");
+        if (completedCourses >= 7 && !earnedBadges.contains("Expert Badge"))
+            earnedBadges.add("Expert Badge");
+
+        student.setEarnedBadges(earnedBadges);
     }
 }

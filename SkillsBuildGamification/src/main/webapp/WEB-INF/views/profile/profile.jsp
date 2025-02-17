@@ -18,6 +18,10 @@
         <p><strong>Level:</strong> ${student.level}</p>
         <p><strong>Points:</strong> ${student.points}</p>
         <p><strong>Leaderboard Position:</strong> ${leaderboardPosition}</p>
+        <!-- Badges Section -->
+        <h3>Badges Earned</h3>
+        <div class="badges-container">
+        </div>
         <p><strong>Bio:</strong> ${student.bio}</p>
     </div>
 
