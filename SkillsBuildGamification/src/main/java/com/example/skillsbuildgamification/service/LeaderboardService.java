@@ -57,7 +57,7 @@ public class LeaderboardService {
     int prevPos = 1;
     for (Student student : orderedList) {
       listOfPoints.add(student.getPoints());
-  }
+    }
     /*
      * Iterate through the points, if the student is first in the list,give
      * them the first position always
@@ -67,9 +67,16 @@ public class LeaderboardService {
         handledLeaderboardPositions.add(1);
         continue;
       }
+      // if the student has the same number of points as the student before them, then
+      // they get the same position as the previous student
       if ((orderedList.get(i - 1).getPoints()) == (orderedList.get(i).getPoints())) {
         handledLeaderboardPositions.add(prevPos);
       } else {
+        /*
+         * eg if orderedList orders students highet -> lowest pts, then if they
+         * arent equal, the student has less points than the one before, so
+         * they get the next pos (eg if the previous one is 2, they get position 3)
+         */
         prevPos += 1;
         handledLeaderboardPositions.add(prevPos);
       }
