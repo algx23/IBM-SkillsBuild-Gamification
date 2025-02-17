@@ -52,12 +52,8 @@ public class LeaderboardService {
   }
 
   public List<Integer> findAndHandleJointLBPos(List<Student> orderedList) {
-    List<Integer> listOfPoints = new ArrayList<>();
     List<Integer> handledLeaderboardPositions = new ArrayList<>();
     int prevPos = 1;
-    for (Student student : orderedList) {
-      listOfPoints.add(student.getPoints());
-    }
     /*
      * Iterate through the points, if the student is first in the list,give
      * them the first position always
