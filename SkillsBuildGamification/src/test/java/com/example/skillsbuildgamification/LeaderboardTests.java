@@ -29,10 +29,11 @@ public class LeaderboardTests {
 
     @BeforeEach
     public void createTestData() {
-//        make sure i only use the data in the test class instead of data entered in SkillsBuildApplicaton.java (main class)
+        // make sure i only use the data in the test class instead of data entered in
+        // SkillsBuildApplicaton.java (main class)
         studentRepository.deleteAll();
 
-        //    test data
+        // test data
         Student student1 = new Student();
         student1.setUsername("Alex");
         student1.setPoints(34);
@@ -55,28 +56,28 @@ public class LeaderboardTests {
         studentRepository.save(student2);
         studentRepository.save(student3);
 
-
     }
 
-/* test the sort methods work by checking the order of the studnts based on how
- *  many points they got - so check the expected order
-*/
+    /*
+     * test the sort methods work by checking the order of the studnts based on how
+     * many points they got - so check the expected order
+     */
 
-//    points ascending
+    // points ascending
     @Test
     public void testSortByPointsAscending() {
 
         List<Student> studentList = studentRepository.findAllByOrderByPointsAsc();
-//        test that all students have been added correctly
+        // test that all students have been added correctly
         assert studentList.size() == 3;
-//        check the students are in the same place
+        // check the students are in the same place
         assert studentList.get(0).getUsername().equals("Alex");
         assert studentList.get(1).getUsername().equals("Jack");
         assert studentList.get(2).getUsername().equals("Bob");
 
     }
 
-//    points descending
+    // points descending
     @Test
     public void testSortByPointsDescending() {
         List<Student> studentList = studentRepository.findAllByOrderByPointsDesc();
@@ -86,7 +87,7 @@ public class LeaderboardTests {
         assert studentList.get(2).getUsername().equals("Alex");
     }
 
-//    testing leadeboard positions are correct
+    // testing leadeboard positions are correct
     @Test
     public void testLBPos() {
         List<Student> studentList = studentRepository.findAllByOrderByPointsDesc();
@@ -100,28 +101,28 @@ public class LeaderboardTests {
         assert positions.get(2) == 3;
     }
 
-//    test if the lb positions are tied, that the right positions are calculated and returned
+    // test if the lb positions are tied, that the right positions are calculated
+    // and returned
     @Test
     public void testLBPointsTie() {
-            Student student4 = new Student();
-            student4.setUsername("Jeff");
-            student4.setNumCompletedCourses(90);
-            student4.setPoints(90);
-            student4.setPassword(passwordEncoder.encoder().encode("123456"));
-            studentRepository.save(student4);
+        Student student4 = new Student();
+        student4.setUsername("Jeff");
+        student4.setNumCompletedCourses(90);
+        student4.setPoints(90);
+        student4.setPassword(passwordEncoder.encoder().encode("123456"));
+        studentRepository.save(student4);
+        List<Student> studentList = studentRepository.findAllByOrderByPointsDesc();
+        assert studentList.size() == 4;
+        List<Integer> positions = leaderboardService.findAndHandleJointLBPos(studentList);
 
-            List<Student> studentList = studentRepository.findAllByOrderByPointsDesc();
-            assert studentList.size() == 4;
-            List<Integer> positions = leaderboardService.findAndHandleJointLBPos(studentList);
-
-            assert positions.size() == 4; // after student4 added now there is 4 students
-            assert positions.get(0) == 1;
-            assert positions.get(1) == 1;
-            assert positions.get(2) == 2;
-            System.out.println("doen");
+        assert positions.size() == 4; // after student4 added now there is 4 students
+        assert positions.get(0) == 1;
+        assert positions.get(1) == 1;
+        assert positions.get(2) == 2;
+        System.out.println("doen");
     }
 
-//    test username A - Z
+    // test username A - Z
     @Test
     public void testSortByUsernameAscending() {
         List<Student> studentList = studentRepository.findAllByOrderByUsernameAsc();
@@ -141,7 +142,7 @@ public class LeaderboardTests {
     }
 
     @Test
-//    testing sort by num courses ascending
+    // testing sort by num courses ascending
     public void testSortByNumberOfCoursesCompletedAscending() {
         List<Student> numCourses = studentRepository.findAllByOrderByNumCompletedCoursesAsc();
         assert numCourses.size() == 3;

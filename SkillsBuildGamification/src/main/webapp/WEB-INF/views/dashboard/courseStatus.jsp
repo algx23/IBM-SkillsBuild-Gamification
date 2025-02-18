@@ -9,20 +9,13 @@
 
     <script>
         function handleNotStartedSelection() {
-            alert("Redirecting to the dashboard...");
-            window.location.href = "/${username}/dashboard-page";
+            let sourcePage = "${param.sourcePage}";
+            let redirectUrl = sourcePage === "editProfile"
+                ? "/profile/${username}/edit"
+                : "/${username}/dashboard-page";
+
+            window.location.href = redirectUrl;
         }
-
-        window.onload = function() {
-            <c:if test="${not empty successMessage}">
-            alert("${successMessage}");
-            window.location.href = "/${username}/dashboard-page";
-            </c:if>
-
-            <c:if test="${not empty error}">
-            alert("${error}");
-            </c:if>
-        };
     </script>
 </head>
 <body>
@@ -40,6 +33,8 @@
 
     <form action="<c:url value='/${username}/courseStatus/${course.courseID}' />" method="post">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        <!-- Track where the request is coming from -->
+        <input type="hidden" name="sourcePage" value="${param.sourcePage}" />
 
         <div class="status-container">
             <label class="status-box">
@@ -58,10 +53,6 @@
 
         <button type="submit" class="submit-button">Save Status</button>
     </form>
-
 </main>
 </body>
 </html>
-
-
-

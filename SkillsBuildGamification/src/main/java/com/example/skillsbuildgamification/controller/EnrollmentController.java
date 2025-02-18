@@ -19,6 +19,7 @@ public class EnrollmentController {
             @PathVariable String username,
             @PathVariable int courseId,
             @RequestParam("status") String status,
+            @RequestParam(name = "sourcePage", required = false) String sourcePage,
             RedirectAttributes redirectAttributes) {
 
         try {
@@ -31,7 +32,10 @@ public class EnrollmentController {
             redirectAttributes.addFlashAttribute("error", "Invalid status value provided.");
         }
 
-        return "redirect:/" + username + "/courseStatus/" + courseId;
+
+        return ("editProfile".equals(sourcePage))
+                ? "redirect:/profile/" + username + "/edit"
+                : "redirect:/" + username + "/dashboard-page";
     }
 }
 

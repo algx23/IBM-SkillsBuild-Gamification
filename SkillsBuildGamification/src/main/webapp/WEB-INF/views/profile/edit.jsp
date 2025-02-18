@@ -17,38 +17,33 @@
     </div>
 </header>
 <div class="profile-container">
+
+    <!-- Left Section - Edit Profile -->
     <div class="profile-left">
         <h2>Edit Profile</h2>
-        <form action="/profile/${student.username}/update" method="post" class="edit-form">
+        <form id="editProfileForm" action="/profile/${student.username}/update" method="post">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
-            <label>New Username:</label>
-            <input type="text" name="newUsername" class="input-field" value="${student.username}" required><br>
+            <label for="password">New Password</label>
+            <input type="password" id="password" name="password" class="input-field" placeholder="Enter new password"><br>
 
-            <label>New Password</label>
-            <input type="password" name="password" class="input-field"><br>
+            <label for="bio">Bio:</label>
+            <textarea id="bio" name="bio" class="input-field" placeholder="Write something about yourself...">${student.bio}</textarea><br>
 
-            <label>Bio:</label>
-            <textarea name="bio" class="input-field">${student.bio}</textarea><br>
-
-            <label>Profile Picture URL:</label>
-            <input type="text" name="profilePic" class="input-field" value="${student.profilePic}"><br>
-
-            <button type="submit" class="save-btn">Save Changes</button>
+            <label for="profilePic">Profile Picture URL:</label>
+            <input type="text" id="profilePic" name="profilePic" class="input-field" value="${student.profilePic}" placeholder="Paste image URL here"><br>
         </form>
-
-        <a href="/profile/${student.username}">
-            <button class="cancel-btn">Cancel</button>
-        </a>
     </div>
 
-    <!-- Right Section (Completed & In Progress Courses) -->
+    <!-- Right Section - Courses with Status Update -->
     <div class="profile-right">
         <h3>Completed Courses</h3>
         <div class="completed-courses">
             <c:forEach var="course" items="${completedCourses}">
                 <div class="course-box">
-                    <p>${course.courseName}</p>
+                    <a href="/${student.username}/courseStatus/${course.courseID}?sourcePage=editProfile">
+                            ${course.courseName}
+                    </a>
                 </div>
             </c:forEach>
         </div>
@@ -56,13 +51,23 @@
         <h3>In Progress Courses</h3>
         <div class="in-progress-courses">
             <c:forEach var="course" items="${inProgressCourses}">
-                <div class="course-box in-progress">
-                    <p>${course.courseName}</p>
+                <div class="course-box">
+                    <a href="/${student.username}/courseStatus/${course.courseID}?sourcePage=editProfile">
+                            ${course.courseName}
+                    </a>
                 </div>
             </c:forEach>
         </div>
     </div>
-
 </div>
+
+<!-- Common Buttons BELOW Both Sections -->
+<div class="profile-actions">
+    <button type="button" class="save-btn" onclick="document.getElementById('editProfileForm').submit();">Save Changes</button>
+    <a href="/profile/${student.username}">
+        <button class="cancel-btn">Cancel</button>
+    </a>
+</div>
+
 </body>
 </html>
