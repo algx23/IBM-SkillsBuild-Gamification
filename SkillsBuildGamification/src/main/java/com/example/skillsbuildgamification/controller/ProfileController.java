@@ -69,6 +69,7 @@ public class ProfileController {
         model.addAttribute("completedCourses", completedCourses);
         model.addAttribute("inProgressCourses", inProgressCourses);
         model.addAttribute("badgeRequirements", badgeRequirements);
+        model.addAttribute("url", student.getUserRank().getUrl());
 
         return "profile/profile"; // profile.jsp
     }
