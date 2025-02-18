@@ -49,9 +49,10 @@
             </label>
         </div>
 
-        <button type="button" class="back-button" onclick="handleNotStartedSelection()">Go Back</button>
-
-        <button type="submit" class="submit-button">Save Status</button>
+        <div class="button-container">
+            <button type="button" class="button-style" onclick="handleNotStartedSelection()">Go Back</button>
+            <button type="submit" class="button-style">Save Status</button>
+        </div>
     </form>
 </main>
 </body>
