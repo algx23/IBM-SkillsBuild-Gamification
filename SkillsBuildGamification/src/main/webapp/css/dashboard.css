@@ -133,6 +133,28 @@ body {
     transform: scale(1.2);
 }
 
+/* Go Back Button Styling */
+.back-button {
+    background-color: #4589ff; /* Lighter blue */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block; /* Ensures it appears on a new line */
+    margin: 20px auto; /* Centers it */
+}
+
+/* Hover effect */
+.back-button:hover {
+    background-color: #4589ff; /* Slightly darker blue on hover */
+}
+
+
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .status-box {

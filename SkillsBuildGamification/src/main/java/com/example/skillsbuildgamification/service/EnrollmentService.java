@@ -25,9 +25,6 @@ public class EnrollmentService {
     @Autowired
     private CourseRepository courseRepository;
 
-    @Autowired
-    private RankService rankService;
-
     @Transactional
     public void updateEnrollment(String username, int courseID, EnrollmentStatus status) {
         Student student = studentRepository.findByUsername(username);
@@ -47,36 +44,45 @@ public class EnrollmentService {
             enrollment.setStatus(status);
             if (enrollment.getStatus() == EnrollmentStatus.COMPLETED) {
                 student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
-                student.setPoints(student.getPoints() + 10);
-                rankService.setRankOfStudent(username);
-
-                if (student.getPoints() % 2 == 0) {
-                    student.setLevel(student.getLevel() + 1);
-                }
+                student.setPoints(student.getPoints() + 1);
+                awardBadges(student);
             }
         } else {
             enrollment = new Enrollment(student, course, status);
 
-            // get the current enrollments of the student
-            // add the current enrollment to the students' enrollment list
+//            get the current enrollments of the student
+//            add the current enrollment to the students' enrollment list
             List<Enrollment> currentEnrollments = student.getEnrollments();
             currentEnrollments.add(enrollment);
             student.setEnrollments(currentEnrollments);
 
-            // check if they chose the status as Completed straight away rather than in
-            // progress
+//            check if they chose the status as Completed straight away rather than in progress
             if (status == EnrollmentStatus.COMPLETED) {
                 student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
-                student.setPoints(student.getPoints() + 10);
-                rankService.setRankOfStudent(username);
-
-                if (student.getPoints() % 2 == 0) {
-                    student.setLevel(student.getLevel() + 1);
-                }
+                student.setPoints(student.getPoints() + 1);
+                awardBadges(student);
             }
+
         }
 
         enrollmentRepository.save(enrollment);
         studentRepository.save(student);
+    }
+
+    // Award badges based on completed courses
+    private void awardBadges(Student student) {
+        int completedCourses = student.getNumCompletedCourses();
+        List<String> earnedBadges = student.getEarnedBadges();
+
+        if (completedCourses >= 1 && !earnedBadges.contains("Novice Badge"))
+            earnedBadges.add("Novice Badge");
+        if (completedCourses >= 3 && !earnedBadges.contains("Intermediate Badge"))
+            earnedBadges.add("Intermediate Badge");
+        if (completedCourses >= 5 && !earnedBadges.contains("Advanced Badge"))
+            earnedBadges.add("Advanced Badge");
+        if (completedCourses >= 7 && !earnedBadges.contains("Expert Badge"))
+            earnedBadges.add("Expert Badge");
+
+        student.setEarnedBadges(earnedBadges);
     }
 }

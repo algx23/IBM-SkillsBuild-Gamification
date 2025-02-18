@@ -6,10 +6,14 @@
     <title>Course Status</title>
     <link rel="stylesheet" href="/css/dashboard.css" />
 
-    <script> <!-- Needs proper implementation upon correct button name by John-->
+    <script>
         function handleNotStartedSelection() {
-            alert("Redirecting to the dashboard...");
-            window.location.href = "/${username}/dashboard-page";
+            let sourcePage = "${param.sourcePage}";
+            let redirectUrl = sourcePage === "editProfile"
+                ? "/profile/${username}/edit"
+                : "/${username}/dashboard-page";
+
+            window.location.href = redirectUrl;
         }
     </script>
 </head>
@@ -34,11 +38,9 @@
                 ${courseStatus eq 'IN_PROGRESS' ? 'checked' : ''} required />
                 Course In Progress
             </label>
-            <label class="status-box">
-                <input type="radio" name="notStarted" onclick="handleNotStartedSelection()" />
-                Course Not Started
-            </label>
         </div>
+
+        <button type="button" class="back-button" onclick="handleNotStartedSelection()">Go Back</button>
 
         <button type="submit" class="submit-button">Save Status</button>
     </form>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -28,6 +29,14 @@ public class ProfileController {
 
     @Autowired
     private EnrollmentRepository enrollmentRepository;
+
+    // Defined requirements for each badge to pass as parameter for display
+    private static final Map<String, Integer> badgeRequirements = Map.of(
+            "Novice Badge", 1,
+            "Intermediate Badge", 3,
+            "Advanced Badge", 5,
+            "Expert Badge", 7
+    );
 
     @GetMapping("/{username}")
     public String showUserProfile(@PathVariable String username, Model model, Principal principal) {
@@ -59,9 +68,11 @@ public class ProfileController {
         model.addAttribute("leaderboardPosition", rank);
         model.addAttribute("completedCourses", completedCourses);
         model.addAttribute("inProgressCourses", inProgressCourses);
-        model.addAttribute("url", student.getUserRank().getUrl());
+        model.addAttribute("badgeRequirements", badgeRequirements);
+
         return "profile/profile"; // profile.jsp
     }
+
 
     @GetMapping("/{username}/edit")
     public String showEditProfileForm(@PathVariable String username, Model model, Principal principal) {
@@ -94,12 +105,13 @@ public class ProfileController {
         return "profile/edit"; // edit.jsp
     }
 
+
     @PostMapping("/{username}/update")
     public String updateProfile(@PathVariable String username,
-            @RequestParam String password,
-            @RequestParam String bio,
-            @RequestParam String profilePic,
-            Principal principal) {
+                                @RequestParam String password,
+                                @RequestParam String bio,
+                                @RequestParam String profilePic,
+                                Principal principal) {
 
         if (principal == null || !principal.getName().equals(username)) {
             return "redirect:/denied"; // Prevent unauthorized changes
