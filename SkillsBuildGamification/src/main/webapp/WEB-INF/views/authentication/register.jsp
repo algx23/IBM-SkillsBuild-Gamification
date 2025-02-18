@@ -18,7 +18,7 @@
             <input type="password" id="password" name="password" />
             <form:errors class="error" path="password"/>
 
-            <input type="submit" id="submit" value="Register"/>
+            <input type="submit" enrollmentId="submit" value="Register"/>
         </form:form>
     </div>
 </body>
