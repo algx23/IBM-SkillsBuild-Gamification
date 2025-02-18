@@ -39,6 +39,7 @@ class RegistrationTest {
     @Test
     @WithMockUser(username = "test user")
     void creatingNewUserAddsItToRepository() throws Exception {
+        // Verify that adding a new user calls the save() method on the student repository
         String testUsername = "testUser";
         String testPassword = "password";
 
@@ -58,6 +59,7 @@ class RegistrationTest {
     @Test
     @WithMockUser(username = "test user")
     void cannotAddDuplicateUser() throws Exception {
+        // Verify that it is not possible to create users with the same username
         String duplicateUsername = "duplicateUser";
         String testPassword = "password";
 
@@ -80,6 +82,7 @@ class RegistrationTest {
     @Test
     @WithMockUser(username = "test user")
     void cannotAddUserWithoutUsername() throws Exception {
+        // Verify that a user cannot be added without a username
         String testUsername = "";
         String testPassword = "password";
 
@@ -99,6 +102,7 @@ class RegistrationTest {
     @Test
     @WithMockUser(username = "test user")
     void cannotAddUserWithoutPassword() throws Exception {
+        // Verify that a user cannot be added without a password
         String testUsername = "username";
         String testPassword = "";
 
