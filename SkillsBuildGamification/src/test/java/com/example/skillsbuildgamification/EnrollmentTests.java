@@ -126,6 +126,4 @@ class EnrollmentTests {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"+testUsername+"/dashboard-page"));
     }
-    // Methods to test that users are redirected appropriately
-
 }
