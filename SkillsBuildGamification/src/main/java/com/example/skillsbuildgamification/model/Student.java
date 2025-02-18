@@ -15,10 +15,12 @@ public class Student {
     @Id
     private String username;
     private String password;
-    private int points;
-    private int level;
+    private int points = 0;
+    private int level = 0;
     private String bio;
     private String profilePic; // img url as string
+
+    private UserRank userRank = UserRank.BRONZE;
     private int numCompletedCourses;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
@@ -56,6 +58,14 @@ public class Student {
         this.level = level;
     }
 
+    public UserRank getUserRank() {
+        return userRank;
+    }
+
+    public void setUserRank(UserRank userRank) {
+        this.userRank = userRank;
+    }
+
     public String getBio() {
         return bio;
     }
@@ -72,7 +82,9 @@ public class Student {
         this.profilePic = profilePic;
     }
 
-    public List<Enrollment> getEnrollments() {return enrollments;}
+    public List<Enrollment> getEnrollments() {
+        return enrollments;
+    }
 
     public void setEnrollments(List<Enrollment> enrollments) {
         this.enrollments = enrollments;

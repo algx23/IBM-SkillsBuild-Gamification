@@ -25,6 +25,9 @@ public class EnrollmentService {
     @Autowired
     private CourseRepository courseRepository;
 
+    @Autowired
+    private RankService rankService;
+
     @Transactional
     public void updateEnrollment(String username, int courseID, EnrollmentStatus status) {
         Student student = studentRepository.findByUsername(username);
@@ -44,23 +47,33 @@ public class EnrollmentService {
             enrollment.setStatus(status);
             if (enrollment.getStatus() == EnrollmentStatus.COMPLETED) {
                 student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
-                student.setPoints(student.getPoints() + 1);
+                student.setPoints(student.getPoints() + 10);
+                rankService.setRankOfStudent(username);
+
+                if (student.getPoints() % 2 == 0) {
+                    student.setLevel(student.getLevel() + 1);
+                }
             }
         } else {
             enrollment = new Enrollment(student, course, status);
 
-//            get the current enrollments of the student
-//            add the current enrollment to the students' enrollment list
+            // get the current enrollments of the student
+            // add the current enrollment to the students' enrollment list
             List<Enrollment> currentEnrollments = student.getEnrollments();
             currentEnrollments.add(enrollment);
             student.setEnrollments(currentEnrollments);
 
-//            check if they chose the status as Completed straight away rather than in progress
+            // check if they chose the status as Completed straight away rather than in
+            // progress
             if (status == EnrollmentStatus.COMPLETED) {
                 student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
-                student.setPoints(student.getPoints() + 1);
-            }
+                student.setPoints(student.getPoints() + 10);
+                rankService.setRankOfStudent(username);
 
+                if (student.getPoints() % 2 == 0) {
+                    student.setLevel(student.getLevel() + 1);
+                }
+            }
         }
 
         enrollmentRepository.save(enrollment);
