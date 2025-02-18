@@ -21,6 +21,17 @@ import java.util.Optional;
 
 @Controller
 public class AuthenticationController {
+
+    @RequestMapping("/")
+    public String index(Principal principal) {
+        if (principal != null) {
+            String username = principal.getName();
+            return "redirect:/" + username + "/dashboard-page";
+        } else {
+            return "redirect:/login-page";
+        }
+    }
+
     // Handles requests to login-related endpoints
 
     @GetMapping("/login-page")
@@ -50,9 +61,10 @@ public class AuthenticationController {
     }
 
     @RequestMapping("/login-success")
-    public String loginSuccess(Principal principal) {
+    public String loginSuccess(Principal principal, Model model) {
         if (principal != null) {
-            return "dashboard";
+            String username = principal.getName();
+            return "redirect:" + username + "/dashboard-page";
         }
         // If the user is not logged in, redirect them to the login page
         System.out.println("principal doesn't exist");

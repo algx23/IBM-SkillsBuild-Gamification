@@ -1,0 +1,159 @@
+.profile-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    gap: 30px;
+}
+
+/* Left Section - Profile Editing */
+.profile-left {
+    flex: 2;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+}
+
+/* Form Styling */
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 15px;
+    width: 100%;
+}
+
+
+.edit-form label {
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.edit-form input[type="text"],
+.edit-form input[type="password"],
+.edit-form textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 95%;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease-in-out;
+}
+
+
+.edit-form input:focus,
+.edit-form textarea:focus {
+    border-color: #4589ff;
+    outline: none;
+}
+
+
+.edit-form textarea {
+    height: 80px;
+    resize: vertical;
+}
+
+/* Buttons */
+.button-container {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+}
+
+.save-btn, .cancel-btn {
+    flex: 1;
+    background-color: #4589ff;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    text-align: center;
+}
+
+.cancel-btn {
+    background-color: #d32f2f;
+}
+
+.save-btn:hover {
+    background-color: #3267cc;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.cancel-btn:hover {
+    background-color: #b71c1c;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Right Section - Completed Courses */
+.profile-right {
+    flex: 1;
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+}
+
+.profile-right h3 {
+    color: #333;
+    margin-bottom: 12px;
+}
+
+/* Course Grid Layout */
+.completed-courses,
+.in-progress-courses {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.course-box {
+    background-color: #d3d3d3;
+    padding: 12px;
+    text-align: center;
+    border-radius: 8px;
+    flex: 1 1 180px;
+    max-width: 220px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.course-box:hover {
+    background-color: #a9a9a9;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .profile-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-left, .profile-right {
+        width: 100%;
+        min-height: auto;
+        max-width: 90%;
+    }
+
+    .button-container {
+        flex-direction: column;
+    }
+
+    .save-btn, .cancel-btn {
+        width: 100%;
+    }
+}
