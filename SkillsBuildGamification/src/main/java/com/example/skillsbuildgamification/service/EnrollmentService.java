@@ -80,6 +80,7 @@ public class EnrollmentService {
         int completedCourses = student.getNumCompletedCourses();
         List<String> earnedBadges = student.getEarnedBadges();
 
+//        method desides whether badge needs to be awarded based on number of courses completed
         if (completedCourses >= 1 && !earnedBadges.contains("Novice Badge"))
             earnedBadges.add("Novice Badge");
         if (completedCourses >= 3 && !earnedBadges.contains("Intermediate Badge"))
