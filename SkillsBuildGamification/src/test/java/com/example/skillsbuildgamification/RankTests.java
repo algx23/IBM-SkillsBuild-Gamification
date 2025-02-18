@@ -43,7 +43,7 @@ public class RankTests {
 
   @Test
   public void contextLoads() {
-  };
+  }
 
   // test rank on startup -> should be bronze
   @Test
@@ -52,136 +52,37 @@ public class RankTests {
     assert student.getUserRank() == UserRank.BRONZE;
   }
 
-  // test bronze
-  @Test
-  public void TestBronzeRank() {
-    Student student = studentRepository.findByUsername("alex");
-
-    for (int i = 0; i <= UserRank.BRONZE.getMaxValue(); i++) {
-      student.setPoints(i);
-      rankService.setRankOfStudent("alex");
-      studentRepository.save(student);
-      assert (student.getUserRank() == UserRank.BRONZE);
-    }
-  }
-
-  @Test
-  @Transactional // because i am using rank service which uses a transactional method
-  public void TestSilverRank() {
-    Student student = studentRepository.findByUsername("alex");
-    int minPts = UserRank.SILVER.getMinValue();
-    int maxPts = UserRank.SILVER.getMaxValue();
-
-    for (int i = minPts; i <= maxPts; i++) {
-      student.setPoints(i);
-      rankService.setRankOfStudent("alex");
-      studentRepository.save(student);
-      assert (student.getUserRank() == UserRank.SILVER);
-    }
-  }
-
+  //  test user rank
   @Test
   @Transactional
-  public void TestGoldRank() {
+  public void testRankingThresholds() {
+    UserRank prevRank = null;
     Student student = studentRepository.findByUsername("alex");
-    int minPts = UserRank.GOLD.getMinValue();
-    int maxPts = UserRank.GOLD.getMaxValue();
-
-    for (int i = minPts; i <= maxPts; i++) {
-      student.setPoints(i);
-      rankService.setRankOfStudent("alex");
-      studentRepository.save(student);
-      assert (student.getUserRank() == UserRank.GOLD);
-    }
-
-  }
-
-  @Test
-  @Transactional
-  public void TestPlatinumRank() {
-    Student student = studentRepository.findByUsername("alex");
-    int minPts = UserRank.PLATINUM.getMinValue();
-    int maxPts = UserRank.PLATINUM.getMaxValue();
-
-    for (int i = minPts; i <= maxPts; i++) {
-      student.setPoints(i);
-      rankService.setRankOfStudent("alex");
-      studentRepository.save(student);
-      assert (student.getUserRank() == UserRank.PLATINUM);
+//    iterate through each rank, set the students pts to be the minimum of that rank
+//    then, iterate through each value in the rank, from minVal to maxVal, and check the
+//    rank is not updated unexpectedly
+    for (UserRank r : UserRank.values()) {
+      for (int i = r.getMinValue(); i <= r.getMaxValue(); i++) {
+        student.setPoints(i);
+        rankService.setRankOfStudent(student.getUsername());
+        studentRepository.save(student);
+        assert (student.getUserRank() == r);
+      }
     }
   }
 
-  @Test
-  @Transactional
-  public void TestDiamondRank() {
-    Student student = studentRepository.findByUsername("alex");
-    int minPts = UserRank.DIAMOND.getMinValue();
-    int maxPts = UserRank.DIAMOND.getMaxValue();
-
-    for (int i = minPts; i <= maxPts; i++) {
-      student.setPoints(i);
-      rankService.setRankOfStudent("alex");
-      studentRepository.save(student);
-      assert (student.getUserRank() == UserRank.DIAMOND);
-    }
-  }
-
-  @Test
-  @Transactional
-  public void TestChampionRank() {
-    Student student = studentRepository.findByUsername("alex");
-    int minPts = UserRank.CHAMPION.getMinValue();
-    int maxPts = UserRank.CHAMPION.getMaxValue();
-
-    for (int i = minPts; i <= maxPts; i++) {
-      student.setPoints(i);
-      rankService.setRankOfStudent("alex");
-      studentRepository.save(student);
-      assert (student.getUserRank() == UserRank.CHAMPION);
-    }
-  }
-
-  @Test
-  @Transactional
-  public void MegaChampionRank() {
-    Student student = studentRepository.findByUsername("alex");
-    int minPts = UserRank.MEGA_CHAMPION.getMinValue();
-    int maxPts = UserRank.MEGA_CHAMPION.getMaxValue();
-
-    for (int i = minPts; i <= maxPts; i++) {
-      student.setPoints(i);
-      rankService.setRankOfStudent("alex");
-      studentRepository.save(student);
-      assert (student.getUserRank() == UserRank.MEGA_CHAMPION);
-    }
-  }
-
-  @Test
-  @Transactional
-  public void TestLegendRank() {
-    Student student = studentRepository.findByUsername("alex");
-    int minPts = UserRank.LEGEND.getMinValue();
-    int maxPts = UserRank.LEGEND.getMaxValue();
-
-    for (int i = minPts; i <= maxPts; i++) {
-      student.setPoints(i);
-      rankService.setRankOfStudent("alex");
-      studentRepository.save(student);
-      assert (student.getUserRank() == UserRank.LEGEND);
-    }
-  }
-
-  // test transition between one rank, and the next rank
-
+// test transition between one rank, and the next rank. Set the points to be 1 more than the maximum for the current rank
+//  and check the rank moves to the next one
+//  also check that the points have been updated correctly
   @Test
   @Transactional
   public void testBronzeTransition() {
     Student student = studentRepository.findByUsername("alex");
-    assert (student.getUserRank().getMaxValue() == 1);
-    student.setPoints(student.getUserRank().getMaxValue() + 1);
+    assert (student.getUserRank().getMaxValue() == 10);
+    student.setPoints(student.getUserRank().getMaxValue() + 10);
     rankService.setRankOfStudent(student.getUsername());
     studentRepository.save(student);
-    assert (student.getPoints() == 2);
+    assert (student.getPoints() == 20);
     assert (student.getUserRank() == UserRank.SILVER);
   }
 
@@ -190,12 +91,12 @@ public class RankTests {
   public void testSilverTransition() {
     Student student = studentRepository.findByUsername("alex");
     student.setUserRank(UserRank.SILVER);
-    assert (student.getUserRank().getMaxValue() == 3);
-    student.setPoints(student.getUserRank().getMaxValue() + 1);
+    assert (student.getUserRank().getMaxValue() == 30);
+    student.setPoints(student.getUserRank().getMaxValue() + 10);
     rankService.setRankOfStudent(student.getUsername());
     studentRepository.save(student);
 
-    assert (student.getPoints() == 4);
+    assert (student.getPoints() == 40);
     assert (student.getUserRank() == UserRank.GOLD);
   }
 
@@ -204,12 +105,12 @@ public class RankTests {
   public void testGoldTransition() {
     Student student = studentRepository.findByUsername("alex");
     student.setUserRank(UserRank.GOLD);
-    assert (student.getUserRank().getMaxValue() == 5);
-    student.setPoints(student.getUserRank().getMaxValue() + 1);
+    assert (student.getUserRank().getMaxValue() == 50);
+    student.setPoints(student.getUserRank().getMaxValue() + 10);
     rankService.setRankOfStudent(student.getUsername());
     studentRepository.save(student);
 
-    assert (student.getPoints() == 6);
+    assert (student.getPoints() == 60);
     assert (student.getUserRank() == UserRank.PLATINUM);
   }
 
@@ -218,12 +119,12 @@ public class RankTests {
   public void testPlatinumTransition() {
     Student student = studentRepository.findByUsername("alex");
     student.setUserRank(UserRank.PLATINUM);
-    assert (student.getUserRank().getMaxValue() == 7);
-    student.setPoints(student.getUserRank().getMaxValue() + 1);
+    assert (student.getUserRank().getMaxValue() == 70);
+    student.setPoints(student.getUserRank().getMaxValue() + 10);
     rankService.setRankOfStudent(student.getUsername());
     studentRepository.save(student);
 
-    assert (student.getPoints() == 8);
+    assert (student.getPoints() == 80);
     assert (student.getUserRank() == UserRank.DIAMOND);
   }
 
@@ -232,12 +133,12 @@ public class RankTests {
   public void testDiamondTransition() {
     Student student = studentRepository.findByUsername("alex");
     student.setUserRank(UserRank.DIAMOND);
-    assert (student.getUserRank().getMaxValue() == 9);
-    student.setPoints(student.getUserRank().getMaxValue() + 1);
+    assert (student.getUserRank().getMaxValue() == 90);
+    student.setPoints(student.getUserRank().getMaxValue() + 10);
     rankService.setRankOfStudent(student.getUsername());
     studentRepository.save(student);
 
-    assert (student.getPoints() == 10);
+    assert (student.getPoints() == 100);
     assert (student.getUserRank() == UserRank.CHAMPION);
   }
 
@@ -246,12 +147,12 @@ public class RankTests {
   public void testChampionTransition() {
     Student student = studentRepository.findByUsername("alex");
     student.setUserRank(UserRank.CHAMPION);
-    assert (student.getUserRank().getMaxValue() == 11);
-    student.setPoints(student.getUserRank().getMaxValue() + 1);
+    assert (student.getUserRank().getMaxValue() == 110);
+    student.setPoints(student.getUserRank().getMaxValue() + 10);
     rankService.setRankOfStudent(student.getUsername());
     studentRepository.save(student);
 
-    assert (student.getPoints() == 12);
+    assert (student.getPoints() == 120);
     assert (student.getUserRank() == UserRank.MEGA_CHAMPION);
   }
 
@@ -260,13 +161,33 @@ public class RankTests {
   public void testMegaChampionTransition() {
     Student student = studentRepository.findByUsername("alex");
     student.setUserRank(UserRank.MEGA_CHAMPION);
-    assert (student.getUserRank().getMaxValue() == 13);
-    student.setPoints(student.getUserRank().getMaxValue() + 1);
+    assert (student.getUserRank().getMaxValue() == 130);
+    student.setPoints(student.getUserRank().getMaxValue() + 10);
     rankService.setRankOfStudent(student.getUsername());
     studentRepository.save(student);
 
-    assert (student.getPoints() == 14);
+    assert (student.getPoints() == 140);
     assert (student.getUserRank() == UserRank.LEGEND);
   }
 
+
+//  Test Level increment by going through each number from 1, to eg 999, then if the number is even, update the level of the student
+//  in rankService, and ensure that this has updated to the correct rank by incrementing the expectedLevel for each number This is to
+//  check that the level isn't incremented when it isnt supposed to be
+  @Test
+  @Transactional
+  public void testLevel() {
+    Student student = studentRepository.findByUsername("alex");
+    int expectedLevel = 0;
+    assert (student.getLevel() == expectedLevel); // intially make sure it is 0
+    for (int i = 0; i < 1000; i++) {
+      student.setPoints(i);
+      rankService.setLevelOfStudent(student.getUsername());
+      if (student.getPoints() % 2 == 0) {
+        expectedLevel++;
+      }
+      assert (student.getLevel() == expectedLevel);
+    }
+  }
 }
+

@@ -47,12 +47,8 @@ public class EnrollmentService {
             enrollment.setStatus(status);
             if (enrollment.getStatus() == EnrollmentStatus.COMPLETED) {
                 student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
-                student.setPoints(student.getPoints() + 10);
+                rankService.setLevelOfStudent(username);
                 rankService.setRankOfStudent(username);
-
-                if (student.getPoints() % 2 == 0) {
-                    student.setLevel(student.getLevel() + 1);
-                }
                 }
                 awardBadges(student); // call method to award badges upon completion
 
@@ -68,12 +64,9 @@ public class EnrollmentService {
 //            check if they chose the status as Completed straight away rather than in progress
             if (status == EnrollmentStatus.COMPLETED) {
                 student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
-                student.setPoints(student.getPoints() + 10);
+                rankService.setLevelOfStudent(username);
                 rankService.setRankOfStudent(username);
-                if (student.getPoints() % 2 == 0) {
-                    student.setLevel(student.getLevel() + 1);
-                }
-                awardBadges(student); // call method to award badges upon completion
+                awardBadges(student);
             }
 
         }
@@ -86,7 +79,7 @@ public class EnrollmentService {
     private void awardBadges(Student student) {
         int completedCourses = student.getNumCompletedCourses();
         List<String> earnedBadges = student.getEarnedBadges();
-        // Method decides if batch needs to be awarded based on num of courses completed
+
         if (completedCourses >= 1 && !earnedBadges.contains("Novice Badge"))
             earnedBadges.add("Novice Badge");
         if (completedCourses >= 3 && !earnedBadges.contains("Intermediate Badge"))
@@ -96,6 +89,6 @@ public class EnrollmentService {
         if (completedCourses >= 7 && !earnedBadges.contains("Expert Badge"))
             earnedBadges.add("Expert Badge");
 
-        student.setEarnedBadges(earnedBadges); // badge is awarded
+        student.setEarnedBadges(earnedBadges);
     }
 }

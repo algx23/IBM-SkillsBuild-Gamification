@@ -83,8 +83,6 @@ public class LeaderboardController {
 
         }
 
-        model.addAttribute("coursesCompleted",
-                leaderboardService.findNumberOfCoursesCompleted(sortedList));
         model.addAttribute("sortingOrder", sortingOrder);
         model.addAttribute("students", sortedList);
         model.addAttribute("leaderboardPos", leaderboardService.findAndHandleJointLBPos(sortedList));

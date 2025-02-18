@@ -30,4 +30,14 @@ public class RankService {
     }
     studentRepository.save(student);
   }
+
+  public void setLevelOfStudent(String username) {
+    Student student = studentRepository.findByUsername(username);
+    int pts = student.getPoints();
+    student.setPoints(pts + 10);
+    studentRepository.save(student);
+    if (student.getPoints() % 2 == 0) {
+      student.setLevel(student.getLevel() + 1);
+    }
+  }
 }

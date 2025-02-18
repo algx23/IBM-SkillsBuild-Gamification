@@ -136,7 +136,7 @@
                     </c:choose>
                     <td class="currentlyLoggedIn">${student.username}</td>
                     <td class="currentlyLoggedIn ">${student.points}</td>
-                    <td class="currentlyLoggedIn ">${coursesCompleted[s.index]}</td>
+                    <td class="currentlyLoggedIn ">${student.numCompletedCourses}</td>
                     <td class="buttonRow"><input type="button" onclick="window.location.href='/profile/${student.username}'" value="View and edit your profile!" class="button"></td>
 
                 </tr>
@@ -158,7 +158,7 @@
 
             <td >${student.username}</td>
             <td >${student.points}</td>
-            <td >${coursesCompleted[s.index]}</td>
+            <td >${student.numCompletedCourses}</td>
             <td class="buttonRow">
             <input type="button" onclick="window.location.href='/profile/${student.username}'" value="View ${student.username}'s profile!" class="button">
             </td>
