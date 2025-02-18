@@ -21,6 +21,7 @@ import java.util.Optional;
 
 @Controller
 public class AuthenticationController {
+    // Handles requests to login-related endpoints
 
     @RequestMapping("/")
     public String index(Principal principal) {
@@ -31,8 +32,6 @@ public class AuthenticationController {
             return "redirect:/login-page";
         }
     }
-
-    // Handles requests to login-related endpoints
 
     @GetMapping("/login-page")
     public String login(Model model, @RequestParam("failure") Optional<Boolean> failure) {
@@ -69,11 +68,6 @@ public class AuthenticationController {
         // If the user is not logged in, redirect them to the login page
         System.out.println("principal doesn't exist");
         return "redirect:/login-page";
-    }
-
-    @RequestMapping("/test")
-    public String test(Principal principal) {
-        return "dashboard";
     }
 
     @RequestMapping(value="/logout", method = RequestMethod.GET)

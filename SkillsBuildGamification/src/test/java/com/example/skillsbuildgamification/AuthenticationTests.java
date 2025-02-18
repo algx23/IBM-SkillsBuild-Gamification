@@ -1,18 +1,20 @@
 package com.example.skillsbuildgamification;
 
 import com.example.skillsbuildgamification.controller.AuthenticationController;
+import com.example.skillsbuildgamification.model.Student;
 import com.example.skillsbuildgamification.repository.StudentRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -24,6 +26,9 @@ public class AuthenticationTests {
 
     @Autowired
     private AuthenticationController authenticationController;
+
+    @MockitoBean
+    private StudentRepository studentRepository;
 
     @Autowired
     private MockMvc mockMvc;
@@ -48,9 +53,16 @@ public class AuthenticationTests {
     }
 
     @Test
-    void authenticatedUsersCanAccessSuccessEndpoint () throws Exception {
-        // Check that the /login-success endpoint allows authenticated users to sign in
-        mockMvc.perform(get("/login-success").secure(true).with(user("test user")))
+    void authenticatedUsersCanAccessLinkRequiringAuthentication () throws Exception {
+        // Check that the /login-success endpoint allows authenticated users to view the leaderboard
+
+        // Mock the repository responding with a student
+        Student mockStudent = new Student();
+        mockStudent.setUsername("test");
+        mockStudent.setPassword("test");
+        when(studentRepository.findByUsername(anyString())).thenReturn(mockStudent);
+
+        mockMvc.perform(get("/leaderboard").secure(true).with(user("test_user")))
                 .andExpect(status().isOk());
     }
 }
