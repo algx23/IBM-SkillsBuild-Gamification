@@ -154,3 +154,32 @@ body {
     }
 }
 
+/* Button styling similar to status boxes */
+.button-style {
+    background-color: #d3d3d3;
+    padding: 15px 30px;
+    text-align: center;
+    border-radius: 5px;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    margin: 10px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Hover effect */
+.button-style:hover {
+    background-color: #a9a9a9;
+}
+
+/* Ensure buttons are centered */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+
