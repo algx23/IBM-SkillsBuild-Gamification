@@ -90,6 +90,6 @@ public class EnrollmentService {
         if (completedCourses >= 7 && !earnedBadges.contains("Expert Badge"))
             earnedBadges.add("Expert Badge");
 
-        student.setEarnedBadges(earnedBadges);
+        student.setEarnedBadges(earnedBadges); // badge is awarded
     }
 }
