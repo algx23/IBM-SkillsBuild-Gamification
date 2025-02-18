@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class RegistrationTest {
+class RegistrationTests {
 
     @Autowired
     private MockMvc mockMvc;
@@ -34,12 +34,13 @@ class RegistrationTest {
     @BeforeEach
     void setup() {
         assert studentRepository != null;
+        when(studentRepository.findByUsername(anyString())).thenReturn(null);
     }
 
     @Test
     @WithMockUser(username = "test user")
     void creatingNewUserAddsItToRepository() throws Exception {
-        // Verify that adding a new user calls the save() method on the student repository
+        // Verifies that creating a new user adds it to the repository
         String testUsername = "testUser";
         String testPassword = "password";
 
