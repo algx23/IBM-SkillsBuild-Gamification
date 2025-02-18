@@ -85,48 +85,54 @@
   });
 
   function filterCourses() {
-    let selectedValue, selectElement, courseBoxs;
-    selectElement = document.getElementById("courses-available");
-    selectedValue = selectElement.value;
-    courseBoxs = document.getElementsByClassName("course-box");
+    let selectedValue = document.getElementById("courses-available").value;
+    let courseBoxes = document.getElementsByClassName("course-box");
 
-    for (let i = 0; i < courseBoxs.length; i++) {
-      courseBoxs[i].style.display = 'none';
+    // Hide all courses initially
+    for (let i = 0; i < courseBoxes.length; i++) {
+      courseBoxes[i].style.display = 'none';
     }
 
     <c:forEach var="enrollment" items="${enrollments}">
     switch (selectedValue) {
       case "COMPLETED":
-        for (let i = 0; i < courseBoxs.length; i++) {
-          if ((courseBoxs[i].id === "${enrollment.course.courseName}") && "${enrollment.status}" === "COMPLETED") {
-            courseBoxs[i].style.display = 'block';
+        for (let i = 0; i < courseBoxes.length; i++) {
+          if (courseBoxes[i].id === "${enrollment.course.courseName}" && "${enrollment.status}" === "COMPLETED") {
+            courseBoxes[i].style.display = 'block';
           }
         }
         break;
       case "IN_PROGRESS":
-        for (let i = 0; i < courseBoxs.length; i++) {
-          if ((courseBoxs[i].id === "${enrollment.course.courseName}") && "${enrollment.status}" === "IN_PROGRESS") {
-            courseBoxs[i].style.display = 'block';
+        for (let i = 0; i < courseBoxes.length; i++) {
+          if (courseBoxes[i].id === "${enrollment.course.courseName}" && "${enrollment.status}" === "IN_PROGRESS") {
+            courseBoxes[i].style.display = 'block';
           }
-        }
-        break;
-      case "NOT_STARTED":
-        for (let i = 0; i < courseBoxs.length; i++) {
-          let foundMatch = false;
-          if (courseBoxs[i].id === "${enrollment.course.courseName}") {
-            foundMatch = true;
-          } else {
-            courseBoxs[i].style.display = 'block';
-          }
-        }
-        break;
-      default:
-        for (let i = 0; i < courseBoxs.length; i++) {
-          courseBoxs[i].style.display = 'block';
         }
         break;
     }
     </c:forEach>
+
+    if (selectedValue === "NOT_STARTED") {
+      let enrolledCourses = new Set();
+
+      <c:forEach var="enrollment" items="${enrollments}">
+      enrolledCourses.add("${enrollment.course.courseName}");
+      </c:forEach>
+
+      for (let i = 0; i < courseBoxes.length; i++) {
+        let courseName = courseBoxes[i].id;
+        if (!enrolledCourses.has(courseName)) {
+          courseBoxes[i].style.display = 'block';
+        }
+      }
+    }
+
+    if (selectedValue === "") {
+      // Show all courses if no filter is applied
+      for (let i = 0; i < courseBoxes.length; i++) {
+        courseBoxes[i].style.display = 'block';
+      }
+    }
   }
 
   function searchCourses() {
