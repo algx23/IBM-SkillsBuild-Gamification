@@ -1,14 +1,14 @@
 package com.example.skillsbuildgamification.model;
 
 public enum UserRank {
-  BRONZE("images/ranks/bronze.png", 0, 1),
-  SILVER("images/ranks/silver.png", 2, 3),
-  GOLD("images/ranks/gold.jpg", 4, 5),
-  PLATINUM("images/ranks/platinum.png", 6, 7),
-  DIAMOND("images/ranks/diamond.jpg", 8, 9),
-  CHAMPION("images/ranks/champion.png", 10, 11),
-  MEGA_CHAMPION("images/ranks/megachampion.png", 12, 13),
-  LEGEND("images/ranks/legend.png", 14, 15);
+  BRONZE("images/ranks/bronze.png", 0, 10),
+  SILVER("images/ranks/silver.png", 20, 30),
+  GOLD("images/ranks/gold.jpg", 40, 50),
+  PLATINUM("images/ranks/platinum.png", 60, 70),
+  DIAMOND("images/ranks/diamond.jpg", 80, 90),
+  CHAMPION("images/ranks/champion.png", 100, 110),
+  MEGA_CHAMPION("images/ranks/megachampion.png", 120, 130),
+  LEGEND("images/ranks/legend.png", 140, 999);
 
   private final int minVal;
   private final int maxVal;

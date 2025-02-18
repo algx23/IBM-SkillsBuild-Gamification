@@ -80,7 +80,7 @@
       <td>${loggedInStudent.username}</td>
       <td>${loggedInStudent.points}</td>
       <td>${loggedInStudent.numCompletedCourses}</td>
-      <td class="buttonRow"><input type="button" onclick="window.location.href='/profile/${student.username}'" value="View and edit your profile!" class="button"></td>
+      <td class="buttonRow"><input type="button" onclick="window.location.href='/profile/${loggedInStudent.username}'" value="View and edit your profile!" class="button"></td>
       </tbody>
   </table>
   </div>

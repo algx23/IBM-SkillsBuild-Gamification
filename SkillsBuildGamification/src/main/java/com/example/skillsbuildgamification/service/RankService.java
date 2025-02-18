@@ -13,12 +13,12 @@ import com.example.skillsbuildgamification.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 public class RankService {
 
   @Autowired
   private StudentRepository studentRepository;
 
-  @Transactional
   public void setRankOfStudent(String username) {
     Student student = studentRepository.findByUsername(username);
     int pts = student.getPoints();

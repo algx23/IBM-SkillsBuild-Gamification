@@ -15,8 +15,8 @@ public class Student {
     @Id
     private String username;
     private String password;
-    private int points;
-    private int level;
+    private int points = 0;
+    private int level = 0;
     private String bio;
     private String profilePic; // img url as string
 

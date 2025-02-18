@@ -47,8 +47,12 @@ public class EnrollmentService {
             enrollment.setStatus(status);
             if (enrollment.getStatus() == EnrollmentStatus.COMPLETED) {
                 student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
-                student.setPoints(student.getPoints() + 1);
+                student.setPoints(student.getPoints() + 10);
                 rankService.setRankOfStudent(username);
+
+                if (student.getPoints() % 2 == 0) {
+                    student.setLevel(student.getLevel() + 1);
+                }
             }
         } else {
             enrollment = new Enrollment(student, course, status);
@@ -63,8 +67,12 @@ public class EnrollmentService {
             // progress
             if (status == EnrollmentStatus.COMPLETED) {
                 student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
-                student.setPoints(student.getPoints() + 1);
+                student.setPoints(student.getPoints() + 10);
                 rankService.setRankOfStudent(username);
+
+                if (student.getPoints() % 2 == 0) {
+                    student.setLevel(student.getLevel() + 1);
+                }
             }
         }
 
