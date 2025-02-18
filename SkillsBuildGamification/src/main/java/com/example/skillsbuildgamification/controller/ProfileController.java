@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/profile")
-public class ProfileController {
+public class ProfileController { // Handles all profile management related endpoints
 
     @Autowired
     private StudentRepository studentRepository;
@@ -30,7 +30,7 @@ public class ProfileController {
     @Autowired
     private EnrollmentRepository enrollmentRepository;
 
-    // Defined requirements for each badge to pass as parameter for display
+    // Defined requirements for each badge to add as attribute for display
     private static final Map<String, Integer> badgeRequirements = Map.of(
             "Novice Badge", 1,
             "Intermediate Badge", 3,
@@ -38,7 +38,7 @@ public class ProfileController {
             "Expert Badge", 7
     );
 
-    @GetMapping("/{username}")
+    @GetMapping("/{username}") // Method displays User information along with their courses
     public String showUserProfile(@PathVariable String username, Model model, Principal principal) {
         Student student = studentRepository.findByUsername(username);
         if (student == null) {
@@ -46,10 +46,10 @@ public class ProfileController {
         }
 
         String loggedInUsername = (principal != null) ? principal.getName() : null;
-        boolean isOwner = loggedInUsername != null && loggedInUsername.equals(username);
-        int rank = studentRepository.findLeaderboardPosition(username);
+        boolean isOwner = loggedInUsername != null && loggedInUsername.equals(username); // defining logged in user
+        int rank = studentRepository.findLeaderboardPosition(username); // find rank from repo method
 
-        List<Enrollment> enrollments = enrollmentRepository.findByStudent(student);
+        List<Enrollment> enrollments = enrollmentRepository.findByStudent(student); // get all student enrollments
 
         // Separate "Completed" & "In Progress" courses
         List<Course> completedCourses = enrollments.stream()
@@ -62,20 +62,20 @@ public class ProfileController {
                 .map(Enrollment::getCourse)
                 .collect(Collectors.toList());
 
-        model.addAttribute("student", student);
-        model.addAttribute("isOwner", isOwner);
-        model.addAttribute("loggedInStudentUsername", loggedInUsername);
-        model.addAttribute("leaderboardPosition", rank);
-        model.addAttribute("completedCourses", completedCourses);
-        model.addAttribute("inProgressCourses", inProgressCourses);
-        model.addAttribute("badgeRequirements", badgeRequirements);
-        model.addAttribute("url", student.getUserRank().getUrl());
+        model.addAttribute("student", student); // add student
+        model.addAttribute("isOwner", isOwner); // add type of user to grant edit privilege
+        model.addAttribute("loggedInStudentUsername", loggedInUsername); // add username
+        model.addAttribute("leaderboardPosition", rank); // add rank
+        model.addAttribute("completedCourses", completedCourses); // add courses completed
+        model.addAttribute("inProgressCourses", inProgressCourses); // add courses in progress
+        model.addAttribute("badgeRequirements", badgeRequirements); // add requirements to display badges
+        model.addAttribute("url", student.getUserRank().getUrl()); // add url for rank img
 
         return "profile/profile"; // profile.jsp
     }
 
 
-    @GetMapping("/{username}/edit")
+    @GetMapping("/{username}/edit") // method to display edit profile form
     public String showEditProfileForm(@PathVariable String username, Model model, Principal principal) {
         if (principal == null || !principal.getName().equals(username)) {
             return "redirect:/denied"; // Restrict unauthorized access
@@ -83,10 +83,10 @@ public class ProfileController {
 
         Student student = studentRepository.findByUsername(username);
         if (student == null) {
-            return "redirect:/login-page";
+            return "redirect:/login-page"; // ensuring student is actually present
         }
 
-        List<Enrollment> enrollments = enrollmentRepository.findByStudent(student);
+        List<Enrollment> enrollments = enrollmentRepository.findByStudent(student); // finding student enrollments
 
         // Separate "Completed" & "In Progress" courses
         List<Course> completedCourses = enrollments.stream()
@@ -99,19 +99,19 @@ public class ProfileController {
                 .map(Enrollment::getCourse)
                 .collect(Collectors.toList());
 
-        model.addAttribute("student", student);
-        model.addAttribute("completedCourses", completedCourses);
-        model.addAttribute("inProgressCourses", inProgressCourses);
+        model.addAttribute("student", student); // add student
+        model.addAttribute("completedCourses", completedCourses); // add courses completed
+        model.addAttribute("inProgressCourses", inProgressCourses); // add courses in progress
 
         return "profile/edit"; // edit.jsp
     }
 
 
-    @PostMapping("/{username}/update")
-    public String updateProfile(@PathVariable String username,
-                                @RequestParam String password,
-                                @RequestParam String bio,
-                                @RequestParam String profilePic,
+    @PostMapping("/{username}/update") // method to handle user info update
+    public String updateProfile(@PathVariable String username, // pass username as path variable
+                                @RequestParam String password, // password param
+                                @RequestParam String bio, // bio as param
+                                @RequestParam String profilePic, // profile pic url as param
                                 Principal principal) {
 
         if (principal == null || !principal.getName().equals(username)) {
@@ -121,11 +121,11 @@ public class ProfileController {
         Student student = studentRepository.findByUsername(username);
         if (student != null) {
             if (!password.isEmpty()) {
-                student.setPassword(passwordEncoder.encoder().encode(password));
+                student.setPassword(passwordEncoder.encoder().encode(password)); // encode new password
             }
-            student.setBio(bio);
-            student.setProfilePic(profilePic);
-            studentRepository.save(student);
+            student.setBio(bio); // add bio
+            student.setProfilePic(profilePic); // set profile pic
+            studentRepository.save(student); // save changes
         }
         return "redirect:/profile/" + username; // Redirect to updated profile
     }

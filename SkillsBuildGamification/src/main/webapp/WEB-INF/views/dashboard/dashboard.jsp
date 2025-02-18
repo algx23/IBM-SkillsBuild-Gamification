@@ -6,6 +6,7 @@
   <title>Dashboard</title>
   <link rel="stylesheet" href="/css/dashboard.css" />
   <link rel="stylesheet" href="/css/logo.css">
+  <link rel="stylesheet" href="/css/search-filter.css">  <!-- Updated reference -->
 </head>
 <body>
 <header>
@@ -16,27 +17,28 @@
     </div>
   </div>
 </header>
+
 <main>
   <h1 class="dashboard-title">Dashboard</h1>
 
   <div class="navigation-filter-search">
     <div class="filter">
       <form action id="Filter-Courses">
-        <label for="courses-available">Please select the type of progression that the courses are on to appear on this page:</label>
+        <label for="courses-available">Select course progression:</label>
         <select id="courses-available">
           <option value=""> -- select an option -- </option>
           <option value="COMPLETED">Completed</option>
           <option value="IN_PROGRESS">In progress</option>
           <option value="NOT_STARTED">Not started</option>
         </select>
-        <button type="button" onclick="filterCourses()">Enter course filter</button>
+        <button type="button" onclick="filterCourses()">Apply</button>
       </form>
     </div>
 
     <div class="search">
-      <label for="textInput">Please enter the name of the course manually that you wish to select:</label>
-      <input type="text" id="textInput" placeholder="Search for course...">
-      <button type="button" onclick="searchCourses()">Enter course search</button>
+      <label for="textInput">Search for a course:</label>
+      <input type="text" id="textInput" placeholder="Type course name...">
+      <button type="button" onclick="searchCourses()">Search</button>
     </div>
   </div>
 
@@ -58,7 +60,6 @@
       <a href="<c:url value='/profile/${username}' />">User Profile</a>
     </div>
   </div>
-
 </main>
 
 <script>
@@ -88,7 +89,6 @@
     let selectedValue = document.getElementById("courses-available").value;
     let courseBoxes = document.getElementsByClassName("course-box");
 
-    // Hide all courses initially
     for (let i = 0; i < courseBoxes.length; i++) {
       courseBoxes[i].style.display = 'none';
     }
@@ -128,7 +128,6 @@
     }
 
     if (selectedValue === "") {
-      // Show all courses if no filter is applied
       for (let i = 0; i < courseBoxes.length; i++) {
         courseBoxes[i].style.display = 'block';
       }
@@ -164,5 +163,7 @@
 
 </body>
 </html>
+
+
 
 

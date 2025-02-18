@@ -42,13 +42,13 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
 
         // adding more students to check leaderboard sorting works
         Student student2 = new Student();
-        student2.setUsername("jeff69");
+        student2.setUsername("jeff61");
         student2.setPassword(encoder.encoder().encode("password"));
         // student2.setCompletedCourses("ArtificialIntellegence Fundamentals");
 //        student2.setPoints(200);
 
         Student student3 = new Student();
-        student3.setUsername("the chosen one");
+        student3.setUsername("Max0");
         student3.setPassword(encoder.encoder().encode("password"));
 //        student3.setPoints(90);
 

@@ -29,7 +29,7 @@ public interface StudentRepository extends CrudRepository<Student, String> {
     List<Student> findAllByOrderByUsernameDesc();
 
     @Query("SELECT COUNT(s) + 1 FROM Student s WHERE s.points > (SELECT s2.points FROM Student s2 WHERE s2.username = :username)")
-    int findLeaderboardPosition(@Param("username") String username);
+    int findLeaderboardPosition(@Param("username") String username); // finds leader board position by counting users based on points
 
     // order by courses completed high -> low, and low -> high
     List<Student> findAllByOrderByNumCompletedCoursesDesc();

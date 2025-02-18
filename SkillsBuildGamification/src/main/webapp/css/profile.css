@@ -82,7 +82,7 @@
     transform: scale(1.1);
 }
 
-/* Tooltip Styling */
+/* Tooltip Styling for badges info over hover*/
 .badge-box .badge-tooltip {
     visibility: hidden;
     width: 200px;
@@ -167,7 +167,7 @@
     background-color: #a9a9a9;
 }
 
-/* Buttons BELOW Both Cards */
+/* Buttons below Both Cards */
 .profile-actions {
     display: flex;
     justify-content: center;

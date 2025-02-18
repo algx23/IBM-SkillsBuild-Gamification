@@ -33,9 +33,9 @@
         <div class="badge-container">
             <c:forEach var="badge" items="${student.earnedBadges}">
                 <div class="badge-box">
-                    <img src="/images/badges/${badge}.png" class="badge-icon">
+                    <img src="/images/badges/${badge}.png" class="badge-icon"> <!-- badge png -->
                     <div class="badge-tooltip">
-                        <strong>${badge}</strong><br>
+                        <strong>${badge}</strong><br> <!-- Info displayed over hover -->
                         Earned by completing ${badgeRequirements[badge]} course(s)
                     </div>
                 </div>
@@ -46,7 +46,7 @@
 
     <!-- Right Section - Courses -->
     <div class="profile-right">
-        <h3>Completed Courses</h3>
+        <h3>Completed Courses</h3> <!-- Separate in progress course -->
         <div class="completed-courses">
             <c:forEach var="course" items="${completedCourses}">
                 <div class="course-box">
@@ -55,7 +55,7 @@
             </c:forEach>
         </div>
 
-        <h3>In Progress Courses</h3>
+        <h3>In Progress Courses</h3> <!-- Separate in progress course -->
         <div class="in-progress-courses">
             <c:forEach var="course" items="${inProgressCourses}">
                 <div class="course-box in-progress">
