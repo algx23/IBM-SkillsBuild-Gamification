@@ -20,17 +20,17 @@
 
     <!-- Left Section - Edit Profile -->
     <div class="profile-left">
-        <h2>Edit Profile</h2>
+        <h2>Edit Profile</h2> <!-- calls update method in controller -->
         <form id="editProfileForm" action="/profile/${student.username}/update" method="post">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> <!-- Token to update-->
 
-            <label for="password">New Password</label>
+            <label for="password">New Password</label> <!-- New password field -->
             <input type="password" id="password" name="password" class="input-field" placeholder="Enter new password"><br>
 
-            <label for="bio">Bio:</label>
+            <label for="bio">Bio:</label> <!-- Bigger field for bio -->
             <textarea id="bio" name="bio" class="input-field" placeholder="Write something about yourself...">${student.bio}</textarea><br>
 
-            <label for="profilePic">Profile Picture URL:</label>
+            <label for="profilePic">Profile Picture URL:</label> <!-- url for profile image -->
             <input type="text" id="profilePic" name="profilePic" class="input-field" value="${student.profilePic}" placeholder="Paste image URL here"><br>
         </form>
     </div>
@@ -40,7 +40,7 @@
         <h3>Completed Courses</h3>
         <div class="completed-courses">
             <c:forEach var="course" items="${completedCourses}">
-                <div class="course-box">
+                <div class="course-box"> <!-- Allowing status update to courses -->
                     <a href="/${student.username}/courseStatus/${course.courseID}?sourcePage=editProfile">
                             ${course.courseName}
                     </a>
@@ -51,7 +51,7 @@
         <h3>In Progress Courses</h3>
         <div class="in-progress-courses">
             <c:forEach var="course" items="${inProgressCourses}">
-                <div class="course-box">
+                <div class="course-box"> <!-- Allowing status update to courses -->
                     <a href="/${student.username}/courseStatus/${course.courseID}?sourcePage=editProfile">
                             ${course.courseName}
                     </a>
@@ -62,7 +62,7 @@
 </div>
 
 <!-- Common Buttons BELOW Both Sections -->
-<div class="profile-actions">
+<div class="profile-actions"> <!-- Save changes action -->
     <button type="button" class="save-btn" onclick="document.getElementById('editProfileForm').submit();">Save Changes</button>
     <a href="/profile/${student.username}">
         <button class="cancel-btn">Cancel</button>

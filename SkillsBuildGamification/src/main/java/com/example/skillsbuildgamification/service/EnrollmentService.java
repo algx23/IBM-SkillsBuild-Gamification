@@ -54,7 +54,7 @@ public class EnrollmentService {
                     student.setLevel(student.getLevel() + 1);
                 }
                 }
-                awardBadges(student);
+                awardBadges(student); // call method to award badges upon completion
 
         } else {
             enrollment = new Enrollment(student, course, status);
@@ -73,7 +73,7 @@ public class EnrollmentService {
                 if (student.getPoints() % 2 == 0) {
                     student.setLevel(student.getLevel() + 1);
                 }
-                awardBadges(student);
+                awardBadges(student); // call method to award badges upon completion
             }
 
         }
@@ -86,7 +86,7 @@ public class EnrollmentService {
     private void awardBadges(Student student) {
         int completedCourses = student.getNumCompletedCourses();
         List<String> earnedBadges = student.getEarnedBadges();
-
+        // Method decides if batch needs to be awarded based on num of courses completed
         if (completedCourses >= 1 && !earnedBadges.contains("Novice Badge"))
             earnedBadges.add("Novice Badge");
         if (completedCourses >= 3 && !earnedBadges.contains("Intermediate Badge"))
@@ -96,6 +96,6 @@ public class EnrollmentService {
         if (completedCourses >= 7 && !earnedBadges.contains("Expert Badge"))
             earnedBadges.add("Expert Badge");
 
-        student.setEarnedBadges(earnedBadges);
+        student.setEarnedBadges(earnedBadges); // badge is awarded
     }
 }

@@ -14,7 +14,7 @@ public class Student {
     private String password;
     private int points = 0;
     private int level = 0;
-    private String bio;
+    private String bio; // Student Bio
     private String profilePic; // img url as string
 
     private UserRank userRank = UserRank.BRONZE;
@@ -24,7 +24,7 @@ public class Student {
     private List<Enrollment> enrollments = new ArrayList<>();
 
     @ElementCollection
-    private List<String> earnedBadges = new ArrayList<>();
+    private List<String> earnedBadges = new ArrayList<>(); // badges as a collection
 
     public String getUsername() {
         return username;
