@@ -19,8 +19,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -40,7 +39,7 @@ class RegistrationTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "test user")
     void creatingNewUserAddsItToRepository() throws Exception {
         String testUsername = "testUser";
         String testPassword = "password";
@@ -51,10 +50,32 @@ class RegistrationTest {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("username", testUsername)
                         .param("password", testPassword))
-                .andDo(print())  // debug info
+                // We expect the page to redirect us to /login-page upon successful user creation
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login-page"));
 
         verify(studentRepository, atLeastOnce()).save(any(Student.class));
+    }
+
+    @Test
+    @WithMockUser(username = "test user")
+    void duplicateUserRegistrationFails() throws Exception {
+        String duplicateUsername = "duplicateUser";
+        String testPassword = "password";
+
+        // Simulate that a student with the given username already exists
+        when(studentRepository.findByUsername(eq(duplicateUsername))).thenReturn(new Student());
+
+        mockMvc.perform(post("/registration-process")
+                        .secure(true)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("username", duplicateUsername)
+                        .param("password", testPassword))
+                .andDo(print())
+                // Since the validator finds errors, the controller returns the registration page (HTTP 200 OK)
+                .andExpect(status().isOk())
+                // Verify that the "username" field has errors in the model
+                .andExpect(model().attributeHasFieldErrors("student", "username"));
     }
 }
