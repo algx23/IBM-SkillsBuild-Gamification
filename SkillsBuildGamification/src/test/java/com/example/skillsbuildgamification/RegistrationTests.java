@@ -1,6 +1,5 @@
 package com.example.skillsbuildgamification;
 
-import com.example.skillsbuildgamification.controller.RegistrationController;
 import com.example.skillsbuildgamification.model.Student;
 import com.example.skillsbuildgamification.repository.StudentRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +18,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -36,12 +34,12 @@ class RegistrationTest {
     @BeforeEach
     void setup() {
         assert studentRepository != null;
-        when(studentRepository.findByUsername(anyString())).thenReturn(null);
     }
 
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "test user")
     void creatingNewUserAddsItToRepository() throws Exception {
+        // Verify that adding a new user calls the save() method on the student repository
         String testUsername = "testUser";
         String testPassword = "password";
 
@@ -51,10 +49,73 @@ class RegistrationTest {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("username", testUsername)
                         .param("password", testPassword))
-                .andDo(print())  // debug info
+                // We expect the page to redirect us to /login-page upon successful user creation
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login-page"));
 
         verify(studentRepository, atLeastOnce()).save(any(Student.class));
+    }
+
+    @Test
+    @WithMockUser(username = "test user")
+    void cannotAddDuplicateUser() throws Exception {
+        // Verify that it is not possible to create users with the same username
+        String duplicateUsername = "duplicateUser";
+        String testPassword = "password";
+
+        // Simulate that a student with the given username already exists
+        when(studentRepository.findByUsername(eq(duplicateUsername))).thenReturn(new Student());
+
+        mockMvc.perform(post("/registration-process")
+                        .secure(true)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("username", duplicateUsername)
+                        .param("password", testPassword))
+                .andDo(print())
+                // Since the validator finds errors, the controller returns the registration page (HTTP 200 OK)
+                .andExpect(status().isOk())
+                // Verify that the "username" field has errors in the model
+                .andExpect(model().attributeHasFieldErrors("student", "username"));
+    }
+
+    @Test
+    @WithMockUser(username = "test user")
+    void cannotAddUserWithoutUsername() throws Exception {
+        // Verify that a user cannot be added without a username
+        String testUsername = "";
+        String testPassword = "password";
+
+        mockMvc.perform(post("/registration-process")
+                        .secure(true)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("username", testUsername)
+                        .param("password", testPassword))
+                .andDo(print())
+                // Since the validator finds errors, the controller returns the registration page (HTTP 200 OK)
+                .andExpect(status().isOk())
+                // Verify that the "username" field has errors in the model
+                .andExpect(model().attributeHasFieldErrors("student", "username"));
+    }
+
+    @Test
+    @WithMockUser(username = "test user")
+    void cannotAddUserWithoutPassword() throws Exception {
+        // Verify that a user cannot be added without a password
+        String testUsername = "username";
+        String testPassword = "";
+
+        mockMvc.perform(post("/registration-process")
+                        .secure(true)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("username", testUsername)
+                        .param("password", testPassword))
+                .andDo(print())
+                // Since the validator finds errors, the controller returns the registration page (HTTP 200 OK)
+                .andExpect(status().isOk())
+                // Verify that the "username" field has errors in the model
+                .andExpect(model().attributeHasFieldErrors("student", "password"));
     }
 }
