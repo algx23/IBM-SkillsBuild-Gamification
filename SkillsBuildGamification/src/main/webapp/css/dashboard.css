@@ -17,8 +17,8 @@
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    flex: 1 1 200px;
-    max-width: 300px;
+    flex: 1 1 200px; /* Ensures responsiveness */
+    max-width: 300px; /* Prevents oversized boxes on large screens */
 }
 
 .course-box a {
@@ -82,18 +82,21 @@
     background-color: #a9a9a9;
 }
 
+/* General styling similar to the dashboard */
 body {
     font-family: Arial, sans-serif;
     text-align: center;
     background-color: #f5f5f5;
 }
 
+/* Title styling */
 .status-title {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
 }
 
+/* Container for checkboxes */
 .status-container {
     display: flex;
     flex-direction: column;
@@ -102,6 +105,7 @@ body {
     padding: 20px;
 }
 
+/* Checkbox boxes styling */
 .status-box {
     background-color: #d3d3d3;
     padding: 15px;
@@ -118,10 +122,12 @@ body {
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+/* Hover effect */
 .status-box:hover {
     background-color: #a9a9a9;
 }
 
+/* Checkbox styling */
 .status-box input {
     margin-right: 10px;
     transform: scale(1.2);
