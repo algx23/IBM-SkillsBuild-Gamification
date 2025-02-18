@@ -5,8 +5,17 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>Dashboard</title>
   <link rel="stylesheet" href="/css/dashboard.css" />
+  <link rel="stylesheet" href="/css/logo.css">
 </head>
 <body>
+<header>
+  <div class="logo-container">
+    <div class="logo">
+      <span class="ibm">IBM</span>
+      <span class="skillsbuild">SkillsBuild Gamification</span>
+    </div>
+  </div>
+</header>
 <main>
   <h1 class="dashboard-title">Dashboard</h1>
 

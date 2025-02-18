@@ -22,6 +22,7 @@ public class StudentValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
+        // Checks that the user has a valid username and password, and checks for duplicate students
         Student student = (Student) target;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "", "You must have a username.");

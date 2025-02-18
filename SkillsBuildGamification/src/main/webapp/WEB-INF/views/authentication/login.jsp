@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
@@ -8,8 +9,21 @@
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
+<header>
+    <div class="logo-container">
+        <div class="logo">
+            <span class="ibm">IBM</span>
+            <span class="skillsbuild">SkillsBuild Gamification</span>
+        </div>
+    </div>
+</header>
     <div class="login-container">
         <form:form class="form" action="/login-process" method="post" modelAttribute="user">
+            <!-- JSTL to show an error if the user did not enter correct credentials -->
+            <c:if test="${failure == true}">
+                <p class="error">Could not log in. Please ensure that the username and password are entered correctly.</p>
+            </c:if>
+
             <label for="username">Username:</label>
             <input type="text" enrollmentId="username" name="username" />
 
