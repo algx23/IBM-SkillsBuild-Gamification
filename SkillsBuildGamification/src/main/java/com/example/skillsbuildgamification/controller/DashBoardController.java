@@ -36,6 +36,7 @@ public class DashBoardController
         model.addAttribute("courses", courses);
         model.addAttribute("username", username);
         model.addAttribute("courseLinks", courseLinks);
+        model.addAttribute("enrollments", student.getEnrollments());
         return "dashboard/dashboard";
     }
 

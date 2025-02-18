@@ -10,16 +10,15 @@
 <main>
   <h1 class="dashboard-title">Dashboard</h1>
 
-  <div name="navigation-filter/search">
-    <!--This is to clearly separate the filter and search functions from each other and allow the users to type up the name of the course or select one from the dropdown menu-->
-    <div class=filter">
+  <div class="navigation-filter-search">
+    <div class="filter">
       <form action id="Filter-Courses">
-        <label for="courses-available">Please select the course that you want to appear on the website:</label>
+        <label for="courses-available">Please select the type of progression that the courses are on to appear on this page:</label>
         <select id="courses-available">
           <option value=""> -- select an option -- </option>
-          <c:forEach var="course" items="${courses}">
-            <option value="${course.courseName}">${course.courseName}</option>
-          </c:forEach>
+          <option value="COMPLETED">Completed</option>
+          <option value="IN_PROGRESS">In progress</option>
+          <option value="NOT_STARTED">Not started</option>
         </select>
         <button type="button" onclick="filterCourses()">Enter course filter</button>
       </form>
@@ -32,7 +31,6 @@
     </div>
   </div>
 
-  <!--This is to get each of the courses to appear on the webpage-->
   <div class="course-container">
     <c:forEach var="course" items="${courses}">
       <div class="course-box" id="${course.courseName}">
@@ -53,7 +51,6 @@
   </div>
 
 </main>
-
 
 <script>
   document.getElementById("courses-available").value="";
@@ -79,30 +76,78 @@
   });
 
   function filterCourses() {
-    let selectedValue, selectElement, courseBoxs, i;
-    selectElement = document.getElementById("courses-available")
+    let selectedValue, selectElement, courseBoxs;
+    selectElement = document.getElementById("courses-available");
     selectedValue = selectElement.value;
-    courseBoxs = document.getElementsByClassName("course-box")
-    if (selectedValue !== "") {
-      for (i = 0; i < courseBoxs.length; i++) {
-        if (courseBoxs[i].id !== selectedValue) {
-          courseBoxs[i].style.display = 'none';
+    courseBoxs = document.getElementsByClassName("course-box");
+
+    for (let i = 0; i < courseBoxs.length; i++) {
+      courseBoxs[i].style.display = 'none';
+    }
+
+    <c:forEach var="enrollment" items="${enrollments}">
+    switch (selectedValue) {
+      case "COMPLETED":
+        for (let i = 0; i < courseBoxs.length; i++) {
+          if ((courseBoxs[i].id === "${enrollment.course.courseName}") && "${enrollment.status}" === "COMPLETED") {
+            courseBoxs[i].style.display = 'block';
+          }
         }
-        else{
-          courseBoxs[i].style.display = 'block'
+        break;
+      case "IN_PROGRESS":
+        for (let i = 0; i < courseBoxs.length; i++) {
+          if ((courseBoxs[i].id === "${enrollment.course.courseName}") && "${enrollment.status}" === "IN_PROGRESS") {
+            courseBoxs[i].style.display = 'block';
+          }
         }
-      }
-    } else {
-      for (i = 0; i < courseBoxs.length; i++) {
-        if (courseBoxs[i].id !== selectedValue) {
+        break;
+      case "NOT_STARTED":
+        for (let i = 0; i < courseBoxs.length; i++) {
+          let foundMatch = false;
+          if (courseBoxs[i].id === "${enrollment.course.courseName}") {
+            foundMatch = true;
+          } else {
+            courseBoxs[i].style.display = 'block';
+          }
+        }
+        break;
+      default:
+        for (let i = 0; i < courseBoxs.length; i++) {
           courseBoxs[i].style.display = 'block';
+        }
+        break;
+    }
+    </c:forEach>
+  }
+
+  function searchCourses() {
+    var input, filter, courseBoxs, i, courseName;
+    input = document.getElementById("textInput");
+    filter = input.value.toUpperCase().split(' ');
+
+    courseBoxs = document.getElementsByClassName("course-box");
+
+    for (let i = 0; i < courseBoxs.length; i++) {
+      courseBoxs[i].style.display = 'none';
+    }
+
+    for (let i = 0; i < courseBoxs.length; i++) {
+      courseName = courseBoxs[i].id.toUpperCase();
+      let match = true;
+      for (let word of filter) {
+        if (!courseName.includes(word)) {
+          match = false;
+          break;
+        }
+        if (match) {
+          courseBoxs[i].style.display = "block";
         }
       }
     }
   }
-
 </script>
 
 </body>
 </html>
+
 
