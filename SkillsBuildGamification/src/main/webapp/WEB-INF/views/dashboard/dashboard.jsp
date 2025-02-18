@@ -4,11 +4,13 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>Dashboard</title>
+  <!-- Stylesheets for page styling -->
   <link rel="stylesheet" href="/css/dashboard.css" />
   <link rel="stylesheet" href="/css/logo.css">
-  <link rel="stylesheet" href="/css/search-filter.css">  <!-- Updated reference -->
+  <link rel="stylesheet" href="/css/search-filter.css">
 </head>
 <body>
+
 <header>
   <div class="logo-container">
     <div class="logo">
@@ -22,6 +24,7 @@
   <h1 class="dashboard-title">Dashboard</h1>
 
   <div class="navigation-filter-search">
+    <!-- Course filtering section -->
     <div class="filter">
       <form action id="Filter-Courses">
         <label for="courses-available">Select course progression:</label>
@@ -35,6 +38,7 @@
       </form>
     </div>
 
+    <!-- Course search section -->
     <div class="search">
       <label for="textInput">Search for a course:</label>
       <input type="text" id="textInput" placeholder="Type course name...">
@@ -42,6 +46,7 @@
     </div>
   </div>
 
+  <!-- Display list of courses -->
   <div class="course-container">
     <c:forEach var="course" items="${courses}">
       <div class="course-box" id="${course.courseName}">
@@ -52,6 +57,7 @@
     </c:forEach>
   </div>
 
+  <!-- Navigation buttons to other pages -->
   <div class="redirect-container">
     <div class="redirect-box">
       <a href="<c:url value='/leaderboard' />">Leaderboard</a>
@@ -63,14 +69,19 @@
 </main>
 
 <script>
+  // Reset the dropdown selection when the page loads
   document.getElementById("courses-available").value="";
+
   document.addEventListener("DOMContentLoaded", function () {
     let lastCourseID = localStorage.getItem("lastCourseID");
+
+    // Redirect to last visited course status page if stored
     if (lastCourseID) {
       localStorage.removeItem("lastCourseID");
       window.location.href = "/${username}/courseStatus/" + lastCourseID;
     }
 
+    // Store course ID in localStorage when a course is clicked
     document.querySelectorAll(".course-box a").forEach(link => {
       link.addEventListener("click", function () {
         let courseID = this.getAttribute("data-courseid");
@@ -78,6 +89,7 @@
       });
     });
 
+    // Reload the page when the tab is reactivated
     document.addEventListener("visibilitychange", function () {
       if (document.visibilityState === "visible") {
         location.reload();
@@ -85,10 +97,12 @@
     });
   });
 
+  // Filter courses based on selected status
   function filterCourses() {
     let selectedValue = document.getElementById("courses-available").value;
     let courseBoxes = document.getElementsByClassName("course-box");
 
+    // Hide all courses initially
     for (let i = 0; i < courseBoxes.length; i++) {
       courseBoxes[i].style.display = 'none';
     }
@@ -112,6 +126,7 @@
     }
     </c:forEach>
 
+    // Show courses that have not been started
     if (selectedValue === "NOT_STARTED") {
       let enrolledCourses = new Set();
 
@@ -127,6 +142,7 @@
       }
     }
 
+    // If no filter is selected, show all courses
     if (selectedValue === "") {
       for (let i = 0; i < courseBoxes.length; i++) {
         courseBoxes[i].style.display = 'block';
@@ -134,28 +150,31 @@
     }
   }
 
+  // Search function for filtering courses by name
   function searchCourses() {
-    var input, filter, courseBoxs, i, courseName;
+    var input, filter, courseBoxes, i, courseName;
     input = document.getElementById("textInput");
     filter = input.value.toUpperCase().split(' ');
 
-    courseBoxs = document.getElementsByClassName("course-box");
+    courseBoxes = document.getElementsByClassName("course-box");
 
-    for (let i = 0; i < courseBoxs.length; i++) {
-      courseBoxs[i].style.display = 'none';
+    // Hide all courses initially
+    for (let i = 0; i < courseBoxes.length; i++) {
+      courseBoxes[i].style.display = 'none';
     }
 
-    for (let i = 0; i < courseBoxs.length; i++) {
-      courseName = courseBoxs[i].id.toUpperCase();
+    // Show only courses matching the search input
+    for (let i = 0; i < courseBoxes.length; i++) {
+      courseName = courseBoxes[i].id.toUpperCase();
       let match = true;
       for (let word of filter) {
         if (!courseName.includes(word)) {
           match = false;
           break;
         }
-        if (match) {
-          courseBoxs[i].style.display = "block";
-        }
+      }
+      if (match) {
+        courseBoxes[i].style.display = "block";
       }
     }
   }
@@ -163,6 +182,7 @@
 
 </body>
 </html>
+
 
 
 

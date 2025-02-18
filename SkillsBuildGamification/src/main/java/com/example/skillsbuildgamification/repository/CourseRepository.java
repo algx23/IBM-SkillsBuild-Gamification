@@ -6,12 +6,13 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface CourseRepository extends CrudRepository<Course, Integer>
-{
-    Course findBycourseName(String courseName);
+public interface CourseRepository extends CrudRepository<Course, Integer> {
 
-    Course findBycourseID(Integer courseID);
+    Course findBycourseName(String courseName); // Find course by name
+
+    Course findBycourseID(Integer courseID); // Find course by ID
 
     @Query("SELECT courseLink FROM Course")
-    List<String> findAllCourseLinks();
+    List<String> findAllCourseLinks(); // Retrieve all course links
 }
+

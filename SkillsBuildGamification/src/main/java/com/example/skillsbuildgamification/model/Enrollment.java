@@ -8,10 +8,12 @@ public class Enrollment {
     @GeneratedValue
     private int enrollmentId;
 
+    // Many enrollments can be associated with a single student
     @ManyToOne
     @JoinColumn(name = "username", nullable = false)
     private Student student;
 
+    // Many enrollments can be associated with a single course
     @ManyToOne
     @JoinColumn(name = "courseID", nullable = false)
     private Course course;
@@ -19,10 +21,9 @@ public class Enrollment {
     @Enumerated(EnumType.STRING)
     private EnrollmentStatus status;
 
-    // No-arg constructor required by JPA
-    public Enrollment() {}
+    public Enrollment() {} // Required by JPA (no param constructor)
 
-    // Parameterized constructor
+    //parameter constructor method
     public Enrollment(Student student, Course course, EnrollmentStatus status) {
         this.student = student;
         this.course = course;
@@ -62,5 +63,6 @@ public class Enrollment {
         this.status = status;
     }
 }
+
 
 

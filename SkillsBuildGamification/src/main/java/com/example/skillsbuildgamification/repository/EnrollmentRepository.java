@@ -9,9 +9,8 @@ import java.util.Optional;
 
 public interface EnrollmentRepository extends CrudRepository<Enrollment, Integer> {
 
-    // Retrieve an enrollment entry for a specific student and course
-    Optional<Enrollment> findByStudentAndCourse(Student student, Course course);
+    Optional<Enrollment> findByStudentAndCourse(Student student, Course course); // Find a specific enrollment (Optional - A student doesn't have to be enrolled)
 
-    // Retrieve all enrollments for a student
-    List<Enrollment> findByStudent(Student student);
+    List<Enrollment> findByStudent(Student student); // Get all enrollments for a student
 }
+
