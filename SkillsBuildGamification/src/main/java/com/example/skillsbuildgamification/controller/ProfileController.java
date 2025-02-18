@@ -59,10 +59,9 @@ public class ProfileController {
         model.addAttribute("leaderboardPosition", rank);
         model.addAttribute("completedCourses", completedCourses);
         model.addAttribute("inProgressCourses", inProgressCourses);
-
+        model.addAttribute("url", student.getUserRank().getUrl());
         return "profile/profile"; // profile.jsp
     }
-
 
     @GetMapping("/{username}/edit")
     public String showEditProfileForm(@PathVariable String username, Model model, Principal principal) {
@@ -95,13 +94,12 @@ public class ProfileController {
         return "profile/edit"; // edit.jsp
     }
 
-
     @PostMapping("/{username}/update")
     public String updateProfile(@PathVariable String username,
-                                @RequestParam String password,
-                                @RequestParam String bio,
-                                @RequestParam String profilePic,
-                                Principal principal) {
+            @RequestParam String password,
+            @RequestParam String bio,
+            @RequestParam String profilePic,
+            Principal principal) {
 
         if (principal == null || !principal.getName().equals(username)) {
             return "redirect:/denied"; // Prevent unauthorized changes

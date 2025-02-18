@@ -1,17 +1,14 @@
 package com.example.skillsbuildgamification.model;
 
 public enum UserRank {
-  // TODO: ADD IMAGES TO RANKS AND DISPLAY ON JSP
-  BRONZE(
-      "\\static\\images\\bronze.png",
-      0, 1),
-  SILVER("", 2, 3),
-  GOLD("", 4, 5),
-  PLATINUM("", 6, 7),
-  DIAMOND("", 8, 9),
-  CHAMPION("", 10, 11),
-  GRAND_CHAMPION("", 12, 13),
-  SUPERSONIC_LEGEND("", 14, 15);
+  BRONZE("images/ranks/bronze.png", 0, 1),
+  SILVER("images/ranks/silver.png", 2, 3),
+  GOLD("images/ranks/gold.jpg", 4, 5),
+  PLATINUM("images/ranks/platinum.png", 6, 7),
+  DIAMOND("images/ranks/diamond.jpg", 8, 9),
+  CHAMPION("images/ranks/champion.png", 10, 11),
+  MEGA_CHAMPION("images/ranks/megachampion.png", 12, 13),
+  LEGEND("images/ranks/legend.png", 14, 15);
 
   private final int minVal;
   private final int maxVal;

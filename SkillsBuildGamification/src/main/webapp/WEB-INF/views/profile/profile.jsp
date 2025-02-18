@@ -14,7 +14,9 @@
           <img src="${student.profilePic}" class="profile-pic" alt=" " />
         </div>
         <h2>${student.username}</h2>
-        <p><strong>Rank:</strong>${student.userRank}</p>
+        <p><strong>Rank: </strong>${student.userRank}</p>
+
+        <img id="rankImg" src="<c:url value="/${url}/"/>" alt="image didnt load"/>
         <p><strong>Level:</strong> ${student.level}</p>
         <p><strong>Points:</strong> ${student.points}</p>
         <p><strong>Leaderboard Position:</strong> ${leaderboardPosition}</p>

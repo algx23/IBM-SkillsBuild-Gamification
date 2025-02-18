@@ -19,6 +19,7 @@ public class Student {
     private int level;
     private String bio;
     private String profilePic; // img url as string
+
     private UserRank userRank = UserRank.BRONZE;
     private int numCompletedCourses;
 
@@ -58,7 +59,7 @@ public class Student {
     }
 
     public UserRank getUserRank() {
-        return this.userRank;
+        return userRank;
     }
 
     public void setUserRank(UserRank userRank) {

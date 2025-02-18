@@ -66,7 +66,6 @@ public class EnrollmentService {
                 student.setPoints(student.getPoints() + 1);
                 rankService.setRankOfStudent(username);
             }
-
         }
 
         enrollmentRepository.save(enrollment);
