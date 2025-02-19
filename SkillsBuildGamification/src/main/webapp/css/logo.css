@@ -1,0 +1,29 @@
+/* Ensuring the logo styles apply ONLY to the logo */
+.logo-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    text-align: center;
+}
+
+/* Logo styles */
+.logo {
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    color: #4589ff; /* IBM blue */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers text */
+}
+
+/* IBM text styling */
+.ibm {
+    font-size: 25px; /* Bigger IBM text */
+    display: block;
+}
+
+/* SkillsBuild Gamification text styling */
+.skillsbuild {
+    font-size: 15px; /* Slightly larger */
+    display: block;
+}
