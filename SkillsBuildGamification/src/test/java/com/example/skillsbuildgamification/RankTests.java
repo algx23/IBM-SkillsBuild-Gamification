@@ -1,12 +1,15 @@
 package com.example.skillsbuildgamification;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.example.skillsbuildgamification.config.PasswordEncoder;
@@ -21,7 +24,7 @@ import jakarta.transaction.Transactional;
 @SpringBootTest()
 public class RankTests {
 
-  @Autowired
+  @MockitoBean
   private StudentRepository studentRepository;
 
   @Autowired
@@ -32,13 +35,12 @@ public class RankTests {
 
   @BeforeEach
   public void createTestData() {
-    // only use data from the test
-    studentRepository.deleteAll();
-
+    // Mock the functions of the student repository
+    assert studentRepository != null;
     Student student = new Student();
     student.setUsername("alex");
-    student.setPassword(passwordEncoder.encoder().encode("123456"));
-    studentRepository.save(student);
+    student.setPassword("123456");
+    when(studentRepository.findByUsername(anyString())).thenReturn(student);
   }
 
   @Test
