@@ -6,7 +6,7 @@ public enum UserRank {
   GOLD("images/ranks/gold.jpg", 40, 50),
   PLATINUM("images/ranks/platinum.png", 60, 70),
   DIAMOND("images/ranks/diamond.jpg", 80, 90),
-  CHAMPION("images/ranks/champion.png", 100, 110),
+  CHAMPION("images/ranks/champion.jpg", 100, 110),
   MEGA_CHAMPION("images/ranks/megachampion.png", 120, 130),
   LEGEND("images/ranks/legend.png", 140, 999);
 
