@@ -2,7 +2,7 @@ package com.example.skillsbuildgamification.model;
 
 public enum UserRank {
   BRONZE("images/ranks/bronze.png", 0, 10),
-  SILVER("images/ranks/silver.png", 20, 30),
+  SILVER("images/ranks/silver.jpg", 20, 30),
   GOLD("images/ranks/gold.jpg", 40, 50),
   PLATINUM("images/ranks/platinum.png", 60, 70),
   DIAMOND("images/ranks/diamond.jpg", 80, 90),
