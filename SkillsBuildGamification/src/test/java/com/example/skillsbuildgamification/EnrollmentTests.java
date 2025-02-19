@@ -122,7 +122,7 @@ class EnrollmentTests {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("status", status)
                         .param("sourcePage", sourcePage))
-                // We expect the page to redirect the user to the profile page
+                // We expect the page to redirect the user to the dashboard
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"+testUsername+"/dashboard-page"));
     }
