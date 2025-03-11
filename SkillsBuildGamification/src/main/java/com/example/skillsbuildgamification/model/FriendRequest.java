@@ -1,20 +1,31 @@
 package com.example.skillsbuildgamification.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class FriendRequest {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @OneToOne
+
+    /*
+     * Many to One as One Student can send many FriendRequests, and receive many
+     * FriendRequests, so from the FriendRequest side it is ManyToOne
+     */
+    @ManyToOne
     private Student sender;
-    @OneToOne
+
+    @ManyToOne
     private Student receiver;
+
     private FriendRequestStatus status;
 
-    public FriendRequest() {}
+    public FriendRequest() {
+    }
 
     public FriendRequest(Student sender, Student receiver) {
         this.sender = sender;
@@ -45,6 +56,5 @@ public class FriendRequest {
     public Student getReceiver() {
         return receiver;
     }
-
 
 }
