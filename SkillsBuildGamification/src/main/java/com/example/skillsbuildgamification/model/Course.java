@@ -41,5 +41,24 @@ public class Course {
     public void setCourseName(String courseName) {
         this.courseName = courseName;
     }
+
+    private int getNumStudentsWithStatus(EnrollmentStatus status) {
+        // Returns the number of students who are in a certain stage of completing a course
+        int count = 0;
+        for (Enrollment enrollment : enrollments) {
+            if (enrollment.getStatus() == status) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int getNumStudentsInProgress() {
+        return getNumStudentsWithStatus(EnrollmentStatus.IN_PROGRESS);
+    }
+
+    public int getNumStudentsCompleted() {
+        return getNumStudentsWithStatus(EnrollmentStatus.COMPLETED);
+    }
 }
 
