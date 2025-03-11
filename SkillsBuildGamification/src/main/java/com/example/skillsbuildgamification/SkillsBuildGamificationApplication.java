@@ -37,6 +37,7 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
         // test data
         Student student1 = new Student();
         student1.setUsername("bob12");
+        student1.setAdmin(true);
         student1.setPassword(encoder.encoder().encode("password"));
 //        student1.setPoints(12);
 

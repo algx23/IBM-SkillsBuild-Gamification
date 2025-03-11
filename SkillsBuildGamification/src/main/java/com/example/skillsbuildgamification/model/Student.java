@@ -12,6 +12,8 @@ public class Student {
     @Id
     private String username;
     private String password;
+    private boolean isAdmin;
+
     private int points = 0;
     private int level = 0;
     private String bio; // Student Bio
@@ -40,6 +42,14 @@ public class Student {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     public int getPoints() {

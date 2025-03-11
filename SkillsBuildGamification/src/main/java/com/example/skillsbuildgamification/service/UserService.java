@@ -20,10 +20,10 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Student student = repo.findByUsername(username);
         if (student != null) {
-            // Construct a User from info provided by the repo
+            // Construct and return a User from info provided by the repo
+            String role = student.isAdmin() ? "ROLE_ADMIN" : "ROLE_USER";
             return User.builder().username(student.getUsername()).
-                    // Replace "USER" with roles if implemented later
-                    password(student.getPassword()).authorities("USER").
+                    password(student.getPassword()).authorities(role).
                     build();
         }
         else {

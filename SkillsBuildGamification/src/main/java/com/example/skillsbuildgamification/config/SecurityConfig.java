@@ -25,6 +25,7 @@ public class SecurityConfig {
                 // Configuration for who can access which links
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/WEB-INF/views/**","css/*", "/denied","/login-page","/login-process","/login-failure","/registration-page","/registration-process").permitAll()
+                        .requestMatchers("/analytics").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated())
                 // Login configuration
                 .formLogin(form -> form
