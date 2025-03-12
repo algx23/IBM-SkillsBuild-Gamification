@@ -1,0 +1,182 @@
+/* ============================
+   Layout and Course Styling
+   ============================ */
+
+/* Container for all course boxes */
+.course-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Space between course boxes */
+    padding: 20px;
+    justify-content: center;
+    align-items: stretch;
+}
+
+/* Individual course box styling */
+.course-box {
+    background-color: #ccc;
+    padding: 20px;
+    flex: 1 1 200px; /* Ensures responsive resizing */
+    max-width: 300px; /* Prevents oversized boxes on large screens */
+    min-height: 100px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    gap: 10px; /* This is the gap between child items */
+    
+    font-size: 16px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.course-box * {
+    padding: 1px;
+}
+
+.course-box:hover {
+    background-color: #b0b0b0;
+}
+
+/* Content inside of the boxes */
+.course-box * {
+    padding: 0;
+    margin: 0;
+}
+
+/* Course links inside boxes */
+.course-box a {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: black;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hover effect for course boxes */
+.course-box:hover {
+    background-color: #a9a9a9;
+}
+
+/* ============================
+   Analytics Header and Title
+   ============================ */
+
+.analytics-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* ============================
+   Navigation Buttons (Leaderboard, Profile)
+   ============================ */
+
+/* Styling for leaderboard and profile links */
+.redirect-box {
+    background-color: #d3d3d3;
+    padding: 10px;
+    width: 150px;
+    text-align: center;
+    border-radius: 5px;
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    margin: 5px 10px 0;
+}
+
+/* Container for navigation buttons */
+.redirect-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Styling for links inside navigation buttons */
+.redirect-box a {
+    text-decoration: none;
+    color: black;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hover effect for navigation buttons */
+.redirect-box:hover {
+    background-color: #a9a9a9;
+}
+
+/* ============================
+   General Styling
+   ============================ */
+
+/* General styling for body */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f5f5f5;
+}
+
+/* ============================
+   Course Status Page Styling
+   ============================ */
+
+/* Title styling for course status page */
+.status-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Container for status selection */
+.status-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+}
+
+/* ============================
+   Responsive Design
+   ============================ */
+
+/* Adjust status box size for smaller screens */
+@media (max-width: 768px) {
+    .status-box {
+        width: 200px;
+    }
+}
+
+/* Adjust course box width for medium screens */
+@media (max-width: 1200px) {
+    .course-box {
+        flex: 1 1 250px; /* Adjust width for medium screens */
+    }
+}
+
+/* Full-width course boxes on smaller screens */
+@media (max-width: 768px) {
+    .course-box {
+        flex: 1 1 100%; /* Full width on smaller screens */
+    }
+}
+
+
+

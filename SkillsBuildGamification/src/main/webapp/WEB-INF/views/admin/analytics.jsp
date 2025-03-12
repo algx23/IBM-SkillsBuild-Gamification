@@ -3,11 +3,10 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Dashboard</title>
+    <title>Analytics</title>
     <!-- Stylesheets for page styling -->
-    <link rel="stylesheet" href="/css/dashboard.css" />
+    <link rel="stylesheet" href="/css/analytics.css" />
     <link rel="stylesheet" href="/css/logo.css">
-    <link rel="stylesheet" href="/css/search-filter.css">
 </head>
 <body>
 
@@ -21,7 +20,7 @@
 </header>
 
 <main>
-    <h1 class="dashboard-title">Dashboard</h1>
+    <h1 class="analytics-title">Analytics</h1>
 
     <!-- Display list of courses -->
     <div class="course-container">
