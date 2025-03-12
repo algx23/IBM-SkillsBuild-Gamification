@@ -1,5 +1,6 @@
 package com.example.skillsbuildgamification.model;
 
+import com.example.skillsbuildgamification.service.AvatarService;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -80,6 +81,9 @@ public class Student {
     }
 
     public String getAvatarUrl() {return avatarUrl;}
+    public void updateAvatar(AvatarService avatarService) {
+        this.avatarUrl = avatarService.updateAvatarWithItems(this.avatarUrl, this.equippedItems);
+    }
 
     public void setAvatarUrl(String avatarUrl) {this.avatarUrl = avatarUrl;}
 

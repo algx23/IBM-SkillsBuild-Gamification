@@ -4,9 +4,9 @@ import com.example.skillsbuildgamification.model.ShopItem;
 import com.example.skillsbuildgamification.model.Student;
 import com.example.skillsbuildgamification.repository.ShopItemRepository;
 import com.example.skillsbuildgamification.repository.StudentRepository;
-import com.example.skillsbuildgamification.repository.UserInventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -16,48 +16,32 @@ public class ShopService {
     private ShopItemRepository shopItemRepository;
 
     @Autowired
-    private UserInventoryRepository userInventoryRepository;
-
-    @Autowired
     private StudentRepository studentRepository;
 
     @Autowired
     private AvatarService avatarService;
 
-    /**
-     * Get all available shop items
-     */
-    public List<ShopItem> getAvailableItems() {
-        return shopItemRepository.findAll();
+    public List<ShopItem> getAllItems() {
+        return shopItemRepository.findAll();  // Fetch all shop items from the repository
     }
 
-    /**
-     * Handle item purchase
-     */
     public boolean purchaseItem(Student student, ShopItem item) {
         if (item == null || student.getPoints() < item.getCost() || student.getLevel() < item.getRequiredLevel()) {
-            return false;
+            return false;  // Cannot purchase if insufficient points or level
         }
-        student.setPoints(student.getPoints() - item.getCost());
-        student.getOwnedItems().add(item.getName());
-
+        student.setPoints(student.getPoints() - item.getCost());  // Deduct points
+        student.getOwnedItems().add(item.getName());  // Add item to owned items
         studentRepository.save(student);
         return true;
     }
 
-    /**
-     * Equip an item and update the avatar
-     */
     public boolean equipItem(Student student, ShopItem item) {
         if (item == null || !student.getOwnedItems().contains(item.getName())) {
-            return false;
+            return false;  // Cannot equip if item not owned
         }
-
-        // Remove previously equipped items and equip the new one
-        student.getEquippedItems().clear();
-        student.getEquippedItems().add(item.getName());
-        student.setAvatarUrl(avatarService.updateAvatarWithItems(student.getAvatarUrl(), item.getName()));
-
+        student.getOwnedItems().clear();  // Clear previously equipped items
+        student.getOwnedItems().add(item.getName());  // Equip the new item
+        student.updateAvatar(avatarService);  // Update avatar using the AvatarService
         studentRepository.save(student);
         return true;
     }
