@@ -21,7 +21,7 @@
     <!-- Left Section - Profile Details -->
     <div class="profile-left">
         <div class="profile-pic-container">
-            <img src="${avatarUrl}" class="profile-pic" alt=" ">
+            <img src="${student.avatarUrl}" class="profile-pic" alt=" ">
         </div>
         <h2>${student.username}</h2>
         <p><strong>Level:</strong> ${student.level}</p>

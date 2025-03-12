@@ -4,31 +4,40 @@
 <head>
     <meta charset="UTF-8">
     <title>Shop</title>
-
+    <link rel="stylesheet" href="/css/shop.css">
 </head>
 <body>
-<header>
-    <div class="logo-container">
-        <div class="logo">
-            <span class="ibm">IBM</span>
-            <span class="skillsbuild">SkillsBuild Gamification</span>
-        </div>
+
+<div class="shop-container">
+    <!-- Left Side - Avatar Preview -->
+    <div class="avatar-preview">
+        <h2>Your Avatar</h2>
+        <img src="${avatarUrl}" alt="Avatar">
     </div>
-</header>
 
-<h2>Avatar Shop</h2>
-<p>Spend your points to buy avatar items!</p>
+    <!-- Right Side - Shop Items -->
+    <div class="shop-items">
+        <h2>Shop</h2>
+        <c:forEach var="item" items="${shopItems}">
+            <div class="shop-item">
+                <img src="/images/shop/${item.name}.png" alt="${item.name}">
+                <p><strong>${item.name}</strong></p>
+                <p>Cost: ${item.cost} points</p>
+                <p>Required Level: ${item.requiredLevel}</p>
 
-<c:forEach var="item" items="${shopItems}">
-    <div class="shop-item">
-        <img src="${item.imageUrl}" class="shop-item-img">
-        <p>${item.name} - Cost: ${item.cost} points</p>
-        <form action="/shop/purchase/${item.id}" method="post">
-            <button type="submit">Buy</button>
-        </form>
+                <form action="/shop/preview/${item.id}" method="post">
+                    <button type="submit">Preview</button>
+                </form>
+
+                <c:if test="${student.points >= item.cost && student.level >= item.requiredLevel}">
+                    <form action="/shop/purchase/${item.id}" method="post">
+                        <button type="submit">Buy</button>
+                    </form>
+                </c:if>
+            </div>
+        </c:forEach>
     </div>
-</c:forEach>
-
+</div>
 
 </body>
 </html>

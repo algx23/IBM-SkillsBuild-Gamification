@@ -21,16 +21,42 @@ public class ShopService {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    private AvatarService avatarService;
+
+    /**
+     * Get all available shop items
+     */
     public List<ShopItem> getAvailableItems() {
         return shopItemRepository.findAll();
     }
 
+    /**
+     * Handle item purchase
+     */
     public boolean purchaseItem(Student student, ShopItem item) {
         if (item == null || student.getPoints() < item.getCost() || student.getLevel() < item.getRequiredLevel()) {
             return false;
         }
         student.setPoints(student.getPoints() - item.getCost());
         student.getOwnedItems().add(item.getName());
+
+        studentRepository.save(student);
+        return true;
+    }
+
+    /**
+     * Equip an item and update the avatar
+     */
+    public boolean equipItem(Student student, ShopItem item) {
+        if (item == null || !student.getOwnedItems().contains(item.getName())) {
+            return false;
+        }
+
+        // Remove previously equipped items and equip the new one
+        student.getEquippedItems().clear();
+        student.getEquippedItems().add(item.getName());
+        student.setAvatarUrl(avatarService.updateAvatarWithItems(student.getAvatarUrl(), item.getName()));
 
         studentRepository.save(student);
         return true;

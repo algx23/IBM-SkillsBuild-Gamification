@@ -5,12 +5,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class AvatarService {
 
-    private static final String BASE_AVATAR_URL = "https://avataaars.io/?avatarStyle=Transparent";
+    private static final String BASE_AVATAR_URL = "";
 
+    /**
+     * Generate a default avatar
+     */
     public String generateDefaultAvatar(String username) {
-        return "https://api.dicebear.com/7.x/open-peeps/svg?seed=" + username;
+        return BASE_AVATAR_URL + username;
     }
 
+    /**
+     * Update avatar based on equipped items
+     */
     public String updateAvatarWithItems(String baseAvatarUrl, String equippedItem) {
         switch (equippedItem) {
             case "Hat":
