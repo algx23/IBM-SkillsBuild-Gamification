@@ -15,7 +15,14 @@ public class Student {
     private int points = 0;
     private int level = 0;
     private String bio; // Student Bio
-    private String profilePic; // img url as string
+    // Avatar URL from API replaced profile picture)
+    private String avatarUrl;
+
+    @ElementCollection
+    private List<String> equippedItems = new ArrayList<>();  // Tracks worn accessories
+
+    @ElementCollection
+    private List<String> ownedItems = new ArrayList<>();  // Tracks purchased items
 
     private UserRank userRank = UserRank.BRONZE;
     private int numCompletedCourses;
@@ -42,9 +49,7 @@ public class Student {
         this.password = password;
     }
 
-    public int getPoints() {
-        return points;
-    }
+    public int getPoints() {return points;}
 
     public void setPoints(int points) {
         this.points = points;
@@ -74,13 +79,17 @@ public class Student {
         this.bio = bio;
     }
 
-    public String getProfilePic() {
-        return profilePic;
-    }
+    public String getAvatarUrl() {return avatarUrl;}
 
-    public void setProfilePic(String profilePic) {
-        this.profilePic = profilePic;
-    }
+    public void setAvatarUrl(String avatarUrl) {this.avatarUrl = avatarUrl;}
+
+    public List<String> getEquippedItems() {return equippedItems;}
+
+    public void setEquippedItems(List<String> equippedItems) {this.equippedItems = equippedItems;}
+
+    public List<String> getOwnedItems() {return ownedItems;}
+
+    public void setOwnedItems(List<String> ownedItems) {this.ownedItems = ownedItems;}
 
     public List<Enrollment> getEnrollments() {
         return enrollments;
