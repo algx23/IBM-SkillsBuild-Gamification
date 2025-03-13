@@ -33,6 +33,14 @@ public class FriendRequest {
         this.status = FriendRequestStatus.PENDING; // status is always set as pending initially
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public FriendRequestStatus getStatus() {
         return status;
     }

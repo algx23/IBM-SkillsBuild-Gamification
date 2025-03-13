@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,6 +43,11 @@
             </c:forEach>
         </div>
         <p><strong>Bio:</strong> ${student.bio}</p>
+        <c:if test="${!isOwner}">
+            <form:form action="/sendRequest/${student.username}" method="post">
+                <button class="save-btn">Send Friend Request</button>
+            </form:form>
+        </c:if>
     </div>
 
     <!-- Right Section - Courses -->

@@ -26,7 +26,7 @@ public class Student {
     private List<String> earnedBadges = new ArrayList<>(); // badges as a collection
 
     @ManyToMany()
-    private List<Student> friends;
+    private List<Student> friends = new ArrayList<>();
 
     @OneToMany
     private List<FriendRequest> requests = new ArrayList<>();
