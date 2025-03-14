@@ -95,9 +95,17 @@ public class FriendController {
     /* TODO: IMPLEMENT DECLINING FRIENDS */
 
     @PostMapping("friendRequest/accept/{id}")
-    public String answerFriendRequest(@PathVariable int id, Principal principal) {
+    public String acceptFriendRequest(@PathVariable int id, Principal principal) {
         FriendRequest request = friendRequestRepository.findById(id);
         friendService.acceptRequest(request);
         return "redirect:/" + principal.getName() + "/dashboard-page";
     }
+
+    @PostMapping("friendRequest/decline/{id}")
+    public String declineFriendRequest(@PathVariable int id, Principal principal) {
+        FriendRequest request = friendRequestRepository.findById(id);
+        friendService.declineRequest(request);
+        return "redirect:/" + principal.getName() + "/dashboard-page";
+    }
+
 }

@@ -34,4 +34,13 @@ public class FriendService {
         studentRepository.save(sender);
         studentRepository.save(receiver);
     }
+
+    public void declineRequest(FriendRequest friendRequest) {
+        Student sender = friendRequest.getSender();
+        Student receiver = friendRequest.getReceiver();
+        friendRequest.setStatus(FriendRequestStatus.DECLINED);
+        friendRequestRepository.save(friendRequest);
+        studentRepository.save(sender);
+        studentRepository.save(receiver);
+    }
 }
