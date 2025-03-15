@@ -20,5 +20,9 @@
             </form:form>
         </div>
     </c:forEach>
+
+    <form:form action="/${username}/dashboard-page" method="get">
+        <input type="submit" value="Back to Dashboard Page">
+    </form:form>
 </body>
 </html>

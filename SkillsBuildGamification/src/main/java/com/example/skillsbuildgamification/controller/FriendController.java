@@ -35,10 +35,11 @@ public class FriendController {
         }
         Student loggedInStudent = studentRepository.findByUsername(username);
         model.addAttribute("friends", loggedInStudent.getFriends());
+        model.addAttribute("username", username);
         return "profile/friends";
     }
 
-    @GetMapping("/{username}/requests")
+    @GetMapping("/profile/{username}/friend-requests")
     public String showRequests(@PathVariable String username, Model model, Principal principal) {
         // if you aren't logged in, ask them to log in
         if (principal == null) {
@@ -66,11 +67,10 @@ public class FriendController {
             }
         }
         model.addAttribute("requests", pendingRequests);
+        model.addAttribute("username", username);
         return "profile/requests";
     }
 
-    // TODO: MAKE THIS BE A POST MAPPING BY SENDING REQUESTS FROM THE PROFILE OF THE
-    // STUDENT YOU WANT TO SEND TO
     @PostMapping("/sendRequest/{username}")
     public String sendFriendRequest(@PathVariable String username, Principal principal) {
 
@@ -79,10 +79,12 @@ public class FriendController {
         Student friendRequestReceiver = studentRepository.findByUsername(username);
 
         /*
-       * Only create and save the FriendRequest if the sender has not already sent one to the receiver - i.e only
-        * send the request if it is not in the databse already
-        */
-        if (friendRequestRepository.findBySenderAndReceiver(loggedInStudent, friendRequestReceiver) == null) {
+         * Only create and save the FriendRequest if the sender has not already sent one to the receiver - i.e only
+         * send the request if it is not in the databse already.
+         *
+         * Also check that the person sending has not been sent one first - check both directions
+         */
+        if (friendRequestRepository.findBySenderAndReceiver(loggedInStudent, friendRequestReceiver) == null && friendRequestRepository.findByReceiverAndSender(loggedInStudent, friendRequestReceiver) == null) {
             FriendRequest request = new FriendRequest(loggedInStudent, friendRequestReceiver);
             friendRequestRepository.save(request);
             friendRequestReceiver.getRequests().add(request);
@@ -91,8 +93,6 @@ public class FriendController {
 
         return "redirect:/" + loggedInStudent.getUsername() + "/dashboard-page";
     }
-
-    /* TODO: IMPLEMENT DECLINING FRIENDS */
 
     @PostMapping("friendRequest/accept/{id}")
     public String acceptFriendRequest(@PathVariable int id, Principal principal) {
@@ -107,5 +107,4 @@ public class FriendController {
         friendService.declineRequest(request);
         return "redirect:/" + principal.getName() + "/dashboard-page";
     }
-
 }

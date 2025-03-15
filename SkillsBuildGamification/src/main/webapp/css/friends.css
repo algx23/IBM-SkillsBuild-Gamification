@@ -1,0 +1,42 @@
+
+.friend-container {
+    border: 1px solid black;
+    width: 300px;
+    height: 150px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px 1px;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    display: grid;
+}
+
+.profile-pic-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #d3d3d3;
+    overflow: hidden;
+}
+
+.profile-pic {
+    width: 100%;
+    height: 100%;
+}
+
+.view-profile-button {
+    background-color: #4589ff;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px 1px;
+    width: 200px;
+    height: 50px;
+    transition: background-color 0.2s ease;
+}
+
+.view-profile-button:hover {
+    cursor: pointer;
+    background-color: #2ecc71;
+}

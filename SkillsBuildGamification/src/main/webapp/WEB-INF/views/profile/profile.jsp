@@ -43,9 +43,11 @@
             </c:forEach>
         </div>
         <p><strong>Bio:</strong> ${student.bio}</p>
+        <br>
+        <br>
         <c:if test="${!isOwner}">
             <form:form action="/sendRequest/${student.username}" method="post">
-                <button class="save-btn">Send Friend Request</button>
+                <button class="send-fr-button">Send Friend Request</button>
             </form:form>
         </c:if>
     </div>
@@ -70,6 +72,16 @@
             </c:forEach>
         </div>
     </div>
+
+
+    <c:if test="${isOwner}">
+        <div class="profile-bottom-right">
+            <h2>Manage Friends: </h2>
+                <button onclick=window.location.href="/profile/${student.username}/friend-requests" class="friend-actions">See Friend Requests</button>
+                <br>
+                <button onclick=window.location.href="/profile/${student.username}/friends" class="friend-actions">See Friends</button>
+        </div>
+    </c:if>
 </div>
 
 <!-- Common Buttons BELOW Both Sections -->

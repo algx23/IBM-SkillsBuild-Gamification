@@ -13,4 +13,5 @@ public interface FriendRequestRepository extends CrudRepository<FriendRequest, I
     public List<FriendRequest> findBySender(Student s);
     public List<FriendRequest> findByReceiver(Student r);
     public FriendRequest findBySenderAndReceiver(Student s, Student r);
+    public FriendRequest findByReceiverAndSender(Student s, Student r);
 }
