@@ -7,6 +7,7 @@ import com.example.skillsbuildgamification.repository.StudentRepository;
 import com.example.skillsbuildgamification.service.AvatarService;
 import com.example.skillsbuildgamification.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -77,4 +78,22 @@ public class ShopController {
 
         return "redirect:/shop";  // Return to shop page on failure
     }
+
+    @PostMapping("/shop/purchase/{itemId}")
+    public String purchaseItem(@PathVariable Long itemId, @AuthenticationPrincipal Student student) {
+        ShopItem item = shopItemRepository.findById(itemId).orElseThrow();
+
+        if (student.getPoints() >= item.getCost() && student.getLevel() >= item.getRequiredLevel()) {
+            student.setPoints(student.getPoints() - item.getCost());
+
+            // Update avatar with new customization
+            String newAvatarUrl = student.getAvatarUrl() + "&" + item.getApiParam();
+            student.setAvatarUrl(newAvatarUrl);
+
+            studentRepository.save(student);
+        }
+
+        return "redirect:/shop";
+    }
+
 }

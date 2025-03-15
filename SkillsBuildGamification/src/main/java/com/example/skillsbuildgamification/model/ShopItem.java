@@ -9,7 +9,7 @@ public class ShopItem {
     private Long id;
 
     private String name;
-    private String imageUrl;  // Item preview
+    private String apiParam;  // avatar api URL param
     private int cost;  // Points required
     private int requiredLevel;  // Level lock
 
@@ -22,9 +22,9 @@ public class ShopItem {
 
     public void setName(String name) {this.name = name;}
 
-    public String getImageUrl() {return imageUrl;}
+    public String getApiParam() {return apiParam;}
 
-    public void setImageUrl(String imageUrl) {this.imageUrl = imageUrl;}
+    public void setApiParam(String apiParam) {this.apiParam = apiParam;}
 
     public int getCost() {return cost;}
 

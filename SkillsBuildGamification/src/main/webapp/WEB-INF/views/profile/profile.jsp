@@ -21,8 +21,10 @@
     <!-- Left Section - Profile Details -->
     <div class="profile-left">
         <div class="profile-pic-container">
-            <img src="${student.avatarUrl}" class="profile-pic" alt=" ">
+            <img src="${student.avatarUrl}" class="profile-pic" alt=" avatar not loading ">
         </div>
+        <p>Avatar bruh  what: ${student.avatarUrl}</p>
+
         <h2>${student.username}</h2>
         <p><strong>Level:</strong> ${student.level}</p>
         <p><strong>Rank: </strong>${student.userRank}</p>

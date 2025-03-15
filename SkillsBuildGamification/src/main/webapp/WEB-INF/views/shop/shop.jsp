@@ -22,31 +22,19 @@
     <!-- Right Side - Shop Items -->
     <div class="shop-items">
         <h2>Shop</h2>
-        <c:forEach var="item" items="${shopItems}">
-            <div class="shop-item">
-                <img src="/images/shop/${item.imageUrl}" alt="${item.name}" width="100">
-                <p><strong>${item.name}</strong></p>
-                <p>Cost: ${item.cost} points</p>
-                <p>Required Level: ${item.requiredLevel}</p>
+        <<c:forEach var="item" items="${shopItems}">
+        <div class="shop-item">
+            <img src="https://api.dicebear.com/7.x/adventurer/svg?${item.dicebearParam}" alt="${item.name}">
+            <p><strong>${item.name}</strong></p>
+            <p>Cost: ${item.cost} points</p>
+            <p>Required Level: ${item.requiredLevel}</p>
 
-                <!-- Preview Item -->
-                <form action="/shop/preview/${item.id}" method="post">
-                    <button type="submit">Preview</button>
-                </form>
+            <form action="/shop/purchase/${item.id}" method="post">
+                <button type="submit">Buy</button>
+            </form>
+        </div>
+    </c:forEach>
 
-                <!-- Buy Item if eligible -->
-                <c:if test="${student.points >= item.cost && student.level >= item.requiredLevel}">
-                    <form action="/shop/purchase/${item.id}" method="post">
-                        <button type="submit">Buy</button>
-                    </form>
-                </c:if>
-
-                <!-- If not eligible to buy -->
-                <c:if test="${student.points < item.cost || student.level < item.requiredLevel}">
-                    <p>You need ${item.cost - student.points} more points or a higher level to buy this item.</p>
-                </c:if>
-            </div>
-        </c:forEach>
     </div>
 </div>
 
@@ -57,17 +45,17 @@
         const items = await response.json();
 
         let shopList = document.getElementById("shop-items");
-        shopList.innerHTML = "";
+        shopList.innerHTML = "";  // Clear previous content
 
         items.forEach(item => {
             shopList.innerHTML += `
-                <li>
-                    <img src="${item.imageUrl}" alt="${item.name}" width="50">
-                    <strong>${item.name}</strong> - Cost: ${item.cost} points
-                    <form action="/shop/equip/${item.id}" method="post">
-                        <button type="submit">Equip</button>
-                    </form>
-                </li>`;
+            <li>
+                <img src="${item.imageUrl}" alt="${item.name}" width="50">
+                <strong>${item.name}</strong> - Cost: ${item.cost} points
+                <form action="/shop/equip/${item.id}" method="post">
+                    <button type="submit">Equip</button>
+                </form>
+            </li>`;
         });
     }
 
