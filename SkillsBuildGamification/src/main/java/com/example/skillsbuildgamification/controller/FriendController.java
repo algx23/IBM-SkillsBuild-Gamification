@@ -77,19 +77,7 @@ public class FriendController {
 //        the sender of the request is the logged in student
         Student loggedInStudent = studentRepository.findByUsername(principal.getName());
         Student friendRequestReceiver = studentRepository.findByUsername(username);
-
-        /*
-         * Only create and save the FriendRequest if the sender has not already sent one to the receiver - i.e only
-         * send the request if it is not in the databse already.
-         *
-         * Also check that the person sending has not been sent one first - check both directions
-         */
-        if (friendRequestRepository.findBySenderAndReceiver(loggedInStudent, friendRequestReceiver) == null && friendRequestRepository.findByReceiverAndSender(loggedInStudent, friendRequestReceiver) == null) {
-            FriendRequest request = new FriendRequest(loggedInStudent, friendRequestReceiver);
-            friendRequestRepository.save(request);
-            friendRequestReceiver.getRequests().add(request);
-            studentRepository.save(friendRequestReceiver);
-        }
+        friendService.sendRequest(loggedInStudent, friendRequestReceiver);
 
         return "redirect:/" + loggedInStudent.getUsername() + "/dashboard-page";
     }
@@ -106,5 +94,14 @@ public class FriendController {
         FriendRequest request = friendRequestRepository.findById(id);
         friendService.declineRequest(request);
         return "redirect:/" + principal.getName() + "/dashboard-page";
+    }
+
+//    Unfriending users
+    @PostMapping("/profile/{username}/unfriend/{studentToUnfriend}")
+    public String unfriendStudent(@PathVariable String username, @PathVariable String studentToUnfriend) {
+        Student loggedInStudent = studentRepository.findByUsername(username);
+        Student getUnfriended = studentRepository.findByUsername(studentToUnfriend);
+        friendService.unfriend(loggedInStudent, getUnfriended);
+        return "redirect:/profile/" + username + "/friends";
     }
 }

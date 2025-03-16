@@ -9,6 +9,8 @@ import com.example.skillsbuildgamification.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class FriendService {
@@ -18,6 +20,25 @@ public class FriendService {
     public FriendService(FriendRequestRepository friendRequestRepository, StudentRepository studentRepository) {
         this.friendRequestRepository = friendRequestRepository;
         this.studentRepository = studentRepository;
+    }
+
+    public void sendRequest(Student loggedInStudent, Student friendRequestReceiver) {
+        /*
+         * Only create and save the FriendRequest if the sender has not already sent one to the receiver - i.e only
+         * send the request if it is not in the database already.
+         *
+         * Also check that the person sending has not been sent one first - check both directions
+         */
+
+//        if neither student has sent a request to the other, then this will be True
+        boolean requestNotSentByEitherStudent = (friendRequestRepository.findBySenderAndReceiver(loggedInStudent, friendRequestReceiver) == null)
+                && (friendRequestRepository.findByReceiverAndSender(loggedInStudent, friendRequestReceiver) == null);
+        if (requestNotSentByEitherStudent) {
+            FriendRequest request = new FriendRequest(loggedInStudent, friendRequestReceiver);
+            friendRequestRepository.save(request);
+            friendRequestReceiver.getRequests().add(request);
+            studentRepository.save(friendRequestReceiver);
+        }
     }
 
     public void acceptRequest(FriendRequest friendRequest) {
@@ -42,5 +63,13 @@ public class FriendService {
         friendRequestRepository.save(friendRequest);
         studentRepository.save(sender);
         studentRepository.save(receiver);
+    }
+
+    public void unfriend(Student loggedInStudent, Student studentToUnfriend) {
+        /* Remove the students from each other's friend list*/
+        loggedInStudent.getFriends().remove(studentToUnfriend);
+        studentToUnfriend.getFriends().remove(loggedInStudent);
+        studentRepository.save(loggedInStudent);
+        studentRepository.save(studentToUnfriend);
     }
 }

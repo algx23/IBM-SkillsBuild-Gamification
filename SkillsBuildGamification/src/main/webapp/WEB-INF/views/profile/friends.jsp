@@ -20,6 +20,10 @@
             </div>
             <h2>${f.username}</h2>
             <input class="view-profile-button" type="button" onclick=window.location.href="/profile/${f.username}" value="View Profile">
+            <br>
+            <form:form action="/profile/${username}/unfriend/${f.username}" method="post">
+                <input class="unfriend-button" type="submit" value="unfriend">
+            </form:form>
         </div>
     </c:forEach>
 </body>
