@@ -40,7 +40,7 @@ public class Student {
 
     public void setUsername(String username) {
         this.username = username;
-        this.avatarUrl = "https://api.dicebear.com/9.x/adventurer/svg?seed=${username}";
+        this.avatarUrl = "https://api.dicebear.com/9.x/bottts/svg?seed=" + username;
     }
 
     public String getPassword() {

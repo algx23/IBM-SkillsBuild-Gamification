@@ -42,9 +42,14 @@ public class ShopController {
         Student student = studentRepository.findByUsername(principal.getName());
         List<ShopItem> shopItems = shopItemRepository.findAll();
 
+        // Avatar URL could be dynamically generated or fetched from the student's profile
+        String avatarUrl = student.getAvatarUrl();
+
+        // Add data to the model
+        model.addAttribute("avatarUrl", avatarUrl);
         model.addAttribute("student", student);
-        model.addAttribute("avatarUrl", student.getAvatarUrl());
         model.addAttribute("shopItems", shopItems);
+
         return "shop/shop";  // JSP page to render
     }
 
