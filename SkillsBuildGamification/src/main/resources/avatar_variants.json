@@ -1,0 +1,22 @@
+{
+  "bottts": {
+    "Eyes": ["eyes=bulging", "eyes=glow", "eyes=hearts", "eyes=round"],
+    "Top": ["top=horns", "top=antenna", "top=spikes", "top=bulb"],
+    "Texture": ["texture=camo01", "texture=grunge01", "texture=zigzag", "texture=brick"]
+  },
+  "adventurer": {
+    "Eyes": ["eyes=variant05", "eyes=variant10", "eyes=variant15", "eyes=variant20"],
+    "Hair": ["hair=short10", "hair=long05", "hair=curly07", "hair=bald"],
+    "Glasses": ["glasses=variant02", "glasses=variant05", "glasses=variant08", "glasses=variant10"]
+  },
+  "avataaars": {
+    "Eyes": ["eyes=happy", "eyes=wink", "eyes=sad", "eyes=angry"],
+    "Clothing": ["clothing=hoodie", "clothing=shirtCrewNeck", "clothing=sweater", "clothing=jacket"],
+    "Accessories": ["accessories=wayfarers", "accessories=eyepatch", "accessories=roundGlasses", "accessories=earrings"]
+  },
+  "big-ears": {
+    "Face": ["face=variant04", "face=variant08", "face=variant12", "face=variant16"],
+    "Ears": ["ear=variant03", "ear=variant06", "ear=variant09", "ear=variant12"],
+    "Front Hair": ["frontHair=variant06", "frontHair=variant10", "frontHair=variant14", "frontHair=variant18"]
+  }
+}

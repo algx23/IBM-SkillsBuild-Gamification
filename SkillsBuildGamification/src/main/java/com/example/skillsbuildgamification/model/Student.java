@@ -40,8 +40,14 @@ public class Student {
 
     public void setUsername(String username) {
         this.username = username;
-        this.avatarUrl = "https://api.dicebear.com/9.x/bottts/svg?seed=" + username;
+        this.avatarUrl = getDefaultAvatarUrl(username);
     }
+
+    private String getDefaultAvatarUrl(String username) {
+        String defaultCategory = "bottts"; // Changeable in future
+        return "https://api.dicebear.com/8.x/" + defaultCategory + "/svg?seed=" + username;
+    }
+
 
     public String getPassword() {
         return password;
