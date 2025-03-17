@@ -1,25 +1,36 @@
 package com.example.skillsbuildgamification.service;
 
 import com.example.skillsbuildgamification.model.Student;
+import com.example.skillsbuildgamification.model.UserInventory;
+import com.example.skillsbuildgamification.repository.UserInventoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 @Service
 public class AvatarService {
 
-    private static final String DICEBEAR_API_URL = "https://avatars.dicebear.com/api/avataaars/";
+    private static final String DICEBEAR_API_URL = "https://api.dicebear.com/8.x/";
 
+    @Autowired
+    private UserInventoryRepository userInventoryRepository;
+
+    /**
+     * Generate Avatar URL based on student's equipped items
+     */
     public String generateAvatar(Student student) {
-        // Assume we get a simple avatar string based on the student's owned items.
-        String avatarId = String.join("_", student.getOwnedItems());  // Concatenate owned items as avatar seed
-        String url = DICEBEAR_API_URL + avatarId + ".svg";  // Generate avatar with the items' seed
-        return url;
-    }
+        String baseUrl = DICEBEAR_API_URL + "bottts/svg?seed=" + student.getUsername();
 
-    public String updateAvatarWithItems(String currentAvatarUrl, List<String> items) {
-        String avatarId = String.join("_", items);  // Concatenate item names as avatar seed
-        return DICEBEAR_API_URL + avatarId + ".svg";  // Return the new avatar URL
+        List<String> equippedItems = userInventoryRepository.findByStudent(student).stream()
+                .filter(UserInventory::isEquipped)
+                .map(i -> i.getShopItem().getApiParam())
+                .toList();
+
+        for (String item : equippedItems) {
+            baseUrl += "&" + item;
+        }
+
+        return baseUrl;
     }
 }

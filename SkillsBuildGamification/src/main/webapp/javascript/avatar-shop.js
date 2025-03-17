@@ -4,82 +4,91 @@ document.addEventListener("DOMContentLoaded", function () {
     let avatarContainer = document.getElementById("avatar-options");
     let categoryContainer = document.getElementById("category-buttons");
 
-    let selectedFeatures = {}; // Store selected features dynamically
+    let csrfToken = document.getElementById("csrfToken").value; // Fetch CSRF Token
+    let actionButton = document.createElement("button"); // Single dynamic button
+    actionButton.id = "avatar-action-button";
+    actionButton.style.display = "none"; // Initially hidden
+    document.body.appendChild(actionButton);
 
-    function selectAvatarFeature(newAvatarUrl) {
-        fetch(`/api/shop/equip/${getItemIdFromUrl(newAvatarUrl)}`, { method: 'POST' })
-            .then(() => {
-                document.getElementById("avatar-preview").src = newAvatarUrl;
+    let selectedItem = null;
+    let ownedItems = [];
+    let equippedItems = [];
+
+    console.log("Username in JS:", username); // Debug username
+
+    function fetchUserInventory() {
+        return fetch(`/api/shop/owned?username=${username}`, {
+            method: 'GET',
+            credentials: 'include', // Ensure authentication works
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                ownedItems = data.ownedItems || [];
+                equippedItems = data.equippedItems || [];
             })
-            .catch(error => console.error("Error updating avatar:", error));
+            .catch(error => console.error("Error fetching user items:", error));
     }
 
-    // Extract item ID (feature) from URL
-    function getItemIdFromUrl(url) {
-        let params = new URLSearchParams(url.split("?")[1]);
-        return params.get("feature") || ""; // Extract feature name safely
-    }
-
-    function updateAvatar() {
-        let baseUrl = `https://api.dicebear.com/8.x/${selectedCategory}/svg?seed=${username}`;
-
-        Object.keys(selectedFeatures).forEach(feature => {
-            baseUrl += `&${feature}=${selectedFeatures[feature]}`;
-        });
-
-        avatarImage.src = baseUrl; // Update avatar preview
+    function fetchAvatarVariants() {
+        return fetch(`/api/shop/avatar/variants?username=${username}`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            }
+        })
+            .then(response => response.json())
+            .catch(error => console.error("Error loading avatar variants:", error));
     }
 
     function loadAvatars(category) {
         selectedCategory = category;
         avatarContainer.innerHTML = ""; // Clear previous items
 
-        fetch(`/api/shop/avatar/variants?username=${username}`)
-            .then(response => response.json())
-            .then(variants => {
-                if (!variants[category]) return;
+        fetchAvatarVariants().then(variants => {
+            if (!variants[category]) return;
 
-                Object.keys(variants[category]).forEach(feature => {
-                    let featureContainer = document.createElement("div");
-                    featureContainer.classList.add("feature-section");
+            Object.entries(variants[category]).forEach(([feature, featureData]) => {
+                let featureContainer = document.createElement("div");
+                featureContainer.classList.add("feature-section");
 
-                    let featureHeader = document.createElement("h3");
-                    featureHeader.textContent = feature;
-                    featureContainer.appendChild(featureHeader);
+                let featureHeader = document.createElement("h3");
+                featureHeader.textContent = `${feature} - Cost: ${featureData.cost} Points`; // Show cost
+                featureContainer.appendChild(featureHeader);
 
-                    let variantContainer = document.createElement("div");
-                    variantContainer.classList.add("variant-container");
+                let variantContainer = document.createElement("div");
+                variantContainer.classList.add("variant-container");
 
-                    variants[category][feature].forEach(variant => {
-                        let img = document.createElement("img");
-                        img.src = variant;
-                        img.alt = feature;
-                        img.classList.add("variant-img");
+                featureData.variants.forEach(variant => {
+                    let fullVariantUrl = `https://api.dicebear.com/8.x/${category}/svg?seed=${username}&${variant}`;
 
-                        img.addEventListener("click", () => {
-                            selectedFeatures[feature] = variant.split("seed=")[1]; // Extract feature name
-                            selectAvatarFeature(variant); // Equip feature
-                            updateAvatar(); // Update avatar preview
-                        });
+                    let img = document.createElement("img");
+                    img.src = fullVariantUrl;
+                    img.alt = feature;
+                    img.classList.add("variant-img");
 
-                        variantContainer.appendChild(img);
+                    img.addEventListener("click", () => {
+                        avatarImage.src = fullVariantUrl;
+                        selectedItem = variant;
+
+                        let owned = ownedItems.includes(selectedItem);
+                        updateActionButton(selectedItem, owned, featureData.cost); // Pass cost
                     });
 
-                    featureContainer.appendChild(variantContainer);
-                    avatarContainer.appendChild(featureContainer);
+                    variantContainer.appendChild(img);
                 });
-            })
-            .catch(error => console.error("Error loading avatar variants:", error));
+
+                featureContainer.appendChild(variantContainer);
+                avatarContainer.appendChild(featureContainer);
+            });
+        });
     }
 
-
     function createCategoryButtons(variants) {
-        categoryContainer.innerHTML = ""; // Clear previous buttons
-
-        let buttonContainer = document.createElement("div");
-        buttonContainer.style.display = "flex";
-        buttonContainer.style.justifyContent = "center";  // Ensures it stays centered
-        buttonContainer.style.marginTop = "20px"; // Space from shop items
+        categoryContainer.innerHTML = "";
 
         Object.keys(variants).forEach(category => {
             let button = document.createElement("button");
@@ -88,18 +97,56 @@ document.addEventListener("DOMContentLoaded", function () {
 
             button.addEventListener("click", () => loadAvatars(category));
 
-            buttonContainer.appendChild(button);
+            categoryContainer.appendChild(button);
         });
-
-        categoryContainer.appendChild(buttonContainer);
     }
 
+    function updateActionButton(item, owned, cost) {
+        actionButton.style.display = "block"; // Show the button
 
-    fetch(`/api/shop/avatar/variants?username=${username}`)
-        .then(response => response.json())
-        .then(variants => {
+        if (owned) {
+            actionButton.textContent = "Equip";
+            actionButton.onclick = function () {
+                fetch(`/api/shop/equip?username=${username}&item=${item}`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                })
+                    .then(response => response.text())
+                    .then(result => {
+                        alert(result);
+                        updateShopUI();
+                    })
+                    .catch(error => console.error("Error equipping item:", error));
+            };
+        } else {
+            actionButton.textContent = `Purchase (${cost} Points)`;
+            actionButton.onclick = function () {
+                fetch(`/api/shop/purchase?username=${username}&item=${item}&cost=${cost}`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                })
+                    .then(response => response.text())
+                    .then(result => {
+                        alert(result);
+                        updateShopUI();
+                    })
+                    .catch(error => console.error("Error purchasing item:", error));
+            };
+        }
+    }
+
+    fetchUserInventory().then(() => {
+        fetchAvatarVariants().then(variants => {
             createCategoryButtons(variants);
-            loadAvatars(selectedCategory); // Load default category
-        })
-        .catch(error => console.error("Error fetching categories:", error));
+            loadAvatars(selectedCategory);
+        });
+    });
 });

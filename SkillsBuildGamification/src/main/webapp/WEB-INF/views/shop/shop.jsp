@@ -20,6 +20,9 @@
 <!-- Horizontal Category Buttons -->
 
 <div class="shop-container">
+    <!-- Add CSRF token to be used in JavaScript -->
+    <input type="hidden" id="csrfToken" name="${_csrf.parameterName}" value="${_csrf.token}">
+
     <!-- Left Side: Avatar Preview -->
     <div id="left-container">
         <h1>Your Avatar</h1>

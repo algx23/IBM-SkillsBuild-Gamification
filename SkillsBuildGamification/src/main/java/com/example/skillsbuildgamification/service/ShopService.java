@@ -1,19 +1,18 @@
 package com.example.skillsbuildgamification.service;
 
-import com.example.skillsbuildgamification.model.ShopItem;
 import com.example.skillsbuildgamification.model.Student;
-import com.example.skillsbuildgamification.repository.ShopItemRepository;
 import com.example.skillsbuildgamification.repository.StudentRepository;
+import com.example.skillsbuildgamification.utils.JsonLoader;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 public class ShopService {
-
-    @Autowired
-    private ShopItemRepository shopItemRepository;
 
     @Autowired
     private StudentRepository studentRepository;
@@ -21,33 +20,71 @@ public class ShopService {
     @Autowired
     private AvatarService avatarService;
 
-    public List<ShopItem> getAllItems() {
-        return shopItemRepository.findAll();  // Fetch all shop items from the repository
+    @Autowired
+    private JsonLoader jsonLoader; // Load JSON-based avatar shop
+    private static final String JSON_PATH = "src/main/resources/avatar_variants.json";  // Ensure correct path
+    /**
+     * Fetch avatar variants from JSON.
+     */
+    public Map<String, Map<String, Map<String, Object>>> getAvatarVariants() {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(new File(JSON_PATH), Map.class);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load avatar variants", e);
+        }
     }
 
-    public boolean purchaseItem(Student student, ShopItem item) {
-        if (item == null || student.getPoints() < item.getCost() || student.getLevel() < item.getRequiredLevel()) {
-            return false;  // Cannot purchase if insufficient points or level
+    /**
+     * Purchase an avatar feature if the student has enough points.
+     */
+    public boolean purchaseItem(String username, String category, String featureType, String variant) {
+        Student student = studentRepository.findByUsername(username);
+        Map<String, Map<String, Map<String, Object>>> avatarData = jsonLoader.loadAvatarData();
+
+        if (!avatarData.containsKey(category)) {
+            return false; // Invalid category
         }
-        student.setPoints(student.getPoints() - item.getCost());  // Deduct points
-        student.getOwnedItems().add(item.getName());  // Add item to owned items
+
+        Map<String, Map<String, Object>> categoryData = avatarData.get(category);
+        if (!categoryData.containsKey(featureType)) {
+            return false; // Invalid feature type
+        }
+
+        int cost = (int) categoryData.get(featureType).get("cost"); // Get cost dynamically per feature
+
+        if (student.getPoints() < cost) {
+            return false; // Not enough points
+        }
+
+        student.setPoints(student.getPoints() - cost);  // Deduct points
+        student.getOwnedItems().add(variant); // Track purchased items
         studentRepository.save(student);
         return true;
     }
 
-    public boolean equipItem(Student student, ShopItem item) {
-        if (item == null || !student.getOwnedItems().contains(item.getName())) {
-            return false; // Cannot equip if item not owned
+    /**
+     * Equip a purchased item.
+     */
+    public boolean equipItem(String username, String category, String featureType, String variant) {
+        Student student = studentRepository.findByUsername(username);
+
+        if (!student.getOwnedItems().contains(variant)) {
+            return false; // Cannot equip an item the user doesn't own
         }
 
-        // Get new avatar URL with selected item
-        String newAvatarUrl = avatarService.updateAvatarWithItems(item.getApiParam(), student.getEquippedItems());
-
-        // Update avatar & category
-        student.updateAvatar(avatarService, newAvatarUrl);
+        student.getEquippedItems().clear(); // Unequip all items before equipping a new one
+        student.getEquippedItems().add(variant);
+        student.setAvatarUrl(avatarService.generateAvatar(student)); // Update avatar
         studentRepository.save(student);
-
         return true;
     }
 
+    /**
+     * Get a student's owned items.
+     */
+    public List<String> getOwnedItems(String username) {
+        Student student = studentRepository.findByUsername(username);
+        return student.getOwnedItems();
+    }
 }

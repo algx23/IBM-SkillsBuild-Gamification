@@ -88,28 +88,22 @@ public class Student {
     }
 
     public String getAvatarUrl() {return avatarUrl;}
-    public void updateAvatar(AvatarService avatarService, String newAvatarUrl) {
-        // Extract the current category from the stored avatar URL
+    public void updateAvatar(String newAvatarUrl) {
         String currentCategory = extractCategoryFromUrl(this.avatarUrl);
         String newCategory = extractCategoryFromUrl(newAvatarUrl);
 
-        // If category changes, reset equipped items & update category
         if (!currentCategory.equals(newCategory)) {
-            this.equippedItems.clear(); // Reset previous items
+            this.equippedItems.clear(); // Reset equipped items if category changes
         }
 
-        // Set new avatar URL
         this.avatarUrl = newAvatarUrl;
     }
 
-    // Helper method to extract the category from Dicebear URL
     private String extractCategoryFromUrl(String url) {
-        if (url == null || url.isEmpty()) return "bottts"; // Default to bottts
-
+        if (url == null || url.isEmpty()) return "bottts"; // Default category
         String[] parts = url.split("/");
-        return (parts.length > 5) ? parts[5] : "bottts"; // Extracts category from URL
+        return (parts.length > 5) ? parts[5] : "bottts"; // Extracts category from DiceBear URL
     }
-
 
     public void setAvatarUrl(String avatarUrl) {this.avatarUrl = avatarUrl;}
 
