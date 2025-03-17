@@ -9,7 +9,6 @@ import com.example.skillsbuildgamification.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 @Transactional
@@ -37,6 +36,28 @@ public class FriendService {
             FriendRequest request = new FriendRequest(loggedInStudent, friendRequestReceiver);
             friendRequestRepository.save(request);
             friendRequestReceiver.getRequests().add(request);
+            studentRepository.save(friendRequestReceiver);
+        }
+
+//      check if the user was the one to receive it or send it - one of these will be null so we check both
+        FriendRequest receiverToSender = friendRequestRepository.findByReceiverAndSender(loggedInStudent, friendRequestReceiver);
+        FriendRequest senderToReceiver = friendRequestRepository.findBySenderAndReceiver(loggedInStudent, friendRequestReceiver);
+
+/*      check if the request that was sent by the logged in student or the other way round, then this is the
+ *      request where we check the status
+ */
+        FriendRequest requestToCheckIfDeclined = null;
+        if (receiverToSender != null) {
+            requestToCheckIfDeclined = receiverToSender;
+        }
+        else if (senderToReceiver != null) {
+            requestToCheckIfDeclined = senderToReceiver;
+        }
+        assert requestToCheckIfDeclined != null; // intellij complained so :/
+        if (requestToCheckIfDeclined.getStatus() == FriendRequestStatus.DECLINED) {
+            FriendRequest friendRequest = new FriendRequest(loggedInStudent, friendRequestReceiver);
+            friendRequestRepository.save(friendRequest);
+            friendRequestReceiver.getRequests().add(friendRequest);
             studentRepository.save(friendRequestReceiver);
         }
     }
@@ -69,6 +90,23 @@ public class FriendService {
         /* Remove the students from each other's friend list*/
         loggedInStudent.getFriends().remove(studentToUnfriend);
         studentToUnfriend.getFriends().remove(loggedInStudent);
+
+//        remove the record of the request being sent if a student unfriends another student
+        FriendRequest requestLoggedInIsSender = friendRequestRepository.findBySenderAndReceiver(loggedInStudent, studentToUnfriend);
+        FriendRequest requestLoggedInIsReceiver = friendRequestRepository.findByReceiverAndSender(loggedInStudent, studentToUnfriend);
+
+        if (requestLoggedInIsSender != null) {
+//            if the studentToUnfriend is the receiver, remove it from their request list
+            studentToUnfriend.getRequests().remove(requestLoggedInIsSender);
+            friendRequestRepository.delete(requestLoggedInIsSender);
+        }
+        if (requestLoggedInIsReceiver != null) {
+//            if the loggeedInStudent is the receiver, remove it from their request list
+            loggedInStudent.getRequests().remove(requestLoggedInIsReceiver);
+            friendRequestRepository.delete(requestLoggedInIsReceiver);
+        }
+
+//        save the students again after they have been removed from each other's friend list
         studentRepository.save(loggedInStudent);
         studentRepository.save(studentToUnfriend);
     }
