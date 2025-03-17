@@ -4,11 +4,20 @@
     <meta charset="UTF-8">
     <title>Shop</title>
     <link rel="stylesheet" href="/css/shop.css">
+    <link rel="stylesheet" href="/css/logo.css">
+
 </head>
 <body>
 
+<header>
+    <div class="logo-container">
+        <div class="logo">
+            <span class="ibm">IBM</span>
+            <span class="skillsbuild">SkillsBuild Gamification</span>
+        </div>
+    </div>
+</header>
 <!-- Horizontal Category Buttons -->
-<div id="category-buttons"></div>
 
 <div class="shop-container">
     <!-- Left Side: Avatar Preview -->
@@ -23,6 +32,9 @@
         <div id="avatar-options"></div>
     </div>
 </div>
+
+<div id="category-buttons"></div>
+
 
 <script>
     var username = "${student.username}";

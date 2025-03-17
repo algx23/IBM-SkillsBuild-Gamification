@@ -6,6 +6,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let selectedFeatures = {}; // Store selected features dynamically
 
+    function selectAvatarFeature(newAvatarUrl) {
+        fetch(`/api/shop/equip/${getItemIdFromUrl(newAvatarUrl)}`, { method: 'POST' })
+            .then(() => {
+                document.getElementById("avatar-preview").src = newAvatarUrl;
+            })
+            .catch(error => console.error("Error updating avatar:", error));
+    }
+
+    // Extract item ID (feature) from URL
+    function getItemIdFromUrl(url) {
+        let params = new URLSearchParams(url.split("?")[1]);
+        return params.get("feature") || ""; // Extract feature name safely
+    }
+
     function updateAvatar() {
         let baseUrl = `https://api.dicebear.com/8.x/${selectedCategory}/svg?seed=${username}`;
 
@@ -26,36 +40,46 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (!variants[category]) return;
 
                 Object.keys(variants[category]).forEach(feature => {
+                    let featureContainer = document.createElement("div");
+                    featureContainer.classList.add("feature-section");
+
                     let featureHeader = document.createElement("h3");
                     featureHeader.textContent = feature;
-                    avatarContainer.appendChild(featureHeader);
+                    featureContainer.appendChild(featureHeader);
 
-                    let featureContainer = document.createElement("div");
-                    featureContainer.style.display = "flex";
-                    featureContainer.style.flexWrap = "wrap";
+                    let variantContainer = document.createElement("div");
+                    variantContainer.classList.add("variant-container");
 
                     variants[category][feature].forEach(variant => {
                         let img = document.createElement("img");
                         img.src = variant;
                         img.alt = feature;
-                        img.style = "width: 80px; height: 80px; margin: 5px; cursor: pointer; border: 1px solid #ddd;";
+                        img.classList.add("variant-img");
 
                         img.addEventListener("click", () => {
                             selectedFeatures[feature] = variant.split("seed=")[1]; // Extract feature name
+                            selectAvatarFeature(variant); // Equip feature
                             updateAvatar(); // Update avatar preview
                         });
 
-                        featureContainer.appendChild(img);
+                        variantContainer.appendChild(img);
                     });
 
+                    featureContainer.appendChild(variantContainer);
                     avatarContainer.appendChild(featureContainer);
                 });
             })
             .catch(error => console.error("Error loading avatar variants:", error));
     }
 
+
     function createCategoryButtons(variants) {
-        categoryContainer.innerHTML = "";
+        categoryContainer.innerHTML = ""; // Clear previous buttons
+
+        let buttonContainer = document.createElement("div");
+        buttonContainer.style.display = "flex";
+        buttonContainer.style.justifyContent = "center";  // Ensures it stays centered
+        buttonContainer.style.marginTop = "20px"; // Space from shop items
 
         Object.keys(variants).forEach(category => {
             let button = document.createElement("button");
@@ -64,9 +88,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
             button.addEventListener("click", () => loadAvatars(category));
 
-            categoryContainer.appendChild(button);
+            buttonContainer.appendChild(button);
         });
+
+        categoryContainer.appendChild(buttonContainer);
     }
+
 
     fetch(`/api/shop/avatar/variants?username=${username}`)
         .then(response => response.json())

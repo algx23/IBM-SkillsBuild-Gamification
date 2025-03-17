@@ -73,16 +73,21 @@ public class ShopController {
      * Equip an item and update avatar
      */
     @PostMapping("/equip/{itemId}")
-    public String equipItem(@PathVariable Long itemId, Principal principal) {
+    public String equipAvatar(@PathVariable Long itemId, Principal principal) {
         Student student = studentRepository.findByUsername(principal.getName());
         ShopItem item = shopItemRepository.findById(itemId).orElse(null);
 
-        if (shopService.equipItem(student, item)) {
-            return "redirect:/profile/" + student.getUsername();  // Redirect to profile page after equipping
+        if (item != null) {
+            String newAvatarUrl = avatarService.updateAvatarWithItems(item.getApiParam(), student.getEquippedItems());
+
+            // Check and update the category
+            student.updateAvatar(avatarService, newAvatarUrl);
+            studentRepository.save(student);
         }
 
-        return "redirect:/shop";  // Return to shop page on failure
+        return "redirect:/shop";  // Refresh shop page
     }
+
 
     @PostMapping("/shop/purchase/{itemId}")
     public String purchaseItem(@PathVariable Long itemId, @AuthenticationPrincipal Student student) {

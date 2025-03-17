@@ -37,12 +37,17 @@ public class ShopService {
 
     public boolean equipItem(Student student, ShopItem item) {
         if (item == null || !student.getOwnedItems().contains(item.getName())) {
-            return false;  // Cannot equip if item not owned
+            return false; // Cannot equip if item not owned
         }
-        student.getOwnedItems().clear();  // Clear previously equipped items
-        student.getOwnedItems().add(item.getName());  // Equip the new item
-        student.updateAvatar(avatarService);  // Update avatar using the AvatarService
+
+        // Get new avatar URL with selected item
+        String newAvatarUrl = avatarService.updateAvatarWithItems(item.getApiParam(), student.getEquippedItems());
+
+        // Update avatar & category
+        student.updateAvatar(avatarService, newAvatarUrl);
         studentRepository.save(student);
+
         return true;
     }
+
 }
