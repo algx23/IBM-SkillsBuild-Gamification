@@ -15,6 +15,7 @@ public class Student {
     private String password;
     private int points = 0;
     private int level = 0;
+    private int credits = 0;
     private String bio; // Student Bio
     // Avatar URL from API replaced profile picture)
     private String avatarUrl;
@@ -133,5 +134,10 @@ public class Student {
 
     public List<String> getEarnedBadges() { return earnedBadges; }
     public void setEarnedBadges(List<String> earnedBadges) { this.earnedBadges = earnedBadges; }
+
+    public int getCredits() {return credits;}
+
+    public void setCredits(int credits) {this.credits = credits;}
+
 
 }

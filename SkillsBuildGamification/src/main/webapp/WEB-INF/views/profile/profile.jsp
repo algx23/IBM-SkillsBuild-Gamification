@@ -43,6 +43,7 @@
                 </div>
             </c:forEach>
         </div>
+        <p><strong>Shop Credits: </strong>${student.credits}</p>
         <p><strong>Bio:</strong> ${student.bio}</p>
     </div>
 

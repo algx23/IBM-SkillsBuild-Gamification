@@ -57,7 +57,7 @@ public class ShopService {
             return false; // Not enough points
         }
 
-        student.setPoints(student.getPoints() - cost);  // Deduct points
+        student.setCredits(student.getCredits() - cost);  // Deduct credits
         student.getOwnedItems().add(variant); // Track purchased items
         studentRepository.save(student);
         return true;

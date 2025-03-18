@@ -11,13 +11,14 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.appendChild(actionButton);
 
     let selectedItem = null;
+    let selectedFeature = null;
     let ownedItems = [];
     let equippedItems = [];
 
     console.log("Username in JS:", username); // Debug username
 
     function fetchUserInventory() {
-        return fetch(`/api/shop/owned?username=${username}`, {
+        return fetch(`/api/shop/owned`, {
             method: 'GET',
             credentials: 'include', // Ensure authentication works
             headers: {
@@ -26,14 +27,13 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(response => response.json())
             .then(data => {
-                ownedItems = data.ownedItems || [];
-                equippedItems = data.equippedItems || [];
+                ownedItems = data || []; // Make sure ownedItems is assigned correctly
             })
             .catch(error => console.error("Error fetching user items:", error));
     }
 
     function fetchAvatarVariants() {
-        return fetch(`/api/shop/avatar/variants?username=${username}`, {
+        return fetch(`/api/shop/avatar/variants`, {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -49,7 +49,10 @@ document.addEventListener("DOMContentLoaded", function () {
         avatarContainer.innerHTML = ""; // Clear previous items
 
         fetchAvatarVariants().then(variants => {
-            if (!variants[category]) return;
+            if (!variants || !variants[category]) {
+                console.error(`No variants found for category: ${category}`);
+                return;
+            }
 
             Object.entries(variants[category]).forEach(([feature, featureData]) => {
                 let featureContainer = document.createElement("div");
@@ -73,9 +76,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     img.addEventListener("click", () => {
                         avatarImage.src = fullVariantUrl;
                         selectedItem = variant;
+                        selectedFeature = feature;
 
-                        let owned = ownedItems.includes(selectedItem);
-                        updateActionButton(selectedItem, owned, featureData.cost); // Pass cost
+                        let owned = ownedItems.includes(`${selectedCategory}_${selectedFeature}_${selectedItem}`);
+                        updateActionButton(selectedItem, selectedFeature, owned, featureData.cost); // Pass cost
                     });
 
                     variantContainer.appendChild(img);
@@ -101,13 +105,13 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    function updateActionButton(item, owned, cost) {
+    function updateActionButton(item, feature, owned, cost) {
         actionButton.style.display = "block"; // Show the button
 
         if (owned) {
             actionButton.textContent = "Equip";
             actionButton.onclick = function () {
-                fetch(`/api/shop/equip?username=${username}&item=${item}`, {
+                fetch(`/api/shop/equip?category=${selectedCategory}&featureType=${feature}&variant=${item}`, {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
@@ -125,15 +129,26 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             actionButton.textContent = `Purchase (${cost} Points)`;
             actionButton.onclick = function () {
-                fetch(`/api/shop/purchase?username=${username}&item=${item}&cost=${cost}`, {
+                fetch(`/api/shop/purchase`, {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': csrfToken
-                    }
+                    },
+                    body: JSON.stringify({
+                        category: selectedCategory,
+                        featureType: feature,
+                        variant: item
+                    })
                 })
-                    .then(response => response.text())
+
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Purchase failed: " + response.status);
+                        }
+                        return response.text();
+                    })
                     .then(result => {
                         alert(result);
                         updateShopUI();
@@ -141,6 +156,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     .catch(error => console.error("Error purchasing item:", error));
             };
         }
+    }
+
+    function updateShopUI() {
+        fetchUserInventory().then(() => {
+            loadAvatars(selectedCategory);
+        });
     }
 
     fetchUserInventory().then(() => {

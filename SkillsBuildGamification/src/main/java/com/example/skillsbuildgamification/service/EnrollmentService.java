@@ -49,6 +49,8 @@ public class EnrollmentService {
                 student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
                 rankService.setLevelOfStudent(username);
                 rankService.setRankOfStudent(username);
+                int creds = student.getCredits();
+                student.setCredits(creds + 15);
                 }
                 awardBadges(student); // call method to award badges upon completion
 
@@ -66,6 +68,8 @@ public class EnrollmentService {
                 student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
                 rankService.setLevelOfStudent(username);
                 rankService.setRankOfStudent(username);
+                int creds = student.getCredits();
+                student.setCredits(creds + 15);
                 awardBadges(student);
             }
 

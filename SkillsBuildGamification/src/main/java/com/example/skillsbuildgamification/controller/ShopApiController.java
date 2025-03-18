@@ -36,14 +36,17 @@ public class ShopApiController {
      */
     @PostMapping("/purchase")
     public ResponseEntity<String> purchaseItem(
-            @RequestParam String category,
-            @RequestParam String featureType,
-            @RequestParam String variant,
+            @RequestBody Map<String, String> requestData,  // Read JSON
             Principal principal) {
 
         String username = principal.getName();
+        String category = requestData.get("category");
+        String featureType = requestData.get("featureType");
+        String variant = requestData.get("variant");
+
         boolean success = shopService.purchaseItem(username, category, featureType, variant);
-        return success ? ResponseEntity.ok("Item purchased successfully") : ResponseEntity.badRequest().body("Not enough points");
+        return success ? ResponseEntity.ok("Item purchased successfully")
+                : ResponseEntity.badRequest().body("Not enough points or invalid item");
     }
 
     /**
