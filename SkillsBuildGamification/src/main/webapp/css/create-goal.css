@@ -1,0 +1,85 @@
+/* General Page Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+/* Container for the form */
+.create-goal-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ddd;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Page Title */
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Labels */
+label {
+    font-weight: bold;
+    display: block;
+    margin: 10px 0 5px;
+}
+
+/* Inputs */
+input[type="number"],
+input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+}
+
+/* Submit Button */
+.create-goal-button {
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.create-goal-button:hover {
+    background-color: #0056b3;
+}
+
+/* Navigation buttons container */
+.redirect-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Navigation button style */
+.redirect-box {
+    background-color: #ccc;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.redirect-box a {
+    text-decoration: none;
+    color: black;
+}
+
+/* Hover effect */
+.redirect-box:hover {
+    background-color: #bbb;
+}

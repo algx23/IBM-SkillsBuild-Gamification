@@ -2,6 +2,8 @@ package com.example.skillsbuildgamification.model;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 public class Enrollment {
     @Id
@@ -17,6 +19,9 @@ public class Enrollment {
     @ManyToOne
     @JoinColumn(name = "courseID", nullable = false)
     private Course course;
+
+    @Temporal(TemporalType.DATE)
+    private Date completionDate;
 
     @Enumerated(EnumType.STRING)
     private EnrollmentStatus status;
@@ -61,6 +66,14 @@ public class Enrollment {
 
     public void setStatus(EnrollmentStatus status) {
         this.status = status;
+    }
+
+    public Date getCompletionDate() {
+        return completionDate;
+    }
+
+    public void setCompletionDate(Date completionDate) {
+        this.completionDate = completionDate;
     }
 }
 

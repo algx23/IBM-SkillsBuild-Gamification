@@ -2,15 +2,22 @@ package com.example.skillsbuildgamification.repository;
 
 import com.example.skillsbuildgamification.model.Course;
 import com.example.skillsbuildgamification.model.Enrollment;
+import com.example.skillsbuildgamification.model.EnrollmentStatus;
 import com.example.skillsbuildgamification.model.Student;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 public interface EnrollmentRepository extends CrudRepository<Enrollment, Integer> {
 
-    Optional<Enrollment> findByStudentAndCourse(Student student, Course course); // Find a specific enrollment (Optional - A student doesn't have to be enrolled)
+    Optional<Enrollment> findByStudentAndCourse(Student student, Course course);
 
-    List<Enrollment> findByStudent(Student student); // Get all enrollments for a student
+    List<Enrollment> findByStudent(Student student);
+
+    @Query("SELECT e FROM Enrollment e WHERE e.student = :student AND e.status = :status AND e.completionDate <= :completionDate")
+    List<Enrollment> findByStudentAndStatusAndCompletionDateBefore(Student student, EnrollmentStatus status, Date completionDate);
 }
+
 

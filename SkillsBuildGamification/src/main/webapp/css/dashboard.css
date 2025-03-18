@@ -216,5 +216,58 @@ body {
     gap: 15px;
 }
 
+/* ============================
+   Goal Styling
+   ============================ */
+.active-goals {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.active-goal-text {
+    display: inline-block;
+    background-color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.goal-progress-container {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.progress-bar-container {
+    display: flex;
+    justify-content: center;
+}
+
+.progress-bar {
+    width: 50%;
+    height: 15px;
+    background-color: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: #4caf50;
+    text-align: center;
+    color: white;
+    border-radius: 10px;
+}
+
+.progress-text {
+    font-size: 14px;
+    color: #333;
+    margin-top: 5px;
+}
+
+
+
+
 
 
