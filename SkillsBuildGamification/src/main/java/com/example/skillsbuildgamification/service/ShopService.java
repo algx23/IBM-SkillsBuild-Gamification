@@ -59,7 +59,8 @@ public class ShopService {
         }
 
         // Deduct credits
-        student.setCredits(student.getCredits() - itemCost);
+        int updated_credits = student.getCredits() - itemCost;
+        student.setCredits(updated_credits);
 
         // Add item to owned list
         student.getOwnedItems().add(itemKey);

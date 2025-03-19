@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -88,5 +89,20 @@ public class ShopApiController {
     public ResponseEntity<Map<String, Map<String, Map<String, Object>>>> getAvatarVariants() {
         return ResponseEntity.ok(shopService.getAvatarVariants());
     }
+
+    @GetMapping("/credits")
+    public ResponseEntity<Map<String, Integer>> getUserCredits(Principal principal) {
+        Student student = studentRepository.findByUsername(principal.getName());
+
+        if (student == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Map<String, Integer> response = new HashMap<>();
+        response.put("credits", student.getCredits());  // ✅ Return updated credits
+
+        return ResponseEntity.ok(response);
+    }
+
 
 }

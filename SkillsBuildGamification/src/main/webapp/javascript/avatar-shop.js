@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 equippedItems = data.equippedItems || [];
                 console.log("owned items:",ownedItems)
                 console.log("equipped items:",equippedItems)
+                fetchUserCredits();
                 fetchAvatar(); //  avatar update on page load
             })
             .catch(error => console.error("Error fetching user items:", error));
@@ -163,6 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }))
                     .then(result => {
                         alert(result);
+                        fetchUserCredits();
                         fetchUserInventory().then(() => {
                             fetchAvatar();
                             updateShopUI();
@@ -199,15 +201,21 @@ document.addEventListener("DOMContentLoaded", function () {
 // Call this function on page load
     fetchAvatar();
 
-    function updateAvatarUI() {
-        let avatarUrl = `https://api.dicebear.com/8.x/bottts/svg?seed=${username}`;
-
-        equippedItems.forEach(item => {
-            avatarUrl += `&${item}`;
-        });
-
-        avatarImage.src = avatarUrl; // Ensure avatar updates on page load
+    function fetchUserCredits() {
+        return fetch(`/api/shop/credits`, {  // ✅ Backend API to fetch credits
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("user-credits").textContent = data.credits; // ✅ Update UI
+            })
+            .catch(error => console.error("Error fetching user credits:", error));
     }
+
 
     function updateShopUI() {
         fetchUserInventory().then(() => {
