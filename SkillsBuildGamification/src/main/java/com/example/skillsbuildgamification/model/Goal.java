@@ -6,8 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 @Entity
-public class Goal
-{
+public class Goal {
     @Id
     @GeneratedValue
     private int goalID;
@@ -17,9 +16,46 @@ public class Goal
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date completionDate;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(updatable = false)
+    private Date creationDate;
+
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
+
+    @Enumerated(EnumType.STRING)
+    private GoalStatus status;
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.creationDate == null) {
+            this.creationDate = new Date();
+        }
+    }
+
+    @PreUpdate
+    public void updateStatus() {
+        if (status == GoalStatus.COMPLETED) {
+            return;
+        }
+
+        Date today = new Date();
+        if (completionDate.before(today)) {
+            status = GoalStatus.EXPIRED;
+        } else {
+            status = GoalStatus.ACTIVE;
+        }
+    }
+
+    // Getters and setters...
+    public GoalStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(GoalStatus status) {
+        this.status = status;
+    }
 
     public Date getCompletionDate() {
         return completionDate;
@@ -52,4 +88,9 @@ public class Goal
     public void setStudent(Student student) {
         this.student = student;
     }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
 }
+

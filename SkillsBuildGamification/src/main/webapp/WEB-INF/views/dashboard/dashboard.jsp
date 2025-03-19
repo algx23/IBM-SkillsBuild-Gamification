@@ -46,7 +46,6 @@
     </div>
   </div>
 
-  <!-- Lists goals with their respective progress -->
   <div class="active-goals">
     <c:choose>
       <c:when test="${not empty activeGoals}">
@@ -60,8 +59,8 @@
               <div class="progress-bar">
                 <div class="progress-bar-fill" style="width: ${goalProgressMap[goal.goalID]}%;"></div>
               </div>
+              <p class="progress-percentage">${goalProgressMap[goal.goalID]}% Completed</p>
             </div>
-            <p class="progress-text">${goalProgressMap[goal.goalID]}% Completed</p>
           </div>
         </c:forEach>
       </c:when>

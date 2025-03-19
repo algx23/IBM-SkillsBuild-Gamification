@@ -42,14 +42,14 @@ public class EnrollmentService {
         Optional<Enrollment> enrollmentOpt = enrollmentRepository.findByStudentAndCourse(student, course);
 
         Enrollment enrollment;
+        Date now = new Date();
+
         if (enrollmentOpt.isPresent()) {
             enrollment = enrollmentOpt.get();
             enrollment.setStatus(status);
 
-            //Set completion date when marked as COMPLETED
             if (status == EnrollmentStatus.COMPLETED) {
-                // Stores the current date
-                enrollment.setCompletionDate(new Date());
+                enrollment.setCompletionDate(now);
                 student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
                 student.setPoints(student.getPoints() + 10);
                 rankService.setRankOfStudent(username);
@@ -58,7 +58,6 @@ public class EnrollmentService {
                     student.setLevel(student.getLevel() + 1);
                 }
             } else {
-                //If the course is not completed, ensure completion date is null
                 enrollment.setCompletionDate(null);
             }
 
@@ -67,9 +66,8 @@ public class EnrollmentService {
             // Creating a new enrollment record
             enrollment = new Enrollment(student, course, status);
 
-            //If the course is completed immediately, set completion date
             if (status == EnrollmentStatus.COMPLETED) {
-                enrollment.setCompletionDate(new Date());
+                enrollment.setCompletionDate(now);
                 student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
                 student.setPoints(student.getPoints() + 10);
                 rankService.setRankOfStudent(username);
@@ -107,4 +105,3 @@ public class EnrollmentService {
         student.setEarnedBadges(earnedBadges);
     }
 }
-
