@@ -29,14 +29,18 @@ public class GoalService {
 
         goal.setStudent(student);
         goal.setStatus(GoalStatus.ACTIVE);
-
+        goal.setCreationDate(new Date());
         goalRepository.save(goal);
     }
 
     public int getGoalProgress(Goal goal) {
+        if (goal.getCreationDate() == null) {
+            goal.setCreationDate(new Date());
+            goalRepository.save(goal);
+        }
+
         List<Enrollment> completedEnrollments = enrollmentRepository.findByStudentAndStatusAndCompletionDateBetween(
                 goal.getStudent(), EnrollmentStatus.COMPLETED, goal.getCreationDate(), goal.getCompletionDate());
-
         double progress = ((double) completedEnrollments.size() / goal.getNumberOfGoals()) * 100;
 
         if (completedEnrollments.size() >= goal.getNumberOfGoals()) {
@@ -68,6 +72,20 @@ public class GoalService {
     public List<Goal> getActiveGoals(String username) {
         return goalRepository.findByStudentUsernameAndStatus(username, GoalStatus.ACTIVE);
     }
+
+    public boolean checkAndCompleteGoal(Goal goal) {
+        List<Enrollment> completedEnrollments = enrollmentRepository.findByStudentAndStatusAndCompletionDateBetween(
+                goal.getStudent(), EnrollmentStatus.COMPLETED, goal.getCreationDate(), goal.getCompletionDate());
+
+        if (completedEnrollments.size() >= goal.getNumberOfGoals()) {
+            goal.setStatus(GoalStatus.COMPLETED);
+            goalRepository.save(goal);
+            return true;
+        }
+        return false;
+    }
 }
+
+
 
 

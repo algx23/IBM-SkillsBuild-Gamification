@@ -17,7 +17,6 @@ public class Goal {
     private Date completionDate;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(updatable = false)
     private Date creationDate;
 
     @ManyToOne
@@ -29,9 +28,7 @@ public class Goal {
 
     @PrePersist
     protected void onCreate() {
-        if (this.creationDate == null) {
-            this.creationDate = new Date();
-        }
+        this.creationDate = new Date();
     }
 
     @PreUpdate
@@ -92,5 +89,10 @@ public class Goal {
     public Date getCreationDate() {
         return creationDate;
     }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 }
+
 

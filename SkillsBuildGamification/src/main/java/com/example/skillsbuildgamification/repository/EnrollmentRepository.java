@@ -17,13 +17,13 @@ public interface EnrollmentRepository extends CrudRepository<Enrollment, Integer
 
     List<Enrollment> findByStudent(Student student);
 
-    @Query("SELECT e FROM Enrollment e WHERE e.student = :student " +
-            "AND e.status = :status " +
+    @Query("SELECT e FROM Enrollment e WHERE e.student = :student AND e.status = :status " +
             "AND e.completionDate >= :goalCreationDate " +
             "AND e.completionDate <= :goalCompletionDate")
     List<Enrollment> findByStudentAndStatusAndCompletionDateBetween(
             Student student, EnrollmentStatus status, Date goalCreationDate, Date goalCompletionDate);
 }
+
 
 
 

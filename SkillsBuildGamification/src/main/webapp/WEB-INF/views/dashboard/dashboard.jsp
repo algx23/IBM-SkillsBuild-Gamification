@@ -46,6 +46,7 @@
     </div>
   </div>
 
+  <!-- Active Goals Section -->
   <div class="active-goals">
     <c:choose>
       <c:when test="${not empty activeGoals}">
@@ -55,12 +56,17 @@
               <strong>Goal:</strong> ${goal.numberOfGoals} Courses |
               <strong>Completion Date:</strong> ${goal.completionDate.toString().substring(0, 10)}
             </p>
-            <div class="progress-bar-container">
-              <div class="progress-bar">
-                <div class="progress-bar-fill" style="width: ${goalProgressMap[goal.goalID]}%;"></div>
-              </div>
-              <p class="progress-percentage">${goalProgressMap[goal.goalID]}% Completed</p>
+            <div class="progress-bar">
+              <div class="progress-bar-fill" style="width: ${goalProgressMap[goal.goalID]}%;"></div>
             </div>
+            <p class="goal-progress-text">${goalProgressMap[goal.goalID]}% Completed</p>
+
+            <c:if test="${not empty congratsMessage}">
+              <div class="congrats-container">
+                <p>${congratsMessage}</p>
+              </div>
+            </c:if>
+
           </div>
         </c:forEach>
       </c:when>

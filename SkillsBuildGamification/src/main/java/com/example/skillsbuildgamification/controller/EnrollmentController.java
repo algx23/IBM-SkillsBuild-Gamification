@@ -70,11 +70,10 @@ public class EnrollmentController {
             redirectAttributes.addFlashAttribute("error", "Invalid status value provided.");
         }
 
-        return ("editProfile".equals(sourcePage))
-                ? "redirect:/profile/" + username + "/edit"
-                : "redirect:/" + username + "/dashboard-page";
+        return "redirect:/" + username + "/dashboard-page";
     }
 }
+
 
 
 

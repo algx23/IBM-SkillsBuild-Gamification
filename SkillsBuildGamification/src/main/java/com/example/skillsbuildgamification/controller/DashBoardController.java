@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,8 +42,18 @@ public class DashBoardController {
         List<Goal> activeGoals = goalService.getActiveGoals(username);
 
         Map<Integer, Integer> goalProgressMap = new HashMap<>();
+        boolean goalJustCompleted = false;
+
         for (Goal goal : activeGoals) {
+            boolean completed = goalService.checkAndCompleteGoal(goal);
+            if (completed) {
+                goalJustCompleted = true;
+            }
             goalProgressMap.put(goal.getGoalID(), goalService.getGoalProgress(goal));
+        }
+
+        if (goalJustCompleted) {
+            model.addAttribute("congratsMessage", "🎉 Congratulations! You've completed your goal! 🎉");
         }
 
         model.addAttribute("courses", courses);
@@ -55,7 +64,9 @@ public class DashBoardController {
 
         return "dashboard/dashboard";
     }
+
 }
+
 
 
 
