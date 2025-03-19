@@ -76,8 +76,8 @@ public class ShopApiController {
         if (student == null) {
             return ResponseEntity.notFound().build();
         }
-
-        return ResponseEntity.ok(student.getAvatarUrl());  // ✅ Return avatar URL
+        String url2 = student.getAvatarUrl();
+        return ResponseEntity.ok(url2);
     }
 
 

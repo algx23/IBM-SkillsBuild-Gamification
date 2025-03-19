@@ -71,34 +71,30 @@ public class ShopService {
     /**
      * Equip a purchased item.
      */
-    /**
-     * Equip a purchased item.
-     */
     public boolean equipItem(String username, String category, String featureType, String variant) {
         Student student = studentRepository.findByUsername(username);
         if (student == null) {
             return false;
         }
 
-        String itemKey = category + "_" + featureType + "_" + variant;
+        // Correct the format of equipped item
+        String diceBearParam = featureType + "=" + variant;
 
-        if (!student.getOwnedItems().contains(itemKey)) {
-            return false; // Cannot equip if not owned
-        }
+        // Remove old equipped item of same feature type before adding new one
+        student.getEquippedItems().removeIf(equipped -> equipped.startsWith(featureType + "="));
+        student.getEquippedItems().add(diceBearParam);
 
-        // ✅ Remove previous feature-type item
-        student.getEquippedItems().removeIf(equipped -> equipped.startsWith(category + "_" + featureType));
-
-        // ✅ Equip new item
-        student.getEquippedItems().add(itemKey);
-
-        // ✅ Generate new avatar and SAVE it to the database
+        // Generate new avatar URL
         String newAvatar = avatarService.generateAvatar(student);
-        student.setAvatarUrl(newAvatar);
+        student.setAvatarUrl(newAvatar);  // 🔥 **Update avatar URL**
 
-        studentRepository.save(student); // ✅ **Force Save to DB**
+        // **Ensure the avatar URL is correctly saved in DB**
+        studentRepository.save(student);
+
         return true;
     }
+
+
 
     /**
      * Get a student's owned items.

@@ -92,13 +92,14 @@ public class Student {
     }
 
     public String getAvatarUrl() {
-        if (equippedItems.isEmpty()) {
-            return getDefaultAvatarUrl(username); // Use default if nothing is equipped
-        }
-
-        return generateAvatarUrlFromEquipped();
+        return this.avatarUrl;
     }
 
+
+
+    /**
+     * Generates the Avatar URL based on equipped items
+     */
     /**
      * Generates the Avatar URL based on equipped items
      */
@@ -106,11 +107,21 @@ public class Student {
         String baseUrl = "https://api.dicebear.com/8.x/bottts/svg?seed=" + username;
 
         for (String item : equippedItems) {
-            baseUrl += "&" + item; // Append equipped items
+            // Ensure correct DiceBear format
+            String[] parts = item.split("="); // Use '=' instead of '_'
+
+            if (parts.length == 2) {
+                String featureType = parts[0]; // Extract feature type (e.g., Mouth)
+                String variant = parts[1]; // Extract the actual variant (e.g., diagram)
+
+                baseUrl += "&" + featureType + "=" + variant; // Append correctly
+            }
         }
 
         return baseUrl;
     }
+
+
 
 
     public void updateAvatar(String newAvatarUrl) {
@@ -131,12 +142,9 @@ public class Student {
     }
 
     public void setAvatarUrl(String avatarUrl) {
-        if (equippedItems.isEmpty()) {
-            this.avatarUrl = getDefaultAvatarUrl(username);
-        } else {
-            this.avatarUrl = generateAvatarUrlFromEquipped();
-        }
+        this.avatarUrl = avatarUrl;
     }
+
 
     public List<String> getEquippedItems() {return equippedItems;}
 

@@ -42,7 +42,7 @@ public class ShopController {
             return "redirect:/login"; // Redirect if student not found
         }
 
-        // ✅ Get the latest avatar
+        // Get the latest avatar
         String avatarUrl = avatarService.generateAvatar(student);
         student.setAvatarUrl(avatarUrl);
         studentRepository.save(student);
