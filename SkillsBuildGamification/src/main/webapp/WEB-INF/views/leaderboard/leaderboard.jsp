@@ -5,10 +5,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="stylesheet" href="css/leaderboard.css">
-      <script src="javascript/leaderboard.js" defer></script>
+      <link rel="stylesheet" href="/css/leaderboard.css">
+      <script src="/javascript/leaderboard.js" defer></script>
       <link rel="stylesheet" href="/css/logo.css">
-    <title>Leaderboard</title>
+    <title>${title}</title>
   </head>
   <body>
   <header>
@@ -20,45 +20,45 @@
       </div>
   </header>
 
-  <h1>Leaderboards</h1>
+  <h1>${title}</h1>
 
   <%--  form to sort by points descending--%>
   <p>Sort By: </p>
   <ul>
 
       <li>
-          <form:form method="post" action="leaderboard?sortBy=lowestScoreFirst">
+          <form:form method="post" action="${urlStart}?sortBy=lowestScoreFirst">
               <input type="submit" value="Lowest Points first" class="sort-button">
           </form:form>
       </li>
 
       <li>
-          <form:form method="post" action="leaderboard?sortBy=A-Z">
+          <form:form method="post" action="${urlStart}?sortBy=A-Z">
               <input type="submit" value="Username (A-Z)" class="sort-button">
           </form:form>
       </li>
 
       <li>
-          <form:form method="post" action="leaderboard?sortBy=Z-A">
+          <form:form method="post" action="${urlStart}?sortBy=Z-A">
               <input class="sort-button"type="submit" value="Username (Z-A)">
           </form:form>
       </li>
 
       <li>
-          <form:form method="post" action="leaderboard?sortBy=HighestCourseFirst">
+          <form:form method="post" action="${urlStart}?sortBy=HighestCourseFirst">
               <input type="submit" value="Courses Completed (high to low)" class="sort-button">
           </form:form>
       </li>
 
       <li>
-          <form:form method="post" action="leaderboard?sortBy=LowestCourseFirst">
+          <form:form method="post" action="${urlStart}?sortBy=LowestCourseFirst">
               <input type="submit" value="Courses Completed (low to high)" class="sort-button">
           </form:form>
       </li>
 
 
       <li>
-          <form:form method="post" action="leaderboard?sortBy=">
+          <form:form method="post" action="${urlStart}?sortBy=">
               <input type="submit" value="Clear All Sorting" class="clearButton">
           </form:form>
       </li>
@@ -97,8 +97,8 @@
   <br>
   <br>
 
-  <h2>Global Leaderboard</h2>
-  <p>Here is the global leaderboard. See how you compare to others, and complete more courses to climb up the ranks, and win a prize!</p>
+  <h2>${title}</h2>
+  <p>Here is the ${title}. See how you compare to others, and complete more courses to climb up the ranks, and win a prize!</p>
 
 
   <div class="table-container">
