@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ShopController {
@@ -36,18 +37,26 @@ public class ShopController {
     @GetMapping("/shop")
     public String shopPage(Model model, Principal principal) {
         Student student = studentRepository.findByUsername(principal.getName());
+
+        if (student == null) {
+            return "redirect:/login"; // Redirect if student not found
+        }
+
+        // ✅ Get the latest avatar
+        String avatarUrl = avatarService.generateAvatar(student);
+        student.setAvatarUrl(avatarUrl);
+        studentRepository.save(student);
+
         List<ShopItem> shopItems = shopItemRepository.findAll();
-        List<String> ownedItems = shopService.getOwnedItems(student.getUsername());
+        Map<String, List<String>> inventory = shopService.getOwnedItems(student.getUsername());
 
-        // Get student's current avatar
-        String avatarUrl = student.getAvatarUrl();
-
-        // Add data to the model
         model.addAttribute("avatarUrl", avatarUrl);
         model.addAttribute("student", student);
         model.addAttribute("shopItems", shopItems);
-        model.addAttribute("ownedItems", ownedItems);
+        model.addAttribute("ownedItems", inventory.get("ownedItems"));
+        model.addAttribute("equippedItems", inventory.get("equippedItems"));
 
-        return "shop/shop";  // Render JSP page
+        return "shop/shop";
     }
+
 }

@@ -40,51 +40,78 @@ public class ShopService {
      */
     public boolean purchaseItem(String username, String category, String featureType, String variant) {
         Student student = studentRepository.findByUsername(username);
-        Map<String, Map<String, Map<String, Object>>> avatarData = jsonLoader.loadAvatarData();
 
-        if (!avatarData.containsKey(category)) {
-            return false; // Invalid category
+        if (student == null) {
+            return false; // Fail if student does not exist
         }
 
-        Map<String, Map<String, Object>> categoryData = avatarData.get(category);
-        if (!categoryData.containsKey(featureType)) {
-            return false; // Invalid feature type
+        String itemKey = category + "_" + featureType + "_" + variant;
+
+        // Check if student already owns the item
+        if (student.getOwnedItems().contains(itemKey)) {
+            throw new RuntimeException("Item is already owned.");
         }
 
-        int cost = (int) categoryData.get(featureType).get("cost"); // Get cost dynamically per feature
-
-        if (student.getPoints() < cost) {
-            return false; // Not enough points
+        // Get item cost from JSON
+        int itemCost = avatarService.getItemCost(category, featureType);
+        if (student.getCredits() < itemCost) {
+            throw new RuntimeException("Insufficient credits."); // Return clear failure reason
         }
 
-        student.setCredits(student.getCredits() - cost);  // Deduct credits
-        student.getOwnedItems().add(variant); // Track purchased items
-        studentRepository.save(student);
+        // Deduct credits
+        student.setCredits(student.getCredits() - itemCost);
+
+        // Add item to owned list
+        student.getOwnedItems().add(itemKey);
+        studentRepository.save(student); // Save updated student
+
         return true;
     }
 
     /**
      * Equip a purchased item.
      */
+    /**
+     * Equip a purchased item.
+     */
     public boolean equipItem(String username, String category, String featureType, String variant) {
         Student student = studentRepository.findByUsername(username);
-
-        if (!student.getOwnedItems().contains(variant)) {
-            return false; // Cannot equip an item the user doesn't own
+        if (student == null) {
+            return false;
         }
 
-        student.getEquippedItems().clear(); // Unequip all items before equipping a new one
-        student.getEquippedItems().add(variant);
-        student.setAvatarUrl(avatarService.generateAvatar(student)); // Update avatar
-        studentRepository.save(student);
+        String itemKey = category + "_" + featureType + "_" + variant;
+
+        if (!student.getOwnedItems().contains(itemKey)) {
+            return false; // Cannot equip if not owned
+        }
+
+        // ✅ Remove previous feature-type item
+        student.getEquippedItems().removeIf(equipped -> equipped.startsWith(category + "_" + featureType));
+
+        // ✅ Equip new item
+        student.getEquippedItems().add(itemKey);
+
+        // ✅ Generate new avatar and SAVE it to the database
+        String newAvatar = avatarService.generateAvatar(student);
+        student.setAvatarUrl(newAvatar);
+
+        studentRepository.save(student); // ✅ **Force Save to DB**
         return true;
     }
 
     /**
      * Get a student's owned items.
      */
-    public List<String> getOwnedItems(String username) {
+    public Map<String, List<String>> getOwnedItems(String username) {
         Student student = studentRepository.findByUsername(username);
-        return student.getOwnedItems();
+
+        Map<String, List<String>> inventory = new HashMap<>();
+        inventory.put("ownedItems", new ArrayList<>(student.getOwnedItems()));
+        inventory.put("equippedItems", new ArrayList<>(student.getEquippedItems()));
+
+        return inventory;
     }
+
+
 }

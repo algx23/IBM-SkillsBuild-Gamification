@@ -32,6 +32,9 @@
     <!-- Right Side: Shop Items -->
     <div id="right-container">
         <h2>Shop</h2>
+        <div id="credits-container">
+            <h2>Your Credits: <span id="user-credits">${student.credits}</span></h2>
+        </div>
         <div id="avatar-options"></div>
     </div>
 </div>
