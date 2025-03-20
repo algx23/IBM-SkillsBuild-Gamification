@@ -1,8 +1,6 @@
 package com.example.skillsbuildgamification.service;
 
 import com.example.skillsbuildgamification.model.Student;
-import com.example.skillsbuildgamification.model.UserInventory;
-import com.example.skillsbuildgamification.repository.UserInventoryRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +15,6 @@ import java.util.Map;
 public class AvatarService {
 
     private static final String DICEBEAR_API_URL = "https://api.dicebear.com/8.x/";
-
-    @Autowired
-    private UserInventoryRepository userInventoryRepository;
 
     private Map<String, Map<String, Map<String, Object>>> avatarData;
 

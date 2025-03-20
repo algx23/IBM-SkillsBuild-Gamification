@@ -1,8 +1,6 @@
 package com.example.skillsbuildgamification.controller;
 
-import com.example.skillsbuildgamification.model.ShopItem;
 import com.example.skillsbuildgamification.model.Student;
-import com.example.skillsbuildgamification.repository.ShopItemRepository;
 import com.example.skillsbuildgamification.repository.StudentRepository;
 import com.example.skillsbuildgamification.service.AvatarService;
 import com.example.skillsbuildgamification.service.ShopService;
@@ -21,9 +19,6 @@ public class ShopController {
 
     @Autowired
     private StudentRepository studentRepository;
-
-    @Autowired
-    private ShopItemRepository shopItemRepository;
 
     @Autowired
     private ShopService shopService;
@@ -47,12 +42,13 @@ public class ShopController {
         student.setAvatarUrl(avatarUrl);
         studentRepository.save(student);
 
-        List<ShopItem> shopItems = shopItemRepository.findAll();
+        // Fetch items from JSON
+        Map<String, Map<String, Map<String, Object>>> shopItems = shopService.getAvatarVariants();
         Map<String, List<String>> inventory = shopService.getOwnedItems(student.getUsername());
 
         model.addAttribute("avatarUrl", avatarUrl);
         model.addAttribute("student", student);
-        model.addAttribute("shopItems", shopItems);
+        model.addAttribute("shopItems", shopItems); // JSON-based items instead of ShopItem
         model.addAttribute("ownedItems", inventory.get("ownedItems"));
         model.addAttribute("equippedItems", inventory.get("equippedItems"));
 

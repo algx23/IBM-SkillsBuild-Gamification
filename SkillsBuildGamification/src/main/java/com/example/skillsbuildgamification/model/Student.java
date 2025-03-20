@@ -104,43 +104,6 @@ public class Student {
     /**
      * Generates the Avatar URL based on equipped items
      */
-    private String generateAvatarUrlFromEquipped() {
-        String baseUrl = "https://api.dicebear.com/8.x/bottts/svg?seed=" + username;
-
-        for (String item : equippedItems) {
-            // Ensure correct DiceBear format
-            String[] parts = item.split("="); // Use '=' instead of '_'
-
-            if (parts.length == 2) {
-                String featureType = parts[0]; // Extract feature type (e.g., Mouth)
-                String variant = parts[1]; // Extract the actual variant (e.g., diagram)
-
-                baseUrl += "&" + featureType + "=" + variant; // Append correctly
-            }
-        }
-
-        return baseUrl;
-    }
-
-
-
-
-    public void updateAvatar(String newAvatarUrl) {
-        String currentCategory = extractCategoryFromUrl(this.avatarUrl);
-        String newCategory = extractCategoryFromUrl(newAvatarUrl);
-
-        if (!currentCategory.equals(newCategory)) {
-            this.equippedItems.clear(); // Reset equipped items if category changes
-        }
-
-        this.avatarUrl = newAvatarUrl;
-    }
-
-    private String extractCategoryFromUrl(String url) {
-        if (url == null || url.isEmpty()) return "bottts"; // Default category
-        String[] parts = url.split("/");
-        return (parts.length > 5) ? parts[5] : "bottts"; // Extracts category from DiceBear URL
-    }
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
