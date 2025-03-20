@@ -62,6 +62,18 @@
     justify-content: center;
 }
 
+.course-analytics-info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.course-analytics-info-container span {
+    text-align: left;
+    width: 100%;
+    margin-right: auto;
+}
+
 /* Hover effect for course boxes */
 .course-box:hover {
     background-color: #a9a9a9;

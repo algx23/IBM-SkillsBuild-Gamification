@@ -29,8 +29,10 @@
                 <a href="${course.courseLink}" target="_blank" data-courseid="${course.courseID}">
                         ${course.courseName}
                 </a>
-                <p>Students in progress: ${course.getNumStudentsInProgress()}</p>
-                <p>Students who have completed this: ${course.getNumStudentsCompleted()}</p>
+                <div class="course-analytics-info-container">
+                    <span>In progress: ${course.getNumStudentsInProgress()}</span>
+                    <span>Completed: ${course.getNumStudentsCompleted()}</span>
+                </div>
             </div>
         </c:forEach>
     </div>
