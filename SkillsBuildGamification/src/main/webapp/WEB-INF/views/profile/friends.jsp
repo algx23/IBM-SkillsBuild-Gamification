@@ -11,8 +11,9 @@
 <h1>Your Friends: </h1>
 <p>Here you can see your friends and view their profile also!</p>
     <form:form action="/${username}/dashboard-page" method="get">
-        <input type="submit" value="Back to Dashboard Page">
+        <input type="submit" value="Back to Dashboard Page" id="back-to-dashboard-button">
     </form:form>
+
     <c:forEach var="f" items="${friends}">
         <div class="friend-container">
             <div class="profile-pic-container">
