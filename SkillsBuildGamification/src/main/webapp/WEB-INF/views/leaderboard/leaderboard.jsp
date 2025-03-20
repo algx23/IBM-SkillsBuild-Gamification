@@ -173,5 +173,16 @@
     <form action="/login-success" method="get">
         <input type="submit" value="Back to Dashboard" class="back-to-dboard-button">
     </form>
+
+  <c:if test="${urlStart == '/leaderboard/friends'}">
+      <form action="/leaderboard?sortBy=''" method="get">
+          <input type="submit" value="View Global Leaderboard" class="back-to-dboard-button"/>
+      </form>
+  </c:if>
+  <c:if test="${urlStart == '/leaderboard'}">
+      <form action="/leaderboard/friends?sortBy=''" method="get">
+          <input type="submit" value="View Friends Leaderboard" class="back-to-dboard-button"/>
+      </form>
+  </c:if>
   </body>
 </html>

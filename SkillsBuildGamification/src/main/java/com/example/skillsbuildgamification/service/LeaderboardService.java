@@ -70,7 +70,7 @@ public class LeaderboardService {
       case ("HighestScoreFirst"):
         studentAndFriends.sort(Comparator.comparingInt(Student::getPoints).reversed());
         break;
-      case ("LowestScoreFirst"):
+      case ("lowestScoreFirst"):
         studentAndFriends.sort(Comparator.comparingInt(Student::getPoints));
         break;
       case ("A-Z"):

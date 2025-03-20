@@ -84,7 +84,11 @@ public class LeaderboardController {
 
         }
 
+        /*        if on the global leaderboard page the title is Global Leaderboard,
+         * having this as a modelAttribute helps reuse the jsp
+         */
         model.addAttribute("title", "Global Leaderboard");
+//        dynamically change the url for the sorting buttons based off which page you are at
         model.addAttribute("urlStart", "/leaderboard");
         model.addAttribute("sortingOrder", sortingOrder);
         model.addAttribute("students", sortedList);
@@ -115,6 +119,7 @@ public class LeaderboardController {
             studentAndFriends.add(loggedInStudent);
         }
 
+//        dynamically change the url for the sorting buttons based off which page you are at
         model.addAttribute("urlStart", "/leaderboard/friends");
         model.addAttribute("title", "Friends Leaderboard");
         model.addAttribute("loggedInStudent", loggedInStudent);
