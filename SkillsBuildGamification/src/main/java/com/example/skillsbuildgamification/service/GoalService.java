@@ -70,21 +70,27 @@ public class GoalService {
     }
 
     public List<Goal> getActiveGoals(String username) {
-        return goalRepository.findByStudentUsernameAndStatus(username, GoalStatus.ACTIVE);
+        return goalRepository.findByStudent_UsernameAndStatus(username, GoalStatus.ACTIVE);
     }
 
     public boolean checkAndCompleteGoal(Goal goal) {
         List<Enrollment> completedEnrollments = enrollmentRepository.findByStudentAndStatusAndCompletionDateBetween(
-                goal.getStudent(), EnrollmentStatus.COMPLETED, goal.getCreationDate(), goal.getCompletionDate());
+                goal.getStudent(), EnrollmentStatus.COMPLETED, goal.getCreationDate(), new Date());
 
         if (completedEnrollments.size() >= goal.getNumberOfGoals()) {
             goal.setStatus(GoalStatus.COMPLETED);
+            goal.setActualCompletionDate(new Date());
             goalRepository.save(goal);
             return true;
         }
         return false;
     }
+
+    public List<Goal> getCompletedGoals(String username) {
+        return goalRepository.findByStudent_UsernameAndStatus(username, GoalStatus.COMPLETED);
+    }
 }
+
 
 
 

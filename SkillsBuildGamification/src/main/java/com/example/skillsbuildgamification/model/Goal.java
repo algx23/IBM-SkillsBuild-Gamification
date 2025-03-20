@@ -16,6 +16,9 @@ public class Goal {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date completionDate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date actualCompletionDate;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
 
@@ -92,6 +95,14 @@ public class Goal {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Date getActualCompletionDate() {
+        return actualCompletionDate;
+    }
+
+    public void setActualCompletionDate(Date actualCompletionDate) {
+        this.actualCompletionDate = actualCompletionDate;
     }
 }
 

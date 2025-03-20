@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class GoalController {
 
@@ -44,6 +46,13 @@ public class GoalController {
     public String saveGoal(@PathVariable("username") String username, @ModelAttribute("goal") Goal goal) {
         goalService.saveGoal(goal, username);
         return "redirect:/" + username + "/dashboard-page";
+    }
+
+    @GetMapping("/completedGoals/{username}")
+    public String viewCompletedGoals(@PathVariable String username, Model model) {
+        List<Goal> completedGoals = goalService.getCompletedGoals(username);
+        model.addAttribute("completedGoals", completedGoals);
+        return "dashboard/completedGoals";
     }
 }
 

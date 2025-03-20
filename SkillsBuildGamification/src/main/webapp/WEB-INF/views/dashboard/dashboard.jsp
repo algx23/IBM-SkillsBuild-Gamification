@@ -66,7 +66,6 @@
                 <p>${congratsMessage}</p>
               </div>
             </c:if>
-
           </div>
         </c:forEach>
       </c:when>
@@ -75,6 +74,7 @@
       </c:otherwise>
     </c:choose>
   </div>
+  <a href="/completedGoals/${username}">View Completed Goals</a>
 
   <!-- Display list of courses -->
   <div class="course-container">

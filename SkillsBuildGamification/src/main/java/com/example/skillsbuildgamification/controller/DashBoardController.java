@@ -65,6 +65,16 @@ public class DashBoardController {
         return "dashboard/dashboard";
     }
 
+    @RequestMapping("/{username}/completedGoals")
+    public String completedGoalsPage(@PathVariable String username, Model model) {
+        List<Goal> completedGoals = goalService.getCompletedGoals(username);
+
+        model.addAttribute("completedGoals", completedGoals);
+        model.addAttribute("username", username);
+
+        return "dashboard/completedGoals";
+    }
+
 }
 
 
