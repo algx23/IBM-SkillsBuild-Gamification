@@ -19,6 +19,7 @@ public class Student {
     private String bio; // Student Bio
     // Avatar URL from API replaced profile picture)
     private String avatarUrl;
+    private String activeCategory = "bottts"; // Default category
 
     @ElementCollection
     private List<String> equippedItems = new ArrayList<>();  // Tracks worn accessories
@@ -176,6 +177,15 @@ public class Student {
     public int getCredits() {return credits;}
 
     public void setCredits(int credits) {this.credits = credits;}
+
+    public String getActiveCategory() {
+        return activeCategory;
+    }
+
+    public void setActiveCategory(String category) {
+        this.activeCategory = category;
+    }
+
 
 
 }

@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchAvatar();
 
     function fetchUserCredits() {
-        return fetch(`/api/shop/credits`, {  // ✅ Backend API to fetch credits
+        return fetch(`/api/shop/credits`, {  // Backend API to fetch credits
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(response => response.json())
             .then(data => {
-                document.getElementById("user-credits").textContent = data.credits; // ✅ Update UI
+                document.getElementById("user-credits").textContent = data.credits; // Update UI
             })
             .catch(error => console.error("Error fetching user credits:", error));
     }

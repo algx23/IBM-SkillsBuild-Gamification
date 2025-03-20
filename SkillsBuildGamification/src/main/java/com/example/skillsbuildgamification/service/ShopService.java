@@ -81,19 +81,23 @@ public class ShopService {
         // Correct the format of equipped item
         String diceBearParam = featureType + "=" + variant;
 
-        // Remove old equipped item of same feature type before adding new one
+        // Remove old equipped item of the same feature type before adding the new one
         student.getEquippedItems().removeIf(equipped -> equipped.startsWith(featureType + "="));
         student.getEquippedItems().add(diceBearParam);
 
+        // Update the active avatar category when equipping a new category
+        student.setActiveCategory(category);
+
         // Generate new avatar URL
         String newAvatar = avatarService.generateAvatar(student);
-        student.setAvatarUrl(newAvatar);  // 🔥 **Update avatar URL**
+        student.setAvatarUrl(newAvatar);
 
-        // **Ensure the avatar URL is correctly saved in DB**
+        // Save the student with the new avatar and category
         studentRepository.save(student);
 
         return true;
     }
+
 
 
 

@@ -40,26 +40,23 @@ public class AvatarService {
      * Generate Avatar URL based on student's equipped items
      */
     public String generateAvatar(Student student) {
-        // Start with base DiceBear API URL
-        String baseUrl = DICEBEAR_API_URL + "bottts/svg?seed=" + student.getUsername();
+        // Start with base DiceBear API URL using the correct category
+        String baseUrl = DICEBEAR_API_URL + student.getActiveCategory() + "/svg?seed=" + student.getUsername();
 
         List<String> equippedItems = student.getEquippedItems();
 
         // Ensure valid query parameters
         for (String item : equippedItems) {
-            // Extract only the feature part (ignore category metadata)
             String[] parts = item.split("=");
 
             if (parts.length == 3) {
-                String featureType = parts[1]; // Extract feature type (e.g., Mouth)
-                String variant = parts[2]; // Extract the actual variant (e.g., diagram)
-
+                String featureType = parts[1]; // Extract feature type
+                String variant = parts[2]; // Extract the actual variant
                 baseUrl += "&" + featureType + "=" + variant; // Append in correct DiceBear format
             }
         }
 
         return baseUrl; // Final URL is correctly formatted
     }
-
 
 }
