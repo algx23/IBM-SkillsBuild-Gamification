@@ -27,9 +27,15 @@ public class GoalService {
             throw new RuntimeException("Student not found for username: " + username);
         }
 
+        Date today = new Date();
+
+        if (goal.getCompletionDate().before(today)) {
+            throw new IllegalArgumentException("Completion date must be in the future.");
+        }
+
         goal.setStudent(student);
         goal.setStatus(GoalStatus.ACTIVE);
-        goal.setCreationDate(new Date());
+        goal.setCreationDate(today);
         goalRepository.save(goal);
     }
 

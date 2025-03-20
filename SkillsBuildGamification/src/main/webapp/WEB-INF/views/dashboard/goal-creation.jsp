@@ -7,6 +7,13 @@
     <title>Create Goal</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/create-goal.css">
     <link rel="stylesheet" href="/css/logo.css">
+    <script>
+        // Prevent past dates from being selected
+        window.onload = function () {
+            let today = new Date().toISOString().split('T')[0];
+            document.getElementById("completionDate").setAttribute("min", today);
+        };
+    </script>
 </head>
 <body>
 
@@ -24,11 +31,13 @@
 
     <form:form modelAttribute="goal" action="${pageContext.request.contextPath}/${username}/save-goal" method="post">
         <label for="numberOfGoals">Number of Courses:</label>
-        <form:input type="number" path="numberOfGoals" id="numberOfGoals" required="true"/>
+        <form:input type="number" path="numberOfGoals" id="numberOfGoals" required="true"
+                    value="${goal.numberOfGoals}" />
         <br>
 
         <label for="completionDate">To be completed by:</label>
-        <form:input type="date" path="completionDate" id="completionDate" required="true"/>
+        <form:input type="date" path="completionDate" id="completionDate" required="true"
+                    value="${goal.completionDate}" />
         <br>
 
         <button type="submit" class="create-goal-button">Create Goal</button>
@@ -44,5 +53,6 @@
 
 </body>
 </html>
+
 
 
