@@ -118,6 +118,10 @@ public class LeaderboardController {
         if (!studentAndFriends.contains(loggedInStudent) && !studentAndFriends.isEmpty()) {
             studentAndFriends.add(loggedInStudent);
         }
+        if (sortBy.isEmpty() ) { // if the sort by is higestScoreFirst, then it will be empty so show logged in pos
+            model.addAttribute("loggedInStudentPos",
+                    studentRepository.findLeaderboardPosition(loggedInStudent.getUsername()));
+        }
 
 //        dynamically change the url for the sorting buttons based off which page you are at
         model.addAttribute("urlStart", "/leaderboard/friends");
