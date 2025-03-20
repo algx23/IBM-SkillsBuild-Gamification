@@ -8,6 +8,7 @@ import java.util.List;
 public class Course {
     @Id
     @GeneratedValue
+
     private Integer courseID;
 
     private String courseName;
@@ -16,6 +17,9 @@ public class Course {
     //One course can have many enrollments
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Enrollment> enrollments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "courseID", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
 
     // Getters and setters
     public String getCourseLink() {

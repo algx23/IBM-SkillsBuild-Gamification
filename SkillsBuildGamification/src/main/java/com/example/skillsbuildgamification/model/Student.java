@@ -8,7 +8,6 @@ import java.util.List;
 @Entity
 public class Student {
     // Model class to store information related to a student
-
     @Id
     private String username;
     private String password;
@@ -17,10 +16,14 @@ public class Student {
     private int points = 0;
     private int level = 0;
     private String bio; // Student Bio
+
     private String profilePic; // img url as string
 
     private UserRank userRank = UserRank.BRONZE;
     private int numCompletedCourses;
+
+    @OneToMany(mappedBy = "studentId", cascade = CascadeType.ALL)
+    private List<Review> reviewsByStudent = new ArrayList<>();
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<Enrollment> enrollments = new ArrayList<>();
