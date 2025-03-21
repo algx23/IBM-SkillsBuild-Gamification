@@ -46,6 +46,36 @@
     </div>
   </div>
 
+  <!-- Active Goals Section -->
+  <div class="active-goals">
+    <c:choose>
+      <c:when test="${not empty activeGoals}">
+        <c:forEach var="goal" items="${activeGoals}">
+          <div class="goal-progress-container">
+            <p class="goal-text">
+              <strong>Goal:</strong> ${goal.numberOfGoals} Courses |
+              <strong>Completion Date:</strong> ${goal.completionDate.toString().substring(0, 10)}
+            </p>
+            <div class="progress-bar">
+              <div class="progress-bar-fill" style="width: ${goalProgressMap[goal.goalID]}%;"></div>
+            </div>
+            <p class="goal-progress-text">${goalProgressMap[goal.goalID]}% Completed</p>
+
+            <c:if test="${not empty congratsMessage}">
+              <div class="congrats-container">
+                <p>${congratsMessage}</p>
+              </div>
+            </c:if>
+          </div>
+        </c:forEach>
+      </c:when>
+      <c:otherwise>
+        <p class="no-goals">No active goals set.</p>
+      </c:otherwise>
+    </c:choose>
+  </div>
+  <a href="/completedGoals/${username}">View Completed Goals</a>
+
   <!-- Display list of courses -->
   <div class="course-container">
     <c:forEach var="course" items="${courses}">
@@ -65,7 +95,12 @@
     <div class="redirect-box">
       <a href="<c:url value='/profile/${username}' />">User Profile</a>
     </div>
+    <div class="redirect-box">
+      <a href="${pageContext.request.contextPath}/${username}/goal-creation">Create Goal</a>
+    </div>
   </div>
+
+
 </main>
 
 <script>
