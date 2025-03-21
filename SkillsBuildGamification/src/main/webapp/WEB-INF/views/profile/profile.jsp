@@ -21,7 +21,8 @@
     <!-- Left Section - Profile Details -->
     <div class="profile-left">
         <div class="profile-pic-container">
-            <img src="${student.avatarUrl}" class="profile-pic" alt=" avatar not loading ">
+            <a href="<c:url value='/shop' />"><img src="${student.avatarUrl}" class="profile-pic" alt=" avatar not loading ">
+            </a>
         </div>
 
         <h2>${student.username}</h2>

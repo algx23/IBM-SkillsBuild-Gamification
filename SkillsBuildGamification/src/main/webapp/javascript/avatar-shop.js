@@ -27,8 +27,6 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 ownedItems = data.ownedItems || [];
                 equippedItems = data.equippedItems || [];
-                console.log("owned items:",ownedItems)
-                console.log("equipped items:",equippedItems)
                 fetchUserCredits();
                 fetchAvatar(); //  avatar update on page load
             })
@@ -65,7 +63,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 const variant = parts[2];
 
                 const expectedOwnedKey = `${category}_${featureName}_${featureKey}=${variant}`; // match item in owned database to verify again
-                console.log(expectedOwnedKey)
                 if (
                     featureName !== previewFeature && // ex: eyes should be different but rest should be same
                     validFeatures.includes(featureName) && // check if it is in valid features
@@ -112,7 +109,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 variantContainer.classList.add("variant-container");
 
                 featureData.variants.forEach(variant => {
-                    console.log("Preview fearture: ", feature)
                     const fullVariantUrl = buildAvatarPreviewUrl(category, feature, variant, variants);
 
                     // For inventory, show only owned items

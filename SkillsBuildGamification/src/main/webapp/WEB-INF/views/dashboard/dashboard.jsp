@@ -65,6 +65,9 @@
     <div class="redirect-box">
       <a href="<c:url value='/profile/${username}' />">User Profile</a>
     </div>
+    <div class="redirect-box">
+      <a href="<c:url value='/shop' />">Visit Shop</a>
+    </div>
   </div>
 </main>
 
