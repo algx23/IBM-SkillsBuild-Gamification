@@ -14,8 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
     let ownedItems = [];
     let equippedItems = [];
 
-    console.log("Username in JS:", username); // Debug username
-    console.log("category in JS:", selectedCategory); // Debug username
 
     function fetchUserInventory() {
         return fetch(`/api/shop/owned`, {
@@ -47,6 +45,39 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(response => response.json())
             .catch(error => console.error("Error loading avatar variants:", error));
+    }
+
+    function buildAvatarPreviewUrl(category, previewFeature, previewVariant, allVariants) {
+        let url = `https://api.dicebear.com/8.x/${category}/svg?seed=${username}`; //base url
+
+        if (!allVariants || !allVariants[category]) { // fallback error
+            console.warn("No valid features for category:", category);
+            return url;
+        }
+
+        const validFeatures = Object.keys(allVariants[category]); // create a list to check features of the category
+
+        equippedItems.forEach(item => {
+            const parts = item.split("="); // breaking down Feature=feature=variant format
+            if (parts.length === 3) {
+                const featureName = parts[0]
+                const featureKey = parts[1];
+                const variant = parts[2];
+
+                const expectedOwnedKey = `${category}_${featureName}_${featureKey}=${variant}`; // match item in owned database to verify again
+                console.log(expectedOwnedKey)
+                if (
+                    featureName !== previewFeature && // ex: eyes should be different but rest should be same
+                    validFeatures.includes(featureName) && // check if it is in valid features
+                    ownedItems.includes(expectedOwnedKey) // one more layer
+                ) {
+                    url += `&${featureKey}=${variant}`; // add to url
+                }
+            }
+        });
+
+        url += `&${previewVariant}`;
+        return url;
     }
 
     function loadAvatars(category, view = 'shop') {
@@ -81,15 +112,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 variantContainer.classList.add("variant-container");
 
                 featureData.variants.forEach(variant => {
-                    const fullVariantUrl = `https://api.dicebear.com/8.x/${category}/svg?seed=${username}&${variant}`;
+                    console.log("Preview fearture: ", feature)
+                    const fullVariantUrl = buildAvatarPreviewUrl(category, feature, variant, variants);
 
                     // For inventory, show only owned items
                     const isOwned = ownedItems.includes(`${category}_${feature}_${variant}`);
+                    const isEquipped = equippedItems.includes(`${feature}=${variant}`);
                     if (view === 'inventory' && !isOwned) return;
 
                     hasItems = true;
 
                     const img = document.createElement("img");
+                    if (isOwned) {
+                        img.classList.add("owned-highlight");
+                    }
+                    if (isEquipped) {
+                        img.classList.add("equipped-highlight");
+                    }
                     img.src = fullVariantUrl;
                     img.alt = feature;
                     img.classList.add("variant-img");

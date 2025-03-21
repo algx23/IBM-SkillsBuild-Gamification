@@ -26,12 +26,12 @@
       "variants": ["clothing=hoodie", "clothing=shirtCrewNeck", "clothing=blazerAndSweater", "clothing=collarAndSweater"],
       "cost": 50
     },
-    "Accessories": {
-      "variants": ["accessories=wayfarers", "accessories=eyepatch", "accessories=sunglasses", "accessories=round"],
+    "Mouth": {
+      "variants": ["mouth=concerned", "mouth=screamOpen", "mouth=tongue", "mouth=grimace"],
       "cost": 25
     },
-    "Facial Hair": {
-      "variants": ["facialHair=beardMedium", "facialHair=moustacheFancy", "facialHair=goatee", "facialHair=beardLight"],
+    "Skin Color": {
+      "variants": ["skinColor=614335", "skinColor=ffdbb4", "skinColor=fd9841", "skinColor=f8d25c"],
       "cost": 15
     }
   },
@@ -62,8 +62,8 @@
       "variants": ["hair=short10", "hair=long05", "hair=long26", "hair=short18"],
       "cost": 30
     },
-    "Glasses": {
-      "variants": ["glasses=variant02", "glasses=variant05", "glasses=variant01", "glasses=variant03"],
+    "Hair Color": {
+      "variants": ["hairColor=3eac2c", "hairColor=ab2a18", "hairColor=592454", "hairColor=85c2c6"],
       "cost": 20
     },
     "Mouth": {

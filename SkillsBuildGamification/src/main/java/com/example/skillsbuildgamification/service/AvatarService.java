@@ -43,12 +43,13 @@ public class AvatarService {
         for (String item : equippedItems) {
             String[] parts = item.split("=");
             if (parts.length == 3) {
-                String featureType = parts[0];
+                String featureName = parts[0];
+                String featureType = parts[1];
                 String variant = parts[2];
 
                 // Only append features that exist in the current category
-                if (categoryFeatures.containsKey(featureType)) {
-                    baseUrl += "&" + featureType.toLowerCase() + "=" + variant;
+                if (categoryFeatures.containsKey(featureName)) {
+                    baseUrl += "&" + featureType+ "=" + variant;
                 }
             }
         }
