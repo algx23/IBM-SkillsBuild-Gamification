@@ -9,6 +9,7 @@ import java.util.List;
 @Repository
 public interface GoalRepository extends JpaRepository<Goal, Integer> {
     List<Goal> findByStudent_UsernameAndStatus(String username, GoalStatus status);
+    int countByStatusEquals(GoalStatus status);
 }
 
 

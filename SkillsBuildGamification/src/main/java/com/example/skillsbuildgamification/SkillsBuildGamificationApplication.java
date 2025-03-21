@@ -1,17 +1,17 @@
 package com.example.skillsbuildgamification;
 
 import com.example.skillsbuildgamification.config.PasswordEncoder;
-import com.example.skillsbuildgamification.model.Course;
-import com.example.skillsbuildgamification.model.Enrollment;
-import com.example.skillsbuildgamification.model.EnrollmentStatus;
-import com.example.skillsbuildgamification.model.Student;
+import com.example.skillsbuildgamification.model.*;
 import com.example.skillsbuildgamification.repository.CourseRepository;
 import com.example.skillsbuildgamification.repository.EnrollmentRepository;
+import com.example.skillsbuildgamification.repository.GoalRepository;
 import com.example.skillsbuildgamification.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.Date;
 
 @SpringBootApplication
 public class SkillsBuildGamificationApplication implements CommandLineRunner {
@@ -26,6 +26,8 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
     private CourseRepository courseRepository;
     @Autowired
     private EnrollmentRepository enrollmentRepository;
+    @Autowired
+    private GoalRepository goalRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(SkillsBuildGamificationApplication.class, args);
@@ -102,6 +104,36 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
         studentRepository.save(student1);
         studentRepository.save(student2);
         studentRepository.save(student3);
+
+        // Test data for goals analytics
+        Goal goal1 = new Goal();
+        goal1.setNumberOfGoals(1);
+        goal1.setCompletionDate(new Date());
+        goal1.setStudent(student1);
+        goal1.setStatus(GoalStatus.ACTIVE);
+        goalRepository.save(goal1);
+
+        Goal goal2 = new Goal();
+        goal2.setNumberOfGoals(1);
+        goal2.setCompletionDate(new Date());
+        goal2.setStudent(student2);
+        goal2.setStatus(GoalStatus.EXPIRED);
+        goalRepository.save(goal2);
+
+        Goal goal3 = new Goal();
+        goal3.setNumberOfGoals(1);
+        goal3.setCompletionDate(new Date());
+        goal3.setStudent(student3);
+        goal3.setStatus(GoalStatus.COMPLETED);
+        goalRepository.save(goal3);
+
+        Goal goal4 = new Goal();
+        goal4.setNumberOfGoals(1);
+        goal4.setCompletionDate(new Date());
+        goal4.setStudent(student3);
+        goal4.setStatus(GoalStatus.COMPLETED);
+        goalRepository.save(goal4);
+
 
 //        Enrollment enrollment1 = new Enrollment(student1, course1, EnrollmentStatus.COMPLETED);
 //        Enrollment enrollment2 = new Enrollment(student2, course3, EnrollmentStatus.COMPLETED);
