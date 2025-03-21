@@ -3,11 +3,11 @@ package com.example.skillsbuildgamification.service;
 import com.example.skillsbuildgamification.model.Student;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,23 +35,44 @@ public class AvatarService {
      * Generate Avatar URL based on student's equipped items
      */
     public String generateAvatar(Student student) {
-        // Start with base DiceBear API URL using the correct category
         String baseUrl = DICEBEAR_API_URL + student.getActiveCategory() + "/svg?seed=" + student.getUsername();
 
         List<String> equippedItems = student.getEquippedItems();
+        Map<String, Map<String, Object>> categoryFeatures = avatarData.get(student.getActiveCategory());
 
-        // Ensure valid query parameters
         for (String item : equippedItems) {
             String[] parts = item.split("=");
-
             if (parts.length == 3) {
-                String featureType = parts[1]; // Extract feature type
-                String variant = parts[2]; // Extract the actual variant
-                baseUrl += "&" + featureType + "=" + variant; // Append in correct DiceBear format
+                String featureType = parts[0];
+                String variant = parts[2];
+
+                // Only append features that exist in the current category
+                if (categoryFeatures.containsKey(featureType)) {
+                    baseUrl += "&" + featureType.toLowerCase() + "=" + variant;
+                }
+            }
+        }
+        return baseUrl;
+    }
+
+
+    public List<String> getDefaultItemsForCategory(String category) {
+        List<String> defaults = new ArrayList<>();
+
+        if (avatarData.containsKey(category)) {
+            Map<String, Map<String, Object>> features = avatarData.get(category);
+            for (Map.Entry<String, Map<String, Object>> entry : features.entrySet()) {
+                String feature = entry.getKey();
+                Map<String, Object> featureData = entry.getValue();
+                List<String> variants = (List<String>) featureData.get("variants");
+                if (!variants.isEmpty()) {
+                    // Format: category_feature_variant
+                    defaults.add(category + "_" + feature + "_" + variants.get(0));
+                }
             }
         }
 
-        return baseUrl; // Final URL is correctly formatted
+        return defaults;
     }
 
 }

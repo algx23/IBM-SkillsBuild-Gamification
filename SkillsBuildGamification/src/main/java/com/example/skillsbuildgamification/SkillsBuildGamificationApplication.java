@@ -8,10 +8,14 @@ import com.example.skillsbuildgamification.model.Student;
 import com.example.skillsbuildgamification.repository.CourseRepository;
 import com.example.skillsbuildgamification.repository.EnrollmentRepository;
 import com.example.skillsbuildgamification.repository.StudentRepository;
+import com.example.skillsbuildgamification.service.AvatarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 public class SkillsBuildGamificationApplication implements CommandLineRunner {
@@ -25,7 +29,7 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
     @Autowired
     private CourseRepository courseRepository;
     @Autowired
-    private EnrollmentRepository enrollmentRepository;
+    private AvatarService avatarService;
 
     public static void main(String[] args) {
         SpringApplication.run(SkillsBuildGamificationApplication.class, args);
@@ -51,6 +55,51 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
         student3.setUsername("Max0");
         student3.setPassword(encoder.encoder().encode("password"));
 //        student3.setPoints(90);
+
+        // Simulation of default avatar creation that occurs upon registration
+        // Users get assigned default avatar at registration.
+        student1.setActiveCategory("bottts");
+
+        List<String> defaultItems1 = avatarService.getDefaultItemsForCategory("bottts");
+        student1.setOwnedItems(defaultItems1);
+
+        List<String> equipped1 = new ArrayList<>();
+        for (String item : defaultItems1) {
+            String[] parts = item.split("_");
+            if (parts.length == 3) {
+                equipped1.add(parts[1] + "=" + parts[2]);
+            }
+        }
+        student1.setEquippedItems(equipped1);
+        student1.setAvatarUrl(avatarService.generateAvatar(student1));
+
+        student2.setActiveCategory("bottts");
+        List<String> defaultItems2 = avatarService.getDefaultItemsForCategory("bottts");
+        student2.setOwnedItems(defaultItems2);
+
+        List<String> equipped2 = new ArrayList<>();
+        for (String item : defaultItems2) {
+            String[] parts = item.split("_");
+            if (parts.length == 3) {
+                equipped2.add(parts[1] + "=" + parts[2]);
+            }
+        }
+        student2.setEquippedItems(equipped2);
+        student2.setAvatarUrl(avatarService.generateAvatar(student2));
+
+        student3.setActiveCategory("bottts");
+        List<String> defaultItems3 = avatarService.getDefaultItemsForCategory("bottts");
+        student3.setOwnedItems(defaultItems3);
+
+        List<String> equipped3 = new ArrayList<>();
+        for (String item : defaultItems3) {
+            String[] parts = item.split("_");
+            if (parts.length == 3) {
+                equipped3.add(parts[1] + "=" + parts[2]);
+            }
+        }
+        student3.setEquippedItems(equipped3);
+        student3.setAvatarUrl(avatarService.generateAvatar(student3));
 
         Course course1 = new Course();
         course1.setCourseName("Artifical Intelligence Fundamentals");

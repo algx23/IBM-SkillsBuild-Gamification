@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    let selectedCategory = "bottts"; // Default category
     let avatarImage = document.getElementById("avatar-preview");
     let avatarContainer = document.getElementById("avatar-options");
     let categoryContainer = document.getElementById("category-buttons");
@@ -16,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let equippedItems = [];
 
     console.log("Username in JS:", username); // Debug username
+    console.log("category in JS:", selectedCategory); // Debug username
 
     function fetchUserInventory() {
         return fetch(`/api/shop/owned`, {
@@ -49,9 +49,10 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error("Error loading avatar variants:", error));
     }
 
-    function loadAvatars(category) {
+    function loadAvatars(category, view = 'shop') {
         selectedCategory = category;
-        avatarContainer.innerHTML = ""; // Clear previous items
+        const container = view === 'shop' ? avatarContainer : document.getElementById("inventory-options");
+        container.innerHTML = ""; // Clear previous
 
         fetchAvatarVariants().then(variants => {
             if (!variants || !variants[category]) {
@@ -59,21 +60,36 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
+            let hasItems = false;
+
             Object.entries(variants[category]).forEach(([feature, featureData]) => {
+                let sectionOwnedItems = ownedItems.filter(item =>
+                    item.startsWith(`${category}_${feature}_`)
+                );
+
+                // Skip rendering in inventory view if no items for this feature
+                if (view === 'inventory' && sectionOwnedItems.length === 0) return;
+
                 let featureContainer = document.createElement("div");
                 featureContainer.classList.add("feature-section");
 
                 let featureHeader = document.createElement("h3");
-                featureHeader.textContent = `${feature} - Cost: ${featureData.cost} Credits`;
+                featureHeader.textContent = `${feature}`;
                 featureContainer.appendChild(featureHeader);
 
                 let variantContainer = document.createElement("div");
                 variantContainer.classList.add("variant-container");
 
                 featureData.variants.forEach(variant => {
-                    let fullVariantUrl = `https://api.dicebear.com/8.x/${category}/svg?seed=${username}&${variant}`;
+                    const fullVariantUrl = `https://api.dicebear.com/8.x/${category}/svg?seed=${username}&${variant}`;
 
-                    let img = document.createElement("img");
+                    // For inventory, show only owned items
+                    const isOwned = ownedItems.includes(`${category}_${feature}_${variant}`);
+                    if (view === 'inventory' && !isOwned) return;
+
+                    hasItems = true;
+
+                    const img = document.createElement("img");
                     img.src = fullVariantUrl;
                     img.alt = feature;
                     img.classList.add("variant-img");
@@ -83,16 +99,19 @@ document.addEventListener("DOMContentLoaded", function () {
                         selectedItem = variant;
                         selectedFeature = feature;
 
-                        let owned = ownedItems.includes(`${selectedCategory}_${selectedFeature}_${selectedItem}`);
-                        updateActionButton(selectedItem, selectedFeature, owned, featureData.cost);
+                        updateActionButton(variant, feature, isOwned, featureData.cost);
                     });
 
                     variantContainer.appendChild(img);
                 });
 
                 featureContainer.appendChild(variantContainer);
-                avatarContainer.appendChild(featureContainer);
+                container.appendChild(featureContainer);
             });
+
+            if (view === 'inventory' && !hasItems) {
+                container.innerHTML = `<p class="no-items">No items owned in ${category}.</p>`;
+            }
         });
     }
 
@@ -105,11 +124,32 @@ document.addEventListener("DOMContentLoaded", function () {
             button.textContent = category.charAt(0).toUpperCase() + category.slice(1);
             button.classList.add("category-btn");
 
-            button.addEventListener("click", () => loadAvatars(category));
+            button.addEventListener("click", () => {
+                loadAvatars(category, document.querySelector('.tab-btn.active').textContent.toLowerCase());
+            });
 
             categoryContainer.appendChild(button);
         });
     }
+
+    window.switchTab = function(tabId) {
+        const tabs = document.querySelectorAll('.tab-content');
+        const buttons = document.querySelectorAll('.tab-btn');
+
+        tabs.forEach(tab => tab.classList.remove('active'));
+        buttons.forEach(btn => btn.classList.remove('active'));
+
+        document.getElementById(tabId).classList.add('active');
+
+        if (tabId === 'shop-tab') {
+            buttons[0].classList.add('active');
+            loadAvatars(selectedCategory, 'shop');
+        } else {
+            buttons[1].classList.add('active');
+            loadAvatars(selectedCategory, 'inventory');
+        }
+    };
+
 
     function updateActionButton(item, feature, owned, cost) {
         actionButton.style.display = "block";
@@ -140,6 +180,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     .then(result => {
                         alert(result);
                         fetchUserInventory().then(() => {
+                            filterEquippedItems(selectedCategory);
                             fetchAvatar();
                             updateShopUI();
                         });
@@ -176,6 +217,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
             };
         }
+    }
+
+    function filterEquippedItems(category) {
+        equippedItems = equippedItems.filter(item => {
+            const featureType = item.split("=")[0]; // Extract feature type
+            return ownedItems.some(owned => owned.startsWith(`${category}_${featureType}_`));
+        });
     }
 
 

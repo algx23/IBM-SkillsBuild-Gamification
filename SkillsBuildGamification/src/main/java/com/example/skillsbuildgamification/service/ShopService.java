@@ -81,8 +81,15 @@ public class ShopService {
         // Correct the format of equipped item
         String diceBearParam = featureType + "=" + variant;
 
-        // Remove old equipped item of the same feature type before adding the new one
-        student.getEquippedItems().removeIf(equipped -> equipped.startsWith(featureType + "="));
+        boolean isChangingCategory = !student.getActiveCategory().equals(category);
+
+        if (isChangingCategory) {
+            // Clear all previously equipped items if switching category
+            student.getEquippedItems().clear();
+        } else {
+            // Remove existing item with the same feature type
+            student.getEquippedItems().removeIf(equipped -> equipped.startsWith(featureType + "="));
+        }
         student.getEquippedItems().add(diceBearParam);
 
         // Update the active avatar category when equipping a new category

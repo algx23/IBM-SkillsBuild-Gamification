@@ -99,7 +99,7 @@ public class ShopApiController {
         }
 
         Map<String, Integer> response = new HashMap<>();
-        response.put("credits", student.getCredits());  // ✅ Return updated credits
+        response.put("credits", student.getCredits());  // Return updated credits
 
         return ResponseEntity.ok(response);
     }
