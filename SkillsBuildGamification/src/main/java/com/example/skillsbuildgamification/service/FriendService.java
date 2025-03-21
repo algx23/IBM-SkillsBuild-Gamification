@@ -24,42 +24,34 @@ public class FriendService {
     public void sendRequest(Student loggedInStudent, Student friendRequestReceiver) {
         /*
          * Only create and save the FriendRequest if the sender has not already sent one to the receiver - i.e only
-         * send the request if it is not in the database already.
-         *
-         * Also check that the person sending has not been sent one first - check both directions
+         * send the request if it is not in the database already, or it has already been declined (if it is accepted
+         * there is no reason to send the friend request again).
          */
 
 //        if neither student has sent a request to the other, then this will be True
         boolean requestNotSentByEitherStudent = (friendRequestRepository.findBySenderAndReceiver(loggedInStudent, friendRequestReceiver) == null)
                 && (friendRequestRepository.findByReceiverAndSender(loggedInStudent, friendRequestReceiver) == null);
-        if (requestNotSentByEitherStudent) {
+
+//        if no request between the students has been sent, OR it has been sent, but has already been declined, send a
+//        new request
+        if (requestNotSentByEitherStudent || requestAlreadyDeclined(loggedInStudent, friendRequestReceiver)) {
             FriendRequest request = new FriendRequest(loggedInStudent, friendRequestReceiver);
             friendRequestRepository.save(request);
             friendRequestReceiver.getRequests().add(request);
             studentRepository.save(friendRequestReceiver);
         }
+    }
 
-//      check if the user was the one to receive it or send it - one of these will be null so we check both
-        FriendRequest receiverToSender = friendRequestRepository.findByReceiverAndSender(loggedInStudent, friendRequestReceiver);
-        FriendRequest senderToReceiver = friendRequestRepository.findBySenderAndReceiver(loggedInStudent, friendRequestReceiver);
-
-/*      check if the request that was sent by the logged in student or the other way round, then this is the
- *      request where we check the status
- */
-        FriendRequest requestToCheckIfDeclined = null;
-        if (receiverToSender != null) {
-            requestToCheckIfDeclined = receiverToSender;
-        }
-        else if (senderToReceiver != null) {
-            requestToCheckIfDeclined = senderToReceiver;
-        }
-        assert requestToCheckIfDeclined != null; // intellij complained so :/
-        if (requestToCheckIfDeclined.getStatus() == FriendRequestStatus.DECLINED) {
-            FriendRequest friendRequest = new FriendRequest(loggedInStudent, friendRequestReceiver);
-            friendRequestRepository.save(friendRequest);
-            friendRequestReceiver.getRequests().add(friendRequest);
-            studentRepository.save(friendRequestReceiver);
-        }
+    public boolean requestAlreadyDeclined(Student loggedInStudent, Student friendRequestReceiver) {
+        /*      check if the request that was sent by the logged in student or the other way round, then this is the
+         *      request where we check the status
+         */
+        FriendRequest loggedInSent = friendRequestRepository.findBySenderAndReceiver(loggedInStudent, friendRequestReceiver);
+        FriendRequest receiver = friendRequestRepository.findByReceiverAndSender(loggedInStudent, friendRequestReceiver);
+        return loggedInSent != null && loggedInSent.getStatus() ==
+                FriendRequestStatus.DECLINED
+                || receiver != null && receiver.getStatus()
+                == FriendRequestStatus.DECLINED;
     }
 
     public void acceptRequest(FriendRequest friendRequest) {
