@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GoalService {
@@ -27,15 +28,21 @@ public class GoalService {
             throw new RuntimeException("Student not found for username: " + username);
         }
 
-        Date today = new Date();
+        // Check if the user already has an active goal
+        List<Goal> activeGoals = goalRepository.findByStudent_UsernameAndStatus(username, GoalStatus.ACTIVE);
+        if (!activeGoals.isEmpty()) {
+            throw new IllegalStateException("You already have an active goal. Complete or delete it before creating a new one.");
+        }
 
-        if (goal.getCompletionDate().before(today)) {
+        // Ensure the goal completion date is in the future
+        if (goal.getCompletionDate().before(new Date())) {
             throw new IllegalArgumentException("Completion date must be in the future.");
         }
 
+        // Set the student, status, and save the goal
         goal.setStudent(student);
         goal.setStatus(GoalStatus.ACTIVE);
-        goal.setCreationDate(today);
+        goal.setCreationDate(new Date());
         goalRepository.save(goal);
     }
 
@@ -94,6 +101,17 @@ public class GoalService {
 
     public List<Goal> getCompletedGoals(String username) {
         return goalRepository.findByStudent_UsernameAndStatus(username, GoalStatus.COMPLETED);
+    }
+
+    public boolean deleteActiveGoal(String username) {
+        Student student = studentRepository.findByUsername(username);
+        if (student == null) return false;
+
+        List<Goal> activeGoals = goalRepository.findByStudent_UsernameAndStatus(username, GoalStatus.ACTIVE);
+        if (activeGoals.isEmpty()) return false;
+
+        goalRepository.delete(activeGoals.get(0));
+        return true;
     }
 }
 

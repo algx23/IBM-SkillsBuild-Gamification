@@ -4,6 +4,7 @@ import com.example.skillsbuildgamification.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,6 +26,7 @@ public class SecurityConfig {
                 // Configuration for who can access which links
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/WEB-INF/views/**","css/*", "/denied","/login-page","/login-process","/login-failure","/registration-page","/registration-process").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/{username}/delete-goal").authenticated()
                         .anyRequest().authenticated())
                 // Login configuration
                 .formLogin(form -> form

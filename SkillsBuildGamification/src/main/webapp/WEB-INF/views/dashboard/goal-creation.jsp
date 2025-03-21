@@ -6,7 +6,7 @@
 <head>
     <title>Create Goal</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/create-goal.css">
-    <link rel="stylesheet" href="/css/logo.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logo.css">
     <script>
         // Prevent past dates from being selected
         window.onload = function () {
@@ -29,19 +29,36 @@
 <div class="create-goal-container">
     <h2>Create a Goal</h2>
 
-    <form:form modelAttribute="goal" action="${pageContext.request.contextPath}/${username}/save-goal" method="post">
-        <label for="numberOfGoals">Number of Courses:</label>
-        <form:input type="number" path="numberOfGoals" id="numberOfGoals" required="true"
-                    value="${goal.numberOfGoals}" />
-        <br>
+    <!-- Display Error Messages -->
+    <c:if test="${not empty errorMessage}">
+        <div class="error-message">
+                ${errorMessage}
+        </div>
+    </c:if>
 
-        <label for="completionDate">To be completed by:</label>
-        <form:input type="date" path="completionDate" id="completionDate" required="true"
-                    value="${goal.completionDate}" />
-        <br>
+    <c:choose>
+        <c:when test="${not empty activeGoal}">
+            <div class="error-message">
+                You already have an active goal. Complete or delete it before creating a new one.
+            </div>
+        </c:when>
 
-        <button type="submit" class="create-goal-button">Create Goal</button>
-    </form:form>
+        <c:otherwise>
+            <form:form modelAttribute="goal" action="${pageContext.request.contextPath}/${username}/save-goal" method="post">
+                <label for="numberOfGoals">Number of Courses:</label>
+                <form:input type="number" path="numberOfGoals" id="numberOfGoals" required="true"
+                            value="${goal.numberOfGoals}" min = "1" max = "10"/>
+                <br>
+
+                <label for="completionDate">To be completed by:</label>
+                <form:input type="date" path="completionDate" id="completionDate" required="true"
+                            value="${goal.completionDate}" />
+                <br>
+
+                <button type="submit" class="create-goal-button">Create Goal</button>
+            </form:form>
+        </c:otherwise>
+    </c:choose>
 
     <!-- Navigation Buttons -->
     <div class="redirect-container">
@@ -53,6 +70,7 @@
 
 </body>
 </html>
+
 
 
 
