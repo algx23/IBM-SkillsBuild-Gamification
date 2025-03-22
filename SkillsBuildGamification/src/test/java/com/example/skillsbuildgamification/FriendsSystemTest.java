@@ -205,4 +205,107 @@ public class FriendsSystemTest {
         assert(!bob.getFriends().contains(alice));
         assertEquals(FriendRequestStatus.DECLINED, testFriendRequest.getStatus());
     }
+
+    @Test // test Alice Sends to Bob, Bob accepts, and then bob unfriends
+    public void testBobReceivedRequestAndUnfriends() {
+        Student alice = studentRepository.findByUsername("Alice");
+        Student bob = studentRepository.findByUsername("Bob");
+
+        FriendRequest testFriendRequest = new FriendRequest(alice, bob); // bob receives request
+        when(friendRequestRepository.findBySenderAndReceiver(bob, alice)).thenReturn(null); // since bob did not send
+        when(friendRequestRepository.findBySenderAndReceiver(alice, bob)).thenReturn(testFriendRequest); // alic sent and bob received
+        when(friendRequestRepository.findByReceiverAndSender(bob, alice)).thenReturn(testFriendRequest); // since bob did not receive it
+        when(friendRequestRepository.findByReceiverAndSender(alice, bob)).thenReturn(null); // since alice did not receive it
+
+//        set up like Bob accepted the request
+        bob.getRequests().add(testFriendRequest);
+        alice.getFriends().add(bob);
+        bob.getFriends().add(alice);
+        assertEquals(1, bob.getRequests().size());
+        friendService.unfriend(bob, alice);
+
+        assertEquals(0, bob.getRequests().size());
+        assertEquals(0, alice.getRequests().size());
+        assertEquals(0, bob.getFriends().size());
+        assertEquals(0, alice.getFriends().size());
+        assert(!alice.getFriends().contains(bob));
+        assert(!bob.getFriends().contains(alice));
+        verify(friendRequestRepository, times(1)).delete(any(FriendRequest.class)); // check request gets deleted
+    }
+
+    @Test // test Bob sends the request to alice, and alice accepts, and then alice unfriends
+    public void testAliceReceivedRequestAndUnfriends() {
+        Student alice = studentRepository.findByUsername("Alice");
+        Student bob = studentRepository.findByUsername("Bob");
+
+        FriendRequest testFriendRequest = new FriendRequest(bob, alice); // alice receives request
+
+        when(friendRequestRepository.findBySenderAndReceiver(bob, alice)).thenReturn(testFriendRequest); // bob sent, and alice received
+        when(friendRequestRepository.findBySenderAndReceiver(alice, bob)).thenReturn(null); // since alice did not send this request
+        when(friendRequestRepository.findByReceiverAndSender(alice, bob)).thenReturn(testFriendRequest); // alice received and bob sent
+        when(friendRequestRepository.findByReceiverAndSender(bob, alice)).thenReturn(null); // since bob was not the receiver
+
+        alice.getRequests().add(testFriendRequest);
+        alice.getFriends().add(bob);
+        bob.getFriends().add(alice);
+        assertEquals(1, alice.getRequests().size());
+        friendService.unfriend(alice, bob);
+
+        assertEquals(0, bob.getRequests().size());
+        assertEquals(0, alice.getRequests().size());
+        assertEquals(0, bob.getFriends().size());
+        assertEquals(0, alice.getFriends().size());
+        assert(!alice.getFriends().contains(bob));
+        assert(!bob.getFriends().contains(alice));
+        verify(friendRequestRepository, times(1)).delete(any(FriendRequest.class)); // check request gets deleted
+    }
+
+    @Test // test alice sends the request to bob, bob accepts, and alice unfriends
+    public void testBobReceivesAndAliceUnfriends() {
+        Student alice = studentRepository.findByUsername("Alice");
+        Student bob = studentRepository.findByUsername("Bob");
+
+        FriendRequest testFriendRequest = new FriendRequest(alice, bob);
+        when(friendRequestRepository.findBySenderAndReceiver(alice, bob)).thenReturn(testFriendRequest);
+        when(friendRequestRepository.findByReceiverAndSender(alice, bob)).thenReturn(null);
+
+        bob.getRequests().add(testFriendRequest);
+        alice.getFriends().add(bob);
+        bob.getFriends().add(alice);
+        assertEquals(1, bob.getRequests().size());
+        friendService.unfriend(alice, bob);
+
+        assertEquals(0, bob.getRequests().size());
+        assertEquals(0, alice.getRequests().size());
+        assertEquals(0, bob.getFriends().size());
+        assertEquals(0, alice.getFriends().size());
+        assert(!alice.getFriends().contains(bob));
+        assert(!bob.getFriends().contains(alice));
+        verify(friendRequestRepository, times(1)).delete(any(FriendRequest.class)); // check request gets deleted
+    }
+
+
+    @Test // test bob sends the request to alice, alice accepts, and then unfriends
+    public void testAliceReceivesAndBobUnfriendAlice() {
+        Student alice = studentRepository.findByUsername("Alice");
+        Student bob = studentRepository.findByUsername("Bob");
+
+        FriendRequest testFriendRequest = new FriendRequest(bob, alice);
+        when(friendRequestRepository.findBySenderAndReceiver(bob, alice)).thenReturn(testFriendRequest);
+        when(friendRequestRepository.findByReceiverAndSender(bob, alice)).thenReturn(null); // since bob did not receive it
+
+        alice.getRequests().add(testFriendRequest);
+        alice.getFriends().add(bob);
+        bob.getFriends().add(alice);
+        assertEquals(1, alice.getRequests().size());
+        friendService.unfriend(bob, alice);
+
+        assertEquals(0, bob.getRequests().size());
+        assertEquals(0, alice.getRequests().size());
+        assertEquals(0, bob.getFriends().size());
+        assertEquals(0, alice.getFriends().size());
+        assert(!alice.getFriends().contains(bob));
+        assert(!bob.getFriends().contains(alice));
+        verify(friendRequestRepository, times(1)).delete(any(FriendRequest.class)); // check request gets deleted
+    }
 }
