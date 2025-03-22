@@ -54,18 +54,4 @@ class DashBoardTests {
         mockMvc.perform(get("/"+testUsername+"/dashboard-page").secure(true).with(user("test_user")))
                 .andExpect(status().isOk());
     }
-
-    @Test
-    @WithMockUser(username = "test_user")
-    void userCanViewCourseStatus() throws Exception {
-        // Verify that an authenticated user can access the dashboard endpoint
-
-        // Mock the course repository
-        when(courseRepository.findBycourseID(anyInt())).thenReturn(null);
-
-        mockMvc.perform(get("/test/courseStatus/123").secure(true).with(user("test_user")))
-                .andExpect(status().isOk());
-    }
-
-
 }

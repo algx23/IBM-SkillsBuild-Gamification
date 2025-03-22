@@ -59,7 +59,7 @@ public class EnrollmentController {
             @PathVariable String username,
             @PathVariable int courseId,
             @RequestParam("status") String status,
-            @RequestParam(name = "sourcePage", required = false) String sourcePage,
+            @RequestParam(name = "sourcePage") Optional<String> sourcePage,
             RedirectAttributes redirectAttributes) {
 
         try {
@@ -69,7 +69,10 @@ public class EnrollmentController {
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("error", "Invalid status value provided.");
         }
-
+        // Return the user to the source page if one is given
+        if (sourcePage.isPresent() && sourcePage.get().equals("editProfile")) {
+            return "redirect:/profile/" + username + "/edit";
+        }
         return "redirect:/" + username + "/dashboard-page";
     }
 }
