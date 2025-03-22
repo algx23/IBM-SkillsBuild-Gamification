@@ -3,15 +3,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Completed Goals</title>
-    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/dashboard.css" />
     <link rel="stylesheet" href="/css/completed-goals.css">
+    <link rel="stylesheet" href="/css/logo.css">
 </head>
 <body>
 
 <header>
     <h2>Your Completed Goals</h2>
+
+    <div class="logo-container">
+        <div class="logo">
+            <span class="ibm">IBM</span>
+            <span class="skillsbuild">SkillsBuild Gamification</span>
+        </div>
+    </div>
 </header>
 
 <main>
