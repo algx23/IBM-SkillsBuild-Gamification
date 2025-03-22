@@ -132,4 +132,37 @@ public class FriendsSystemTest {
 //          check that no friend request is saved to the repository, as one already exists
         verify(friendRequestRepository, times(0)).save(any(FriendRequest.class));
     }
+
+    @Test
+    public void testAcceptRequestBobToAlice() {
+        Student bob = studentRepository.findByUsername("Bob");
+        Student alice = studentRepository.findByUsername("Alice");
+        FriendRequest mockFriendRequest = new FriendRequest(bob, alice);
+//        set up the request is already sent
+        alice.getRequests().add(mockFriendRequest);
+
+        friendService.acceptRequest(mockFriendRequest);
+
+        assertEquals(1, alice.getRequests().size());
+        assertEquals(1, alice.getFriends().size());
+        assertEquals(1, bob.getFriends().size());
+        assert(alice.getFriends().contains(bob));
+        assert(bob.getFriends().contains(alice));
+    }
+    @Test
+    public void testAcceptRequestAliceToBob() {
+            Student bob = studentRepository.findByUsername("Bob");
+            Student alice = studentRepository.findByUsername("Alice");
+            FriendRequest mockFriendRequest = new FriendRequest(alice, bob);
+//        set up the request is already sent
+            bob.getRequests().add(mockFriendRequest);
+
+            friendService.acceptRequest(mockFriendRequest);
+
+            assertEquals(1, bob.getRequests().size());
+            assertEquals(1, alice.getFriends().size());
+            assertEquals(1, bob.getFriends().size());
+            assert(alice.getFriends().contains(bob));
+            assert(bob.getFriends().contains(alice));
+    }
 }
