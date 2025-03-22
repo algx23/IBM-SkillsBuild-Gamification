@@ -82,4 +82,14 @@ public class FriendControllerTest {
                 .andExpect(model().attributeExists("username")); // check that there is a model attribute called username
     }
 
+    @Test
+    @WithMockUser(username = "test")
+    public void testShowFriendsRequestEndpoint() throws Exception {
+        this.mockMvc.perform(get("https://localhost:8443/profile/test/friend-requests"))
+                .andExpect(status().isOk()) // check status code 200, the request has no errors
+                .andExpect(view().name("profile/requests")) // check requests.jsp returned
+                .andExpect(model().attributeExists("requests")) // check "requests" is in the model
+                .andExpect(model().attributeExists("username")); // check "username" is in the model
+
+    }
 }
