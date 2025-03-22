@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class FriendsSystemTest {
+public class FriendsServiceTest {
 
     @Mock
     private StudentRepository studentRepository;
