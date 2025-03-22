@@ -1,6 +1,7 @@
 package com.example.skillsbuildgamification;
 
 import com.example.skillsbuildgamification.model.FriendRequest;
+import com.example.skillsbuildgamification.model.FriendRequestStatus;
 import com.example.skillsbuildgamification.model.Student;
 import com.example.skillsbuildgamification.repository.FriendRequestRepository;
 import com.example.skillsbuildgamification.repository.StudentRepository;
@@ -137,32 +138,71 @@ public class FriendsSystemTest {
     public void testAcceptRequestBobToAlice() {
         Student bob = studentRepository.findByUsername("Bob");
         Student alice = studentRepository.findByUsername("Alice");
-        FriendRequest mockFriendRequest = new FriendRequest(bob, alice);
+        FriendRequest testFriendRequest = new FriendRequest(bob, alice);
 //        set up the request is already sent
-        alice.getRequests().add(mockFriendRequest);
+        alice.getRequests().add(testFriendRequest);
 
-        friendService.acceptRequest(mockFriendRequest);
+        friendService.acceptRequest(testFriendRequest);
 
         assertEquals(1, alice.getRequests().size());
         assertEquals(1, alice.getFriends().size());
         assertEquals(1, bob.getFriends().size());
         assert(alice.getFriends().contains(bob));
         assert(bob.getFriends().contains(alice));
+        assertEquals(FriendRequestStatus.ACCEPTED, testFriendRequest.getStatus());
     }
+
     @Test
     public void testAcceptRequestAliceToBob() {
             Student bob = studentRepository.findByUsername("Bob");
             Student alice = studentRepository.findByUsername("Alice");
-            FriendRequest mockFriendRequest = new FriendRequest(alice, bob);
+            FriendRequest testFriendRequest = new FriendRequest(alice, bob);
 //        set up the request is already sent
-            bob.getRequests().add(mockFriendRequest);
+            bob.getRequests().add(testFriendRequest);
 
-            friendService.acceptRequest(mockFriendRequest);
+            friendService.acceptRequest(testFriendRequest);
 
             assertEquals(1, bob.getRequests().size());
             assertEquals(1, alice.getFriends().size());
             assertEquals(1, bob.getFriends().size());
             assert(alice.getFriends().contains(bob));
             assert(bob.getFriends().contains(alice));
+            assertEquals(FriendRequestStatus.ACCEPTED, testFriendRequest.getStatus());
+    }
+
+    @Test
+    public void testDeclineRequestBobToAlice() {
+        Student bob = studentRepository.findByUsername("Bob");
+        Student alice = studentRepository.findByUsername("Alice");
+        FriendRequest testFriendRequest = new FriendRequest(bob, alice);
+//        set up the request is already sent
+        alice.getRequests().add(testFriendRequest);
+
+        friendService.declineRequest(testFriendRequest);
+
+        assertEquals(1, alice.getRequests().size());
+        assertEquals(0, alice.getFriends().size());
+        assertEquals(0, bob.getFriends().size());
+        assert(!alice.getFriends().contains(bob));
+        assert(!bob.getFriends().contains(alice));
+        assertEquals(FriendRequestStatus.DECLINED, testFriendRequest.getStatus());
+    }
+
+    @Test
+    public void testDeclineRequestAliceToBob() {
+        Student bob = studentRepository.findByUsername("Bob");
+        Student alice = studentRepository.findByUsername("Alice");
+        FriendRequest testFriendRequest = new FriendRequest(alice, bob);
+//        set up the request is already sent
+        bob.getRequests().add(testFriendRequest);
+
+        friendService.declineRequest(testFriendRequest);
+
+        assertEquals(1, bob.getRequests().size());
+        assertEquals(0, alice.getFriends().size());
+        assertEquals(0, bob.getFriends().size());
+        assert(!alice.getFriends().contains(bob));
+        assert(!bob.getFriends().contains(alice));
+        assertEquals(FriendRequestStatus.DECLINED, testFriendRequest.getStatus());
     }
 }
