@@ -26,8 +26,6 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
     private CourseRepository courseRepository;
     @Autowired
     private EnrollmentRepository enrollmentRepository;
-    @Autowired
-    private GoalRepository goalRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(SkillsBuildGamificationApplication.class, args);
@@ -104,47 +102,6 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
         studentRepository.save(student1);
         studentRepository.save(student2);
         studentRepository.save(student3);
-
-        // Test data for goals analytics
-        Goal goal1 = new Goal();
-        goal1.setNumberOfGoals(1);
-        goal1.setCompletionDate(new Date());
-        goal1.setStudent(student1);
-        goal1.setStatus(GoalStatus.ACTIVE);
-        goalRepository.save(goal1);
-
-        Goal goal2 = new Goal();
-        goal2.setNumberOfGoals(1);
-        goal2.setCompletionDate(new Date());
-        goal2.setStudent(student2);
-        goal2.setStatus(GoalStatus.EXPIRED);
-        goalRepository.save(goal2);
-
-        Goal goal3 = new Goal();
-        goal3.setNumberOfGoals(1);
-        goal3.setCompletionDate(new Date());
-        goal3.setStudent(student3);
-        goal3.setStatus(GoalStatus.COMPLETED);
-        goalRepository.save(goal3);
-
-        Goal goal4 = new Goal();
-        goal4.setNumberOfGoals(1);
-        goal4.setCompletionDate(new Date());
-        goal4.setStudent(student3);
-        goal4.setStatus(GoalStatus.COMPLETED);
-        goalRepository.save(goal4);
-
-
-//        Enrollment enrollment1 = new Enrollment(student1, course1, EnrollmentStatus.COMPLETED);
-//        Enrollment enrollment2 = new Enrollment(student2, course3, EnrollmentStatus.COMPLETED);
-//        Enrollment enrollment3 = new Enrollment(student2, course4, EnrollmentStatus.COMPLETED);
-//        student1.setNumCompletedCourses(1);
-//        student2.setNumCompletedCourses(2);
-//        enrollment1 = enrollmentRepository.save(enrollment1);
-//        enrollment2 = enrollmentRepository.save(enrollment2);
-//        enrollment3 = enrollmentRepository.save(enrollment3);
-//        student1 = studentRepository.save(student1);
-//        student2 = studentRepository.save(student2);
 
     }
 
