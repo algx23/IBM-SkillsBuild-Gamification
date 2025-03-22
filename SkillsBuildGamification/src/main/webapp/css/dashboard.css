@@ -64,6 +64,7 @@
 /* Styling for leaderboard and profile links */
 .redirect-box {
     background-color: #d3d3d3;
+    cursor: pointer;
     padding: 10px;
     width: 150px;
     text-align: center;

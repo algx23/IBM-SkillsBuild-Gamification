@@ -8,7 +8,7 @@ google.charts.setOnLoadCallback(drawChart);
 
 // Draw the chart with data from goals
 function drawChart() {
-    var data = google.visualization.arrayToDataTable([
+    const data = google.visualization.arrayToDataTable([
         ['Status', 'Count'],
         ['Active', goalsActive],
         ['Completed', goalsCompleted],
@@ -16,14 +16,14 @@ function drawChart() {
     ]);
 
     // Options are used for formatting
-    var options = {
-        'width':600,
-        'height':400,
+    const options = {
+        'width': 600,
+        'height': 400,
         pieHole: 0.5,
         pieSliceText: 'value',
         fontSize: 16,
-        colors: ['32afc2','5bc232','c2291b'],
-        backgroundColor: {fill:'transparent'},
+        colors: ['32afc2', '5bc232', 'c2291b'],
+        backgroundColor: {fill: 'transparent'},
         chartArea: {
             height: '100%',
             width: '100%',
@@ -32,7 +32,6 @@ function drawChart() {
             right: 16,
             bottom: 48
         }
-
     };
 
     // Display the chart

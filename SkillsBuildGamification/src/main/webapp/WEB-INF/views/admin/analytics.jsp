@@ -17,10 +17,18 @@
             <span class="skillsbuild">SkillsBuild Gamification</span>
         </div>
     </div>
+    <!--Display a button to view the student dashboard-->
+    <div class="student-button-container">
+        <div class="redirect-box">
+            <a href="${pageContext.request.contextPath}/">
+                View Student Dashboard
+            </a>
+        </div>
+    </div>
 </header>
 
 <main>
-    <h1 class="analytics-title">Analytics</h1>
+    <h1 class="analytics-title">Admin Dashboard - Analytics</h1>
     <br/>
     <div class="analytics-container">
         <div id="goal-div" class="analytics-container-child">

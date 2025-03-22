@@ -142,6 +142,50 @@ body {
 }
 
 /* ============================
+   Student Dashboard Button
+   ============================ */
+
+.student-button-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    text-align: center;
+}
+
+.redirect-box {
+    background-color: #d3d3d3;
+    cursor: pointer;
+    padding: 10px;
+    width: 150px;
+    text-align: center;
+    border-radius: 5px;
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    margin: 5px 10px 0;
+}
+
+/* Styling for links inside navigation buttons */
+.redirect-box a {
+    text-decoration: none;
+    color: black;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hover effect for navigation buttons */
+.redirect-box:hover {
+    background-color: #a9a9a9;
+}
+
+/* ============================
    Responsive Design
    ============================ */
 

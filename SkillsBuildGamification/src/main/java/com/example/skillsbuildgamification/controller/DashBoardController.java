@@ -61,6 +61,7 @@ public class DashBoardController {
         model.addAttribute("enrollments", student.getEnrollments());
         model.addAttribute("activeGoals", activeGoals);
         model.addAttribute("goalProgressMap", goalProgressMap);
+        model.addAttribute("isAdmin", student.isAdmin());
 
         return "dashboard/dashboard";
     }
