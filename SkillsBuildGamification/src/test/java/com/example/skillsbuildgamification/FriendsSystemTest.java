@@ -75,7 +75,7 @@ public class FriendsSystemTest {
 
         friendService.sendRequest(bob, alice); // student1 sender, alice receiver
 
-        assertEquals(0, bob.getRequests().size()); // check request not added to student1 (the sender)
+        assertEquals(0, bob.getRequests().size()); // check request not added to bob (the sender)
         assertEquals(1, alice.getRequests().size()); // check request added to alice (the receiver)
         verify(friendRequestRepository, times(1)).save(any(FriendRequest.class)); // check the friend request was saved
         verify(studentRepository).save(any(Student.class)); // check student was saved
@@ -96,10 +96,40 @@ public class FriendsSystemTest {
             alice.getRequests().add(existingRequest);
 
             friendService.sendRequest(bob, alice);
-            assertEquals(bob.getRequests().size(), 0);
-            assertEquals(alice.getRequests().size(), 1);
+            assertEquals(0, bob.getRequests().size());
+            assertEquals(1, alice.getRequests().size());
 //          check that no friend request is saved to the repository, as one already exists
             verify(friendRequestRepository, times(0)).save(any(FriendRequest.class));
     }
+    @Test
+    public void testSendRequestAliceToBob() {
+        Student bob = studentRepository.findByUsername("Bob");
+        Student alice = studentRepository.findByUsername("Alice");
 
+        friendService.sendRequest(alice, bob); // student1 sender, alice receiver
+
+        assertEquals(0, alice.getRequests().size()); // check request not added to alice (the sender)
+        assertEquals(1, bob.getRequests().size()); // check request added to bobs (the receiver)
+        verify(friendRequestRepository, times(1)).save(any(FriendRequest.class)); // check the friend request was saved
+        verify(studentRepository).save(any(Student.class)); // check student was saved
+    }
+
+    @Test
+    public void testSendRequestAliceToBobAlreadyExists() {
+        Student bob = studentRepository.findByUsername("Bob");
+        Student alice = studentRepository.findByUsername("Alice");
+
+        //        set up request already exists
+        FriendRequest existingRequest = new FriendRequest(alice, bob);
+        when(friendRequestRepository.findBySenderAndReceiver(alice, bob)).thenReturn(existingRequest);
+//            since bob did not send to alice
+        when(friendRequestRepository.findByReceiverAndSender(alice, bob)).thenReturn(null);
+
+        bob.getRequests().add(existingRequest);
+        friendService.sendRequest(alice, bob);
+        assertEquals(alice.getRequests().size(), 0);
+        assertEquals(bob.getRequests().size(), 1);
+//          check that no friend request is saved to the repository, as one already exists
+        verify(friendRequestRepository, times(0)).save(any(FriendRequest.class));
+    }
 }
