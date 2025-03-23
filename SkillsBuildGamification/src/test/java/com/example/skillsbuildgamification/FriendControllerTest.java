@@ -1,6 +1,9 @@
 package com.example.skillsbuildgamification;
 
+import com.example.skillsbuildgamification.config.SecurityConfig;
+import com.example.skillsbuildgamification.controller.FriendController;
 import com.example.skillsbuildgamification.model.FriendRequest;
+import com.example.skillsbuildgamification.model.FriendRequestStatus;
 import com.example.skillsbuildgamification.model.Student;
 import com.example.skillsbuildgamification.repository.FriendRequestRepository;
 import com.example.skillsbuildgamification.repository.StudentRepository;
@@ -8,10 +11,13 @@ import com.example.skillsbuildgamification.service.FriendService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -19,8 +25,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -28,23 +33,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @ExtendWith(SpringExtension.class)
-@AutoConfigureMockMvc
 @SpringBootTest
+@AutoConfigureMockMvc
 public class FriendControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockitoBean
+    @InjectMocks
     private FriendService friendService;
 
-    @MockitoBean
+    @MockBean
     private StudentRepository studentRepository;
 
-    @MockitoBean
+    @MockBean
     private FriendRequestRepository friendRequestRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder encoder;
+//    @Autowired
+//    private BCryptPasswordEncoder encoder;
 
 
     @Test
@@ -58,11 +63,11 @@ public class FriendControllerTest {
     public void setUp() throws Exception {
         Student test = new Student();
         test.setUsername("test");
-        test.setPassword(encoder.encode("test"));
+        test.setPassword("test");
 
         Student testReceiver = new Student();
         testReceiver.setUsername("testReceiver");
-        testReceiver.setPassword(encoder.encode("testReceiver"));
+        testReceiver.setPassword("testReceiver");
 
         when(studentRepository.save(test)).thenReturn(test);
         when(studentRepository.save(testReceiver)).thenReturn(testReceiver);
@@ -90,6 +95,69 @@ public class FriendControllerTest {
                 .andExpect(view().name("profile/requests")) // check requests.jsp returned
                 .andExpect(model().attributeExists("requests")) // check "requests" is in the model
                 .andExpect(model().attributeExists("username")); // check "username" is in the model
+    }
 
+    @Test
+    @WithMockUser(username = "test")
+    public void testSendFriendRequestEndpoint() throws Exception {
+//        mock that no request has been sent by the two users
+        Student test = studentRepository.findByUsername("test");
+        Student testReceiver = studentRepository.findByUsername("testReceiver");
+        FriendRequest friendRequest = new FriendRequest(test, testReceiver);
+
+
+        when(friendRequestRepository.save(any(FriendRequest.class))).thenReturn(friendRequest);
+//        return null because the mock is that no request has been sent before
+        when(friendRequestRepository.findBySenderAndReceiver(test, testReceiver)).thenReturn(null);
+        when(friendRequestRepository.findByReceiverAndSender(test, testReceiver)).thenReturn(null);
+
+        this.mockMvc.perform(post("https://localhost:8443/sendRequest/testReceiver").with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/test/dashboard-page"));
+//        check that a friend request was actually saved
+        verify(friendRequestRepository, times(1)).save(any(FriendRequest.class));
+//        there are 2 students in a friend request, so check that they are both saved
+        verify(studentRepository, times(1)).save(any(Student.class));
+    }
+
+    @Test
+    @WithMockUser(username = "test")
+    public void testAcceptRequestEndpoint() throws Exception {
+//        set up a mock friendRequest
+        Student test = studentRepository.findByUsername("test");
+        Student testReceiver = studentRepository.findByUsername("testReceiver");
+        FriendRequest friendRequest = new FriendRequest(test, testReceiver);
+        friendRequest.setId(1);
+
+//        mock that when the controller does findById it returns this friend request
+        when(friendRequestRepository.findById(1)).thenReturn(friendRequest);
+//        mock that when the service does save, it just returns the friend request
+        when(friendRequestRepository.save(any(FriendRequest.class))).thenReturn(friendRequest);
+
+        this.mockMvc.perform(post("https://localhost:8443/friendRequest/accept/1").with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                // should redirect to the dashboard page
+                .andExpect(redirectedUrl("/test/dashboard-page"));
+
+        //        check that the friend request does get updated , so the controller calls the service properly
+        verify(friendRequestRepository, times(1)).save(any(FriendRequest.class));
+//        check that both students are saved
+        verify(studentRepository, times(2)).save(any(Student.class));
+    }
+
+    @Test
+    @WithMockUser(username = "test")
+    public void testDeclineRequestEndpoint() throws Exception {
+        Student test = studentRepository.findByUsername("test");
+        Student testReceiver = studentRepository.findByUsername("testReceiver");
+        FriendRequest friendRequest = new FriendRequest(test, testReceiver);
+        friendRequest.setId(1);
+//        mock that hwen the controller does friendRequest.findById(1) it returns this friend request
+        when(friendRequestRepository.findById(1)).thenReturn(friendRequest);
+        when(friendRequestRepository.save(any(FriendRequest.class))).thenReturn(friendRequest);
+
+        this.mockMvc.perform(post("https://localhost:8443/friendRequest/decline/1").with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/test/dashboard-page"));
     }
 }
