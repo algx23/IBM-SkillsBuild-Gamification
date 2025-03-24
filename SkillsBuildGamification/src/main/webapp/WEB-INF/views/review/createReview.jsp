@@ -16,15 +16,6 @@
   <h1>${course.courseName}</h1>
   <%--@elvariable id="review" type="com.example.skillsbuildgamification.model.Review"--%>
   <form:form action="/createReview?courseName=${course.courseName}&username=${student.username}" modelAttribute="review" >
-    <!--
-    <div class="star-rating">
-      <span class="star" data-value="1">&#9733;</span>
-      <span class="star" data-value="2">&#9733;</span>
-      <span class="star" data-value="3">&#9733;</span>
-      <span class="star" data-value="4">&#9733;</span>
-      <span class="star" data-value="5">&#9733;</span>
-    </div>
-    -->
     <label for="rating">Select a number 1-5 from the dropdown menu. (5 meaning the course was brilliant and 1 meaning it was terrible).</label>
     <form:select id ="rating" path="rating">
       <option value="5">5</option>
@@ -37,29 +28,6 @@
     <form:input type="text" id="reviewTextd" maxlength="500" path="reviewText"/>
     <input type="submit">
   </form:form>
+  <a href="/username=${student.username}/dashboard-page">Dashboard</a>
   </body>
 </html>
-
-<script>
-  /*
-  document.addEventListener('DOMContentLoaded', function () {
-    const stars = document.querySelectorAll('.star');
-
-    //this loop means that for each star element
-    stars.forEach(star => {
-      //it listens if the user has clicked onto any of the stars
-      star.addEventListener('click', () => {
-        //when a star is clicked on
-        stars.forEach(s => s.classList.remove('selected'));
-        star.classList.add('selected');
-        let previousSibling = star.previousElementSibling;
-        while (previousSibling) {
-          previousSibling.classList.add('selected');
-          previousSibling = previousSibling.previousElementSibling;
-        }
-      });
-    });
-  });
-
-   */
-</script>
