@@ -14,7 +14,8 @@
     <c:forEach var="f" items="${friends}">
         <div class="friend-container">
             <div class="profile-pic-container">
-                <img src="${f.profilePic}" alt="NoImageFound" class="profile-pic">
+                <a href="<c:url value='/shop' />"><img src="${f.avatarUrl}" class="profile-pic" alt=" avatar not loading ">
+                </a>
             </div>
             <h2>${f.username}</h2>
             <input class="view-profile-button" type="button" onclick=window.location.href="/profile/${f.username}" value="View Profile">
