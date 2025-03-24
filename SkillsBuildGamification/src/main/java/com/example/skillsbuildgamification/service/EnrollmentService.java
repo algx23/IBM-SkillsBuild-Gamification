@@ -62,7 +62,8 @@ public class EnrollmentService {
                 if (student.getPoints() % 2 == 0) {
                     student.setLevel(student.getLevel() + 1);
                 }
-            } else {
+            }
+            else {
                 enrollment.setCompletionDate(null);
             }
 
@@ -71,6 +72,7 @@ public class EnrollmentService {
             enrollment = new Enrollment(student, course, status);
 
             if (status == EnrollmentStatus.COMPLETED) {
+                enrollment.setCompletionDate(now);
                 student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
                 student.setPoints(student.getPoints() + 10);
                 rankService.setRankOfStudent(username);
