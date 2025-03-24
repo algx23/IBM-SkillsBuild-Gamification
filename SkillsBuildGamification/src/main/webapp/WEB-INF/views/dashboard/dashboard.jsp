@@ -46,7 +46,7 @@
     </div>
   </div>
 
-  <!-- Active Goals Section -->
+  <!-- Goals Section -->
   <div class="active-goals">
     <c:choose>
       <c:when test="${not empty activeGoals}">
@@ -74,7 +74,19 @@
       </c:otherwise>
     </c:choose>
   </div>
-  <a href="/completedGoals/${username}">View Completed Goals</a>
+
+  <div class="goal-actions">
+    <c:if test="${not empty activeGoals and activeGoals[0].status ne 'COMPLETED'}">
+      <a href="${pageContext.request.contextPath}/${username}/delete-goal" class="delete-goal-btn"
+         onclick="return confirm('Are you sure you want to delete this goal?');">
+        Delete Goal
+      </a>
+    </c:if>
+
+    <a href="${pageContext.request.contextPath}/${username}/completed-goals" class="view-completed-goals-link">
+      View Completed Goals
+    </a>
+  </div>
 
   <!-- Display list of courses -->
   <div class="course-container">

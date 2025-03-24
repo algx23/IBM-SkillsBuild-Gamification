@@ -293,6 +293,65 @@ body {
     font-size: 24px;
 }
 
+.goal-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.goal-action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.view-completed-goals-link {
+    font-size: 14px;
+    font-weight: bold;
+    color: #007BFF;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.view-completed-goals-link:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+.delete-goal-btn {
+    display: inline-block;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    background-color: #dc3545;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-goal-btn:hover {
+    background-color: #c82333;
+    text-decoration: none;
+    transform: scale(1.05);
+}
+
+.delete-goal-btn:focus {
+    outline: none;
+}
+
+.delete-goal-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+
+
+
 
 
 
