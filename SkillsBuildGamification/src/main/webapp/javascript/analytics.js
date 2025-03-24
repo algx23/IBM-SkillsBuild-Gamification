@@ -4,7 +4,20 @@
 
 // Load google charts
 google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawChart);
+google.charts.setOnLoadCallback(prepareChart);
+
+// Checks if there is any data to display, displays it if there is and displays info text if there's not
+function prepareChart() {
+    if (goalsCompleted + goalsExpired + goalsActive === 0) {
+        // If there is no data to show, state so.
+        const messageNode= document.createElement("span");
+        messageNode.innerText = "There is no data to show at the moment. When users complete goals, a pie chart will be shown here."
+        document.getElementById("piechart").appendChild(messageNode);
+    }
+    else {
+        drawChart();
+    }
+}
 
 // Draw the chart with data from goals
 function drawChart() {

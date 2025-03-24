@@ -17,11 +17,16 @@
             <span class="skillsbuild">SkillsBuild Gamification</span>
         </div>
     </div>
-    <!--Display a button to view the student dashboard-->
+    <!--Display buttons for admins to access different parts of the site-->
     <div class="student-button-container">
         <div class="redirect-box">
             <a href="${pageContext.request.contextPath}/${student.username}/dashboard-page">
                 View Student Dashboard
+            </a>
+        </div>
+        <div class="redirect-box">
+            <a href="${pageContext.request.contextPath}/profile/${student.username}">
+                Profile
             </a>
         </div>
     </div>
