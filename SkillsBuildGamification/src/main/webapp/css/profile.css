@@ -29,7 +29,6 @@
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    background-color: #d3d3d3;
     overflow: hidden;
 }
 
@@ -38,6 +37,11 @@
     height: 100%;
     object-fit: cover;
     display: block;
+}
+
+.profile-pic:hover {
+    background-color: rgba(40, 167, 69, 0.15);
+    transform: scale(1.06);
 }
 
 .profile-left h2 {
