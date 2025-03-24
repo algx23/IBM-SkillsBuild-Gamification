@@ -75,8 +75,10 @@ public class ShopApiController {
         Student student = studentRepository.findByUsername(principal.getName());
 
         if (student == null) {
+            System.out.println("⚠️ Student not found for: " + principal.getName());
             return ResponseEntity.notFound().build();
         }
+
         String url2 = student.getAvatarUrl();
         return ResponseEntity.ok(url2);
     }
