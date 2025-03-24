@@ -26,7 +26,7 @@
         </div>
         <div class="redirect-box">
             <a href="${pageContext.request.contextPath}/profile/${student.username}">
-                Profile
+                View User Profile
             </a>
         </div>
     </div>
