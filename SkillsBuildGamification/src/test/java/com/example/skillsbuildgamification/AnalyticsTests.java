@@ -95,7 +95,7 @@ public class AnalyticsTests {
         mockStudent.setAdmin(true);
         when(studentRepository.findByUsername(anyString())).thenReturn(mockStudent);
 
-        mockMvc.perform(get("/login-success").secure(true).with(user("test_user")))
+        mockMvc.perform(get("/login-success").secure(true))
                 .andExpect(redirectedUrl("/analytics"));
     }
 }
