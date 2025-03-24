@@ -112,7 +112,7 @@
             <th>View Profile</th>
         </tr>
         </thead>
-        
+
         <tbody>
       <c:forEach var="student" items="${students}" varStatus="s">
         <!-- for each row, the username has a url which goes to that users' profile
@@ -171,12 +171,12 @@
       </div>
     <br>
   <c:if test="${urlStart == '/leaderboard/friends'}">
-      <form action="/leaderboard?sortBy=''" method="get">
+      <form action="/leaderboard" method="get">
           <input type="submit" value="View Global Leaderboard" class="back-to-dboard-button"/>
       </form>
   </c:if>
   <c:if test="${urlStart == '/leaderboard'}">
-      <form action="/leaderboard/friends?sortBy=''" method="get">
+      <form action="/leaderboard/friends?sortBy=" method="get">
           <input type="submit" value="View Friends Leaderboard" class="back-to-dboard-button"/>
       </form>
   </c:if>
