@@ -31,6 +31,8 @@ public class Student {
     @ElementCollection
     private List<String> earnedBadges = new ArrayList<>(); // badges as a collection
 
+
+
     public List<Review> getReviewsByStudent() {
         return reviewsByStudent;
     }

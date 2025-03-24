@@ -8,6 +8,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<link rel="stylesheet" href="/css/see-reviews.css"/>
 <head>
     <title>${course.courseName}</title>
 </head>
@@ -15,6 +16,10 @@
 <h1>User Reviews:</h1>
 <c:forEach var="review" items="${reviews}">
     <div>
+        <c:if test="${student.isAdmin()}">
+            <a href="/deleteReviews?reviewID=${review.reviewId}&courseName=${course.courseName}&username=${student.username}">Delete Review</a>
+
+        </c:if>
         Review ID:${review.reviewId}<br>
         Username:${student.username}<br>
         Course: ${course.courseName}<br>
@@ -24,6 +29,6 @@
         </div>
     </div>
 </c:forEach>
-<a href="/username=${student.username}/dashboard-page">Dashboard</a>
+<a href="/${student.username}/dashboard-page">Dashboard</a>
 </body>
 </html>

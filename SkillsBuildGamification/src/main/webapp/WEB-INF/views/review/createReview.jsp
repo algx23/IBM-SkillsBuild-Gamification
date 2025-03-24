@@ -16,7 +16,7 @@
   <h1>${course.courseName}</h1>
   <%--@elvariable id="review" type="com.example.skillsbuildgamification.model.Review"--%>
   <form:form action="/createReview?courseName=${course.courseName}&username=${student.username}" modelAttribute="review" >
-    <label for="rating">Select a number 1-5 from the dropdown menu. (5 meaning the course was brilliant and 1 meaning it was terrible).</label>
+    <label for="rating">Select a number 1-5 from the dropdown menu. (5 meaning the course was brilliant and 1 meaning it was terrible you have 500 characters to write your review).</label>
     <form:select id ="rating" path="rating">
       <option value="5">5</option>
       <option value="4">4</option>
@@ -28,6 +28,6 @@
     <form:input type="text" id="reviewTextd" maxlength="500" path="reviewText"/>
     <input type="submit">
   </form:form>
-  <a href="/username=${student.username}/dashboard-page">Dashboard</a>
+  <a href=/${student.username}/dashboard-page">Dashboard</a>
   </body>
 </html>

@@ -50,6 +50,7 @@ public class AddReviewController {
             if(course.getReviews().contains(student.getReviewsByStudent().get(j))){
                 student.getReviewsByStudent().get(j).setStudentId(null);
                 student.getReviewsByStudent().get(j).setCourseAssociated(null);
+                reviewRepository.save(student.getReviewsByStudent().get(j));
                 reviewRepository.delete(student.getReviewsByStudent().get(j));
             }
         }

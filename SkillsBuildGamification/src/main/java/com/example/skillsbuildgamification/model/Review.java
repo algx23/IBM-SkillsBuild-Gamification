@@ -10,20 +10,19 @@ public class Review {
 
     //mapped to the Course table
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,optional = false)
-    @JoinColumn(nullable = false)
+    @JoinColumn
     private Course courseAssociated;
 
     //mapped to the student table
     @ManyToOne(cascade = CascadeType.ALL,optional = false)
-    @JoinColumn(nullable = false)
+    @JoinColumn
     private Student studentId;
 
     //individual value
-    @Column(nullable = false)
     private String reviewText;
 
     //individual value
-    @Column(nullable = false)
+    @Column
     private Integer rating;
 
     public int getReviewId() {

@@ -8,4 +8,5 @@ import java.util.ArrayList;
 
 public interface ReviewRepository extends CrudRepository<Review, Integer> {
     ArrayList<Review> findAllByCourseAssociated(Course course); // find the review by the course
+    Review findReviewByReviewID(Integer reviewID);
 }

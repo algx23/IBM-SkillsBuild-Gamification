@@ -37,4 +37,12 @@ public class SeeReviewsController {
         model.addAttribute("reviews", reviews);
         return "review/viewReviews";
     }
+
+    @RequestMapping("/deleteReviews")
+    public String deleteReview(@RequestParam int reviewID, @RequestParam String courseName,@RequestParam String username,Model model) {
+        reviewRepository.deleteById(reviewID);
+        model.addAttribute("courseName", courseName);
+        model.addAttribute("username", username);
+        return "redirect:/seeReviews?courseName="+courseName+"&username=" + username;
+    }
 }
