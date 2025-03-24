@@ -18,7 +18,6 @@ public class Student {
     private int level = 0;
     private String bio; // Student Bio
     private String profilePic; // img url as string
-
     private UserRank userRank = UserRank.BRONZE;
     private int numCompletedCourses;
 
@@ -27,6 +26,12 @@ public class Student {
 
     @ElementCollection
     private List<String> earnedBadges = new ArrayList<>(); // badges as a collection
+
+    @ManyToMany()
+    private List<Student> friends = new ArrayList<>();
+
+    @OneToMany
+    private List<FriendRequest> requests = new ArrayList<>();
 
     public String getUsername() {
         return username;
@@ -108,7 +113,27 @@ public class Student {
         return numCompletedCourses;
     }
 
-    public List<String> getEarnedBadges() { return earnedBadges; }
-    public void setEarnedBadges(List<String> earnedBadges) { this.earnedBadges = earnedBadges; }
+    public List<String> getEarnedBadges() {
+        return earnedBadges;
+    }
+
+    public void setEarnedBadges(List<String> earnedBadges) {
+        this.earnedBadges = earnedBadges;
+    }
+
+    public List<Student> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<Student> friends) {
+        this.friends = friends;
+    }
+
+    public List<FriendRequest> getRequests() {
+        return requests;
+    }
+    public void setRequests(List<FriendRequest> requests) {
+        this.requests = requests;
+    }
 
 }

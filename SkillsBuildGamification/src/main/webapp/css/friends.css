@@ -1,0 +1,73 @@
+
+.friend-container {
+    width: 300px;
+    height: 300px;
+    border-radius: 5px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.profile-pic-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #d3d3d3;
+    overflow: hidden;
+}
+
+.profile-pic {
+    width: 100%;
+    height: 100%;
+}
+
+.view-profile-button {
+    background-color: #4589ff;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px 1px;
+    width: 200px;
+    height: 50px;
+    transition: background-color 0.2s ease;
+}
+
+.view-profile-button:hover {
+    cursor: pointer;
+    background-color: #2ecc71;
+}
+
+.unfriend-button {
+    background-color: red;
+    text-decoration-color: white;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 200px;
+    height: 50px;
+}
+
+.unfriend-button:hover {
+    background-color: darkred;
+    transition: background-color ease 0.2s;
+    color: white;
+    text-decoration-color: white;
+}
+
+#back-to-dashboard-button {
+    width: 200px;
+    height: 45px;
+    background-color: #4589ff;
+    border-radius: 5px;
+    margin-top: 30px;
+}
+
+#back-to-dashboard-button:hover {
+    background-color: #0056b3;
+    transition: background-color ease 0.2s;
+    cursor: pointer;
+    color: white;
+}

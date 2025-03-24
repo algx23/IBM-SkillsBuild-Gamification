@@ -4,7 +4,6 @@ import com.example.skillsbuildgamification.config.PasswordEncoder;
 import com.example.skillsbuildgamification.model.*;
 import com.example.skillsbuildgamification.repository.CourseRepository;
 import com.example.skillsbuildgamification.repository.EnrollmentRepository;
-import com.example.skillsbuildgamification.repository.GoalRepository;
 import com.example.skillsbuildgamification.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -102,6 +101,17 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
         studentRepository.save(student1);
         studentRepository.save(student2);
         studentRepository.save(student3);
+
+//        Enrollment enrollment1 = new Enrollment(student1, course1, EnrollmentStatus.COMPLETED);
+//        Enrollment enrollment2 = new Enrollment(student2, course3, EnrollmentStatus.COMPLETED);
+//        Enrollment enrollment3 = new Enrollment(student2, course4, EnrollmentStatus.COMPLETED);
+//        student1.setNumCompletedCourses(1);
+//        student2.setNumCompletedCourses(2);
+//        enrollment1 = enrollmentRepository.save(enrollment1);
+//        enrollment2 = enrollmentRepository.save(enrollment2);
+//        enrollment3 = enrollmentRepository.save(enrollment3);
+//        student1 = studentRepository.save(student1);
+//        student2 = studentRepository.save(student2);
 
     }
 

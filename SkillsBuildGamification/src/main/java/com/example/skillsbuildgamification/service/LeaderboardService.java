@@ -1,6 +1,7 @@
 package com.example.skillsbuildgamification.service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import jakarta.transaction.Transactional;
@@ -56,5 +57,41 @@ public class LeaderboardService {
       }
     }
     return handledLeaderboardPositions;
+  }
+
+  public List<Student> sortFriendsInLeaderboard(List<Student> studentAndFriends, String sortBy) {
+    /*
+    * Based on the sortBy, use Comparator which compares the attributes of each student in the list
+    *
+    * If the sort needs to be from high to low, use reversed() which will sort from highest to lowest
+    * as the default for Comparator is low to high
+    */
+    switch (sortBy) {
+      case ("HighestScoreFirst"):
+        studentAndFriends.sort(Comparator.comparingInt(Student::getPoints).reversed());
+        break;
+      case ("lowestScoreFirst"):
+        studentAndFriends.sort(Comparator.comparingInt(Student::getPoints));
+        break;
+      case ("A-Z"):
+        studentAndFriends.sort(Comparator.comparing(Student::getUsername));
+        break;
+
+      case ("Z-A"):
+        studentAndFriends.sort(Comparator.comparing(Student::getUsername).reversed());
+        break;
+
+      case ("LowestCourseFirst"):
+        studentAndFriends.sort(Comparator.comparingInt(Student::getNumCompletedCourses));
+        break;
+      case ("HighestCourseFirst"):
+        studentAndFriends.sort(Comparator.comparingInt(Student::getNumCompletedCourses).reversed());
+        break;
+
+      default: // default is points high to low
+        studentAndFriends.sort(Comparator.comparing(Student::getPoints).reversed());
+        break;
+    }
+    return studentAndFriends;
   }
 }

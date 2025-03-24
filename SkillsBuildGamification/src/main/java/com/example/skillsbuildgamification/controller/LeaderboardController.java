@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -83,6 +84,12 @@ public class LeaderboardController {
 
         }
 
+        /*        if on the global leaderboard page the title is Global Leaderboard,
+         * having this as a modelAttribute helps reuse the jsp
+         */
+        model.addAttribute("title", "Global Leaderboard");
+//        dynamically change the url for the sorting buttons based off which page you are at
+        model.addAttribute("urlStart", "/leaderboard");
         model.addAttribute("sortingOrder", sortingOrder);
         model.addAttribute("students", sortedList);
         model.addAttribute("leaderboardPos", leaderboardService.findAndHandleJointLBPos(sortedList));
@@ -94,5 +101,44 @@ public class LeaderboardController {
     @PostMapping("/leaderboard")
     public String redirectToSort(@RequestParam("sortBy") String sortBy) {
         return "redirect:/leaderboard?sortBy=" + sortBy;
+    }
+
+    @GetMapping("/leaderboard/friends")
+    public String leaderboardFriendsOnly(@RequestParam(defaultValue = "") String sortBy, Principal principal, Model model) {
+        Student loggedInStudent = studentRepository.findByUsername(principal.getName());
+        List<Student> studentAndFriends = loggedInStudent.getFriends();
+        /*
+        * if the student has at least one friend add them to the list, so that they also show in the leaderboard (and
+        * not just their friends).
+        *
+        * Then sort the list in the LeaderboardSerivce
+        *
+        * Then set all the model attributes so they can be accessed and displayed in the jsp
+        */
+        if (!studentAndFriends.contains(loggedInStudent) && !studentAndFriends.isEmpty()) {
+            studentAndFriends.add(loggedInStudent);
+        }
+        if (sortBy.isEmpty() ) { // if the sort by is higestScoreFirst, then it will be empty so show logged in pos
+            model.addAttribute("loggedInStudentPos",
+                    studentRepository.findLeaderboardPosition(loggedInStudent.getUsername()));
+        }
+
+//        dynamically change the url for the sorting buttons based off which page you are at
+        model.addAttribute("urlStart", "/leaderboard/friends");
+        model.addAttribute("title", "Friends Leaderboard");
+        model.addAttribute("loggedInStudent", loggedInStudent);
+        model.addAttribute("students", leaderboardService.sortFriendsInLeaderboard(studentAndFriends, sortBy));
+        model.addAttribute("leaderboardPos", leaderboardService.findAndHandleJointLBPos(studentAndFriends));
+        if (sortBy.isEmpty()) {
+            sortBy = "HighestScoreFirst";
+        }
+        model.addAttribute("sortingOrder", sortBy);
+
+        return "leaderboard/leaderboard";
+    }
+    //    post mapping to change the sort by param for the FRIENDS leaderboard
+    @PostMapping("/leaderboard/friends")
+    public String redirectToSortFriends(@RequestParam("sortBy") String sortBy) {
+        return "redirect:/leaderboard/friends?sortBy=" + sortBy;
     }
 }
