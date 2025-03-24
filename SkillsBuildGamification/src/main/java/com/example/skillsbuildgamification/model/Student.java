@@ -48,7 +48,7 @@ public class Student {
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = username.toLowerCase();
         if (this.avatarUrl == null || this.avatarUrl.isEmpty()) {
             this.avatarUrl = getDefaultAvatarUrl(username);
         }
