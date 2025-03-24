@@ -110,6 +110,9 @@
     <div class="redirect-box">
       <a href="${pageContext.request.contextPath}/${username}/goal-creation">Create Goal</a>
     </div>
+    <div class="redirect-box">
+      <a href="<c:url value='/shop' />">Visit Shop</a>
+    </div>
     <!-- Show a button for the admin page if the student is an admin -->
     <c:if test="${isAdmin == true}">
       <div class="redirect-box">
@@ -117,8 +120,6 @@
       </div>
     </c:if>
   </div>
-
-
 </main>
 
 <script>
