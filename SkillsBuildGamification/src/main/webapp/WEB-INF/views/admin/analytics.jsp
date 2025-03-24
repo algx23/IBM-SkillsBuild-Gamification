@@ -20,7 +20,7 @@
     <!--Display a button to view the student dashboard-->
     <div class="student-button-container">
         <div class="redirect-box">
-            <a href="${pageContext.request.contextPath}/">
+            <a href="${pageContext.request.contextPath}/${student.username}/dashboard-page">
                 View Student Dashboard
             </a>
         </div>

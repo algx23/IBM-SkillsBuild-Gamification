@@ -180,7 +180,7 @@
           <input type="submit" value="View Friends Leaderboard" class="back-to-dboard-button"/>
       </form>
   </c:if>
-    <form action="/login-success" method="get">
+    <form action="/${loggedInStudent.username}/dashboard-page" method="get">
         <input type="submit" value="Back to Dashboard" class="back-to-dboard-button">
     </form>
 
