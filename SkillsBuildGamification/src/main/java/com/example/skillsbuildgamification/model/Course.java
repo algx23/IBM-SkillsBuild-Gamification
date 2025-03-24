@@ -18,10 +18,19 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Enrollment> enrollments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "courseID", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "reviewID", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
     // Getters and setters
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
     public String getCourseLink() {
         return courseLink;
     }

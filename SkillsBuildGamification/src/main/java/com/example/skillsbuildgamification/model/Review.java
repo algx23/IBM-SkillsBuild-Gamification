@@ -6,25 +6,32 @@ import jakarta.persistence.*;
 public class Review {
     @Id
     @GeneratedValue
-    private int reviewId;
+    private int reviewID;
 
+    //mapped to the Course table
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,optional = false)
     @JoinColumn(nullable = false)
     private Course courseAssociated;
+
+    //mapped to the student table
     @ManyToOne(cascade = CascadeType.ALL,optional = false)
     @JoinColumn(nullable = false)
     private Student studentId;
+
+    //individual value
     @Column(nullable = false)
-    private String review;
+    private String reviewText;
+
+    //individual value
     @Column(nullable = false)
     private Integer rating;
 
     public int getReviewId() {
-        return reviewId;
+        return reviewID;
     }
 
-    public void setReviewId(int reviewId) {
-        this.reviewId = reviewId;
+    public void setReviewId(int reviewID) {
+        this.reviewID = reviewID;
     }
 
     public Course getCourseAssociated() {
@@ -43,12 +50,12 @@ public class Review {
         this.studentId = studentId;
     }
 
-    public String getReview() {
-        return review;
+    public String getReviewText() {
+        return reviewText;
     }
 
-    public void setReview(String review) {
-        this.review = review;
+    public void setReviewText(String review) {
+        this.reviewText = review;
     }
 
     public Integer getRating() {

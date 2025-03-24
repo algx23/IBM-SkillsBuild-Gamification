@@ -1,0 +1,19 @@
+/* styles.css */
+.star-rating {
+    font-size: 2em;
+    color: gray;
+}
+
+.star-rating .star {
+    cursor: pointer;
+    color: #ddd;
+    transition: color 0.2s ease;
+}
+
+.star-rating .star.selected {
+    color: gold;
+}
+
+.star-rating .star:hover {
+    color: orange;
+}

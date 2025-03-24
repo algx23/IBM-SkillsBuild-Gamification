@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,13 +47,25 @@
     </div>
   </div>
 
-  <!-- Display list of courses -->
+  <!-- Display list of courses and reviews -->
   <div class="course-container">
     <c:forEach var="course" items="${courses}">
       <div class="course-box" id="${course.courseName}">
         <a href="${course.courseLink}" target="_blank" data-courseid="${course.courseID}">
             ${course.courseName}
         </a>
+        <div class ="review-section">
+          <c:forEach var="enrollment" items="${enrollments}">
+            <c:if test="${enrollment.status == 'COMPLETED' && enrollment.course.courseName == course.courseName}">
+              <a href = "<c:url value='/addReviews?courseName=${course.courseName}&username=${username}' />">
+                Add Reviews
+              </a>
+            </c:if>
+          </c:forEach>
+          <a href = "<c:url value='/seeReviews?courseName=${course.courseName}&username=${username}' />">
+            See reviews
+          </a>
+        </div>
       </div>
     </c:forEach>
   </div>
@@ -63,7 +76,7 @@
       <a href="<c:url value='/leaderboard' />">Leaderboard</a>
     </div>
     <div class="redirect-box">
-      <a href="<c:url value='/profile/${username}' />">User Profile</a>
+      <a href="<c:url value='/profile/${username}/' />">User Profile</a>
     </div>
   </div>
 </main>
@@ -180,10 +193,7 @@
   }
 </script>
 
-</body>
-</html>
 
-
-
-
+  </body>
+  </html>
 
