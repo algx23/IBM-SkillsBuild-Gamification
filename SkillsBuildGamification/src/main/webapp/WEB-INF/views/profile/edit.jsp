@@ -29,9 +29,6 @@
 
             <label for="bio">Bio:</label> <!-- Bigger field for bio -->
             <textarea id="bio" name="bio" class="input-field" placeholder="Write something about yourself...">${student.bio}</textarea><br>
-
-            <label for="profilePic">Profile Picture URL:</label> <!-- url for profile image -->
-            <input type="text" id="profilePic" name="profilePic" class="input-field" value="${student.profilePic}" placeholder="Paste image URL here"><br>
         </form>
     </div>
 

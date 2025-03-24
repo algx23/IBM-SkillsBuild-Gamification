@@ -22,8 +22,9 @@
     <!-- Left Section - Profile Details -->
     <div class="profile-left">
         <div class="profile-pic-container">
-            <img src="${student.profilePic}" class="profile-pic" alt=" ">
+            <img src="${student.avatarUrl}" class="profile-pic" alt=" avatar not loading ">
         </div>
+
         <h2>${student.username}</h2>
         <p><strong>Level:</strong> ${student.level}</p>
         <p><strong>Rank: </strong>${student.userRank}</p>
@@ -42,6 +43,7 @@
                 </div>
             </c:forEach>
         </div>
+        <p><strong>Shop Credits: </strong>${student.credits}</p>
         <p><strong>Bio:</strong> ${student.bio}</p>
         <br>
         <br>

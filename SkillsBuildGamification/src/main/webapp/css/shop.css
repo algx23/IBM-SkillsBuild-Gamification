@@ -1,0 +1,158 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 🛠 Fix Shop Layout */
+.shop-container {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    padding: 20px;
+    align-items: flex-start;
+}
+
+/* Fix Left Side (Avatar Section) */
+#left-container {
+    width: 40%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#avatar-preview {
+    width: 300px;
+    height: auto;
+}
+
+/* Right Side (Shop & Inventory) */
+#right-container {
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Fix Tabs Layout */
+#tab-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    background-color: #f2f2f2;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+    width: 100px;
+    text-align: center;
+}
+
+/* Highlight active tab button */
+.tab-btn.active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Hide all tab content by default */
+.tab-content {
+    display: none;
+    width: 100%;
+    text-align: center;
+}
+
+/* Show only the active tab */
+.tab-content.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* Fix Category Buttons */
+#category-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+}
+
+.category-btn {
+    padding: 10px 15px;
+    background-color: #ccc;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+.category-btn.active, .category-btn:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Inventory Display */
+#inventory-options {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+    padding: 10px;
+}
+
+/* Fix Variant Image Display */
+.variant-img {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    transition: transform 0.2s;
+}
+
+.variant-img:hover {
+    transform: scale(1.1);
+}
+
+/* Equip Button */
+#equip-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: none;
+}
+
+#equip-button:hover {
+    background-color: #218838;
+}
+
+/* Fix Back to Dashboard Button */
+#back-dashboard {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#back-dashboard:hover {
+    background-color: #5a6268;
+}

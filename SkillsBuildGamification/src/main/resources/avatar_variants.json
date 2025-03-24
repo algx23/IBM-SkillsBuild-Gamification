@@ -1,0 +1,74 @@
+{
+  "bottts": {
+    "Eyes": {
+      "variants": ["eyes=bulging", "eyes=glow", "eyes=hearts", "eyes=robocop"],
+      "cost": 10
+    },
+    "Top": {
+      "variants": ["top=horns", "top=antenna", "top=glowingBulb01", "top=pyramid"],
+      "cost": 20
+    },
+    "Texture": {
+      "variants": ["texture=camo01", "texture=grunge01", "texture=circuits", "texture=dirty01"],
+      "cost": 15
+    },
+    "Mouth": {
+      "variants": ["mouth=bite", "mouth=diagram", "mouth=grill01", "mouth=smile01"],
+      "cost": 8
+    }
+  },
+  "avataaars": {
+    "Eyes": {
+      "variants": ["eyes=closed", "eyes=happy", "eyes=wink", "eyes=side"],
+      "cost": 12
+    },
+    "Clothing": {
+      "variants": ["clothing=hoodie", "clothing=shirtCrewNeck", "clothing=blazerAndSweater", "clothing=collarAndSweater"],
+      "cost": 50
+    },
+    "Accessories": {
+      "variants": ["accessories=wayfarers", "accessories=eyepatch", "accessories=sunglasses", "accessories=round"],
+      "cost": 25
+    },
+    "Facial Hair": {
+      "variants": ["facialHair=beardMedium", "facialHair=moustacheFancy", "facialHair=goatee", "facialHair=beardLight"],
+      "cost": 15
+    }
+  },
+  "big-ears": {
+    "Face": {
+      "variants": ["face=variant01", "face=variant04", "face=variant08", "face=variant10"],
+      "cost": 10
+    },
+    "Ears": {
+      "variants": ["ear=variant03", "ear=variant06", "ear=variant01", "ear=variant07"],
+      "cost": 12
+    },
+    "Cheek": {
+      "variants": ["cheek=variant01", "cheek=variant04", "cheek=variant02", "cheek=variant05"],
+      "cost": 15
+    },
+    "Front Hair": {
+      "variants": ["frontHair=variant06", "frontHair=variant10", "frontHair=variant03", "frontHair=variant08"],
+      "cost": 18
+    }
+  },
+  "adventurer": {
+    "Eyes": {
+      "variants": ["eyes=variant05", "eyes=variant10", "eyes=variant02", "eyes=variant08"],
+      "cost": 12
+    },
+    "Hair": {
+      "variants": ["hair=short10", "hair=long05", "hair=long26", "hair=short18"],
+      "cost": 30
+    },
+    "Glasses": {
+      "variants": ["glasses=variant02", "glasses=variant05", "glasses=variant01", "glasses=variant03"],
+      "cost": 20
+    },
+    "Mouth": {
+      "variants": ["mouth=variant07", "mouth=variant10", "mouth=variant28", "mouth=variant27"],
+      "cost": 10
+    }
+  }
+}

@@ -39,6 +39,7 @@ public class EnrollmentService {
         Course course = courseRepository.findById(courseID)
                 .orElseThrow(() -> new RuntimeException("Course not found with ID: " + courseID));
 
+        // Pass course directly, not Optional.ofNullable(course)
         Optional<Enrollment> enrollmentOpt = enrollmentRepository.findByStudentAndCourse(student, course);
 
         Enrollment enrollment;
@@ -54,6 +55,10 @@ public class EnrollmentService {
                 student.setPoints(student.getPoints() + 10);
                 rankService.setRankOfStudent(username);
 
+                int creds = student.getCredits();
+                student.setCredits(creds + 15);
+                awardBadges(student); // call method to award badges upon completion
+
                 if (student.getPoints() % 2 == 0) {
                     student.setLevel(student.getLevel() + 1);
                 }
@@ -63,7 +68,6 @@ public class EnrollmentService {
 
             awardBadges(student);
         } else {
-            // Creating a new enrollment record
             enrollment = new Enrollment(student, course, status);
 
             if (status == EnrollmentStatus.COMPLETED) {
@@ -81,7 +85,16 @@ public class EnrollmentService {
             currentEnrollments.add(enrollment);
             student.setEnrollments(currentEnrollments);
 
-            awardBadges(student);
+//            check if they chose the status as Completed straight away rather than in progress
+            if (status == EnrollmentStatus.COMPLETED) {
+                student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
+                rankService.setLevelOfStudent(username);
+                rankService.setRankOfStudent(username);
+                int creds = student.getCredits();
+                student.setCredits(creds + 15);
+                awardBadges(student);
+            }
+
         }
 
         enrollmentRepository.save(enrollment);
@@ -92,7 +105,8 @@ public class EnrollmentService {
     private void awardBadges(Student student) {
         int completedCourses = student.getNumCompletedCourses();
         List<String> earnedBadges = student.getEarnedBadges();
-        // Method decides if batch needs to be awarded based on num of courses completed
+
+        // Method decides whether badge needs to be awarded based on num of courses completed
         if (completedCourses >= 1 && !earnedBadges.contains("Novice Badge"))
             earnedBadges.add("Novice Badge");
         if (completedCourses >= 3 && !earnedBadges.contains("Intermediate Badge"))
