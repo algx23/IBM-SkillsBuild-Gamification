@@ -33,7 +33,13 @@ public class AuthenticationController {
     public String index(Principal principal) {
         if (principal != null) {
             String username = principal.getName();
-            return "redirect:/" + username + "/dashboard-page";
+            Student student = studentRepository.findByUsername(username);
+            // Redirect normal users to the dashboard page
+            if (!student.isAdmin()) {
+                return "redirect:" + username + "/dashboard-page";
+            }
+            // Redirect admins to the analytics page
+            return "redirect:/analytics";
         } else {
             return "redirect:/login-page";
         }

@@ -47,7 +47,7 @@ public class AnalyticsController {
         model.addAttribute("goalsExpired", goalsExpired);
 
         return "admin/analytics";
-        }
+    }
 
 }
 
