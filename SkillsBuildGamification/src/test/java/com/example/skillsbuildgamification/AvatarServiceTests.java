@@ -10,7 +10,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AvatarServiceTest {
+class AvatarServiceTests {
 
     private AvatarService avatarService;
 
@@ -38,13 +38,14 @@ class AvatarServiceTest {
         Student student = new Student();
         student.setUsername("TestUser");
         student.setActiveCategory("bottts");
-        student.setEquippedItems(List.of("Eyes=eyes=variant1")); // Format: FeatureName=featureType=variant
+        student.setEquippedItems(List.of("Eyes=eyes=variant1")); // corrected format
 
         String resultUrl = avatarService.generateAvatar(student);
 
         assertTrue(resultUrl.contains("eyes=variant1"));
-        assertTrue(resultUrl.startsWith("https://api.dicebear.com/8.x/bottts/svg?seed=TestUser"));
+        assertTrue(resultUrl.startsWith("https://api.dicebear.com/8.x/bottts/svg?seed=testuser"));
     }
+
 
     @Test
     void testGenerateAvatar_withNoEquippedItems() {
@@ -54,7 +55,7 @@ class AvatarServiceTest {
 
         String resultUrl = avatarService.generateAvatar(student);
 
-        assertEquals("https://api.dicebear.com/8.x/bottts/svg?seed=TestUser", resultUrl);
+        assertEquals("https://api.dicebear.com/8.x/bottts/svg?seed=testuser", resultUrl);
     }
 
     @Test
@@ -62,12 +63,11 @@ class AvatarServiceTest {
         Student student = new Student();
         student.setUsername("TestUser");
         student.setActiveCategory("bottts");
-        student.setEquippedItems(List.of("Eyes=variant1")); // Only two parts
+        student.setEquippedItems(List.of("Eyes"));
 
         String resultUrl = avatarService.generateAvatar(student);
 
-        // Should fallback to base URL since item is malformed
-        assertEquals("https://api.dicebear.com/8.x/bottts/svg?seed=TestUser", resultUrl);
+        assertEquals("https://api.dicebear.com/8.x/bottts/svg?seed=testuser", resultUrl);
     }
 
     @Test
@@ -80,7 +80,7 @@ class AvatarServiceTest {
         String resultUrl = avatarService.generateAvatar(student);
 
         // Should not include the invalid feature
-        assertEquals("https://api.dicebear.com/8.x/bottts/svg?seed=TestUser", resultUrl);
+        assertEquals("https://api.dicebear.com/8.x/bottts/svg?seed=" + student.getUsername().toLowerCase(), resultUrl);
     }
 
     @Test

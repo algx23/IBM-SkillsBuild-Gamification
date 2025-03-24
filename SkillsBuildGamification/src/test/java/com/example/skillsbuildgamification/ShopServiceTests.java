@@ -92,6 +92,7 @@ class ShopServiceTests {
         student.setUsername("user");
         student.setActiveCategory("bottts");
         student.setEquippedItems(new ArrayList<>(List.of("Eyes=eyes=glow")));
+        student.setOwnedItems(List.of("adventurer_Eyes_variant1"));
 
         when(studentRepository.findByUsername("user")).thenReturn(student);
         when(avatarService.generateAvatar(student)).thenReturn("mock-url");
@@ -101,9 +102,10 @@ class ShopServiceTests {
         assertTrue(result);
         assertEquals("adventurer", student.getActiveCategory());
         assertEquals(1, student.getEquippedItems().size());
-        assertTrue(student.getEquippedItems().get(0).contains("variant1"));
+        assertEquals("Eyes=variant1", student.getEquippedItems().get(0));
         verify(studentRepository, times(1)).save(student);
     }
+
 
     @Test
     void testGetOwnedItems_ReturnsCorrectData() {
