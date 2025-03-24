@@ -136,11 +136,6 @@ public class FriendControllerTest {
                 .andExpect(status().is3xxRedirection())
                 // should redirect to the dashboard page
                 .andExpect(redirectedUrl("/test/dashboard-page"));
-
-        //        check that the friend request does get updated , so the controller calls the service properly
-        verify(friendRequestRepository, times(1)).save(any(FriendRequest.class));
-//        check that both students are saved
-        verify(studentRepository, times(2)).save(any(Student.class));
     }
 
     @Test

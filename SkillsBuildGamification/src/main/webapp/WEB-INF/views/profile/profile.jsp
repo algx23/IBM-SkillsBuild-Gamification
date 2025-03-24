@@ -89,6 +89,9 @@
 <!-- Common Buttons BELOW Both Sections -->
 <div class="profile-actions">
     <c:if test="${isOwner}">
+        <a href="/shop">
+            <button class="save-btn">Edit Avatar</button>
+        </a>
         <a href="/profile/${student.username}/edit">
             <button class="save-btn">Modify Details & Courses</button>
         </a>
