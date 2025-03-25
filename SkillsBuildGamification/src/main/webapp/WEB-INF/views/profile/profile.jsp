@@ -97,7 +97,7 @@
             <button class="save-btn">Modify Details & Courses</button>
         </a>
     </c:if>
-    <form action="/${student.username}/dashboard-page" method="get">
+    <form action="/${loggedInStudentUsername}/dashboard-page" method="get">
         <button class="back-btn">Back to Dashboard</button>
     </form>
 </div>
