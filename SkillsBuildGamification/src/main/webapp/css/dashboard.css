@@ -69,11 +69,12 @@
     width: 150px;
     text-align: center;
     border-radius: 5px;
-    display: inline-block;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    margin: 5px 10px 0;
+    margin: 5px 10px;
+    transition: background-color 0.3s ease-in-out;
 }
 
 /* Container for navigation buttons */
@@ -148,11 +149,13 @@ body {
     font-weight: bold;
     cursor: pointer;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
 }
 
 /* Hover effect for status selection */
 .status-box:hover {
     background-color: #a9a9a9;
+    transform: scale(1.05);
 }
 
 /* Styling for status selection radio buttons */
@@ -182,7 +185,15 @@ body {
 /* Full-width course boxes on smaller screens */
 @media (max-width: 768px) {
     .course-box {
-        flex: 1 1 100%; /* Full width on smaller screens */
+        flex: 1 1 100%;
+    }
+}
+
+/* Ensure review sections stack properly on smaller screens */
+@media (max-width: 768px) {
+    .review-course-section {
+        max-width: 100%;
+        padding: 10px;
     }
 }
 
@@ -202,12 +213,13 @@ body {
     cursor: pointer;
     border: none;
     margin: 10px;
-    transition: background-color 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
 }
 
 /* Hover effect for buttons */
 .button-style:hover {
     background-color: #a9a9a9;
+    transform: scale(1.05);
 }
 
 /* Ensure buttons are centered */

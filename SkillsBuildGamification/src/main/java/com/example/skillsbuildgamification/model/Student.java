@@ -31,6 +31,9 @@ public class Student {
     private UserRank userRank = UserRank.BRONZE;
     private int numCompletedCourses;
 
+    @OneToMany(mappedBy = "studentId", cascade = CascadeType.ALL)
+    private List<Review> reviewsByStudent = new ArrayList<>();
+
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<Enrollment> enrollments = new ArrayList<>();
 
@@ -147,6 +150,14 @@ public class Student {
 
     public int getNumCompletedCourses() {
         return numCompletedCourses;
+    }
+
+    public List<Review> getReviewsByStudent() {
+        return reviewsByStudent;
+    }
+
+    public void setReviewsByStudent(List<Review> reviewsByStudent) {
+        this.reviewsByStudent = reviewsByStudent;
     }
 
     public List<String> getEarnedBadges() {

@@ -52,30 +52,9 @@ body {
     background-color: #00408a;
 }
 
-/* Course Container */
-.course-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    padding: 20px;
-}
 
-.course-box {
-    background-color: #ccc;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    width: 250px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
 
-.course-box:hover {
-    background-color: #b0b0b0;
-}
+
 
 
 
