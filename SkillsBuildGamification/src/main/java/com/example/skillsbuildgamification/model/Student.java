@@ -100,7 +100,6 @@ public class Student {
         this.avatarUrl = avatarUrl;
     }
 
-
     public List<String> getEquippedItems() {return equippedItems;}
 
     public void setEquippedItems(List<String> equippedItems) {this.equippedItems = equippedItems;}
