@@ -96,15 +96,6 @@ public class Student {
         return this.avatarUrl;
     }
 
-
-
-    /**
-     * Generates the Avatar URL based on equipped items
-     */
-    /**
-     * Generates the Avatar URL based on equipped items
-     */
-
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
     }
