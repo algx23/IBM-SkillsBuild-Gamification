@@ -138,7 +138,4 @@ public class Student {
     public void setActiveCategory(String category) {
         this.activeCategory = category;
     }
-
-
-
 }
