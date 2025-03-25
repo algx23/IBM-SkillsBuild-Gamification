@@ -1,6 +1,5 @@
 package com.example.skillsbuildgamification.model;
 
-import com.example.skillsbuildgamification.service.AvatarService;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -47,12 +46,10 @@ public class Student {
         }
     }
 
-
     private String getDefaultAvatarUrl(String username) {
         String defaultCategory = "bottts"; // Changeable in future
         return "https://api.dicebear.com/8.x/" + defaultCategory + "/svg?seed=" + username;
     }
-
 
     public String getPassword() {
         return password;
