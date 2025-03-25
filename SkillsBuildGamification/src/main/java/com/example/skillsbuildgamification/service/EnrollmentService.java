@@ -75,6 +75,8 @@ public class EnrollmentService {
                 enrollment.setCompletionDate(now);
                 student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
                 student.setPoints(student.getPoints() + 10);
+                int creds = student.getCredits();
+                student.setCredits(creds + 15);
                 rankService.setRankOfStudent(username);
 
                 if (student.getPoints() % 2 == 0) {
@@ -88,14 +90,14 @@ public class EnrollmentService {
             student.setEnrollments(currentEnrollments);
 
 //            check if they chose the status as Completed straight away rather than in progress
-            if (status == EnrollmentStatus.COMPLETED) {
-                student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
-                rankService.setLevelOfStudent(username);
-                rankService.setRankOfStudent(username);
-                int creds = student.getCredits();
-                student.setCredits(creds + 15);
+//            if (status == EnrollmentStatus.COMPLETED) {
+//                student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
+//                rankService.setLevelOfStudent(username);
+//                rankService.setRankOfStudent(username);
+//                int creds = student.getCredits();
+//                student.setCredits(creds + 15);
                 awardBadges(student);
-            }
+//            }
 
         }
 
