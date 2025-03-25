@@ -97,16 +97,18 @@
               ${course.courseName}
           </a>
         </div>
-        <c:forEach var="enrollment" items="${enrollments}">
-          <c:if test="${enrollment.status == 'COMPLETED' && enrollment.course.courseName == course.courseName}">
-            <a href = "<c:url value='/addReviews?courseName=${course.courseName}&username=${username}' />">
-              Add Reviews
-            </a>
-          </c:if>
-        </c:forEach>
-        <a class="review-course-link" href = "<c:url value='/seeReviews?courseName=${course.courseName}&username=${username}' />">
-          See reviews
-        </a>
+        <div class="add-see-review-box">
+          <c:forEach var="enrollment" items="${enrollments}">
+            <c:if test="${enrollment.status == 'COMPLETED' && enrollment.course.courseName == course.courseName}">
+              <a class="review-course-link" href = "<c:url value='/addReviews?courseName=${course.courseName}&username=${username}' />">
+                Add Reviews
+              </a>
+            </c:if>
+          </c:forEach>
+          <a class="review-course-link" href = "<c:url value='/seeReviews?courseName=${course.courseName}&username=${username}' />">
+            See reviews
+          </a>
+        </div>
       </div>
     </c:forEach>
   </div>
