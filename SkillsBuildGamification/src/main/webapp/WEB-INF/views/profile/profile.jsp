@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,8 +22,10 @@
     <!-- Left Section - Profile Details -->
     <div class="profile-left">
         <div class="profile-pic-container">
-            <img src="${student.profilePic}" class="profile-pic" alt=" ">
+            <a href="<c:url value='/shop' />"><img src="${student.avatarUrl}" class="profile-pic" alt=" avatar not loading ">
+            </a>
         </div>
+
         <h2>${student.username}</h2>
         <p><strong>Level:</strong> ${student.level}</p>
         <p><strong>Rank: </strong>${student.userRank}</p>
@@ -41,7 +44,15 @@
                 </div>
             </c:forEach>
         </div>
+        <p><strong>Shop Credits: </strong>${student.credits}</p>
         <p><strong>Bio:</strong> ${student.bio}</p>
+        <br>
+        <br>
+        <c:if test="${!isOwner}">
+            <form:form action="/sendRequest/${student.username}" method="post">
+                <button class="send-fr-button">Send Friend Request</button>
+            </form:form>
+        </c:if>
     </div>
 
     <!-- Right Section - Courses -->
@@ -64,16 +75,29 @@
             </c:forEach>
         </div>
     </div>
+
+
+    <c:if test="${isOwner}">
+        <div class="profile-bottom-right">
+            <h2>Manage Friends: </h2>
+                <button onclick=window.location.href="/profile/${student.username}/friend-requests" class="friend-actions">See Friend Requests</button>
+                <br>
+                <button onclick=window.location.href="/profile/${student.username}/friends" class="friend-actions">See Friends</button>
+        </div>
+    </c:if>
 </div>
 
 <!-- Common Buttons BELOW Both Sections -->
 <div class="profile-actions">
     <c:if test="${isOwner}">
+        <a href="/shop">
+            <button class="save-btn">Edit Avatar</button>
+        </a>
         <a href="/profile/${student.username}/edit">
             <button class="save-btn">Modify Details & Courses</button>
         </a>
     </c:if>
-    <form action="/login-success" method="get">
+    <form action="/${student.username}/dashboard-page" method="get">
         <button class="back-btn">Back to Dashboard</button>
     </form>
 </div>

@@ -10,8 +10,9 @@ import com.example.skillsbuildgamification.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,32 +43,62 @@ public class EnrollmentService {
         Optional<Enrollment> enrollmentOpt = enrollmentRepository.findByStudentAndCourse(student, course);
 
         Enrollment enrollment;
+        Date now = new Date();
+
         if (enrollmentOpt.isPresent()) {
             enrollment = enrollmentOpt.get();
             enrollment.setStatus(status);
-            if (enrollment.getStatus() == EnrollmentStatus.COMPLETED) {
+
+
+            if (status == EnrollmentStatus.COMPLETED) {
+                enrollment.setCompletionDate(now);
                 student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
-                rankService.setLevelOfStudent(username);
+                student.setPoints(student.getPoints() + 10);
                 rankService.setRankOfStudent(username);
-                }
+
+                int creds = student.getCredits();
+                student.setCredits(creds + 15);
                 awardBadges(student); // call method to award badges upon completion
 
+                if (student.getPoints() % 2 == 0) {
+                    student.setLevel(student.getLevel() + 1);
+                }
+            }
+            else {
+                enrollment.setCompletionDate(null);
+            }
+
+            awardBadges(student);
         } else {
             enrollment = new Enrollment(student, course, status);
 
-//            get the current enrollments of the student
-//            add the current enrollment to the students' enrollment list
+            if (status == EnrollmentStatus.COMPLETED) {
+                enrollment.setCompletionDate(now);
+                student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
+                student.setPoints(student.getPoints() + 10);
+                int creds = student.getCredits();
+                student.setCredits(creds + 15);
+                rankService.setRankOfStudent(username);
+
+                if (student.getPoints() % 2 == 0) {
+                    student.setLevel(student.getLevel() + 1);
+                }
+            }
+
+            // Add the enrollment to the student
             List<Enrollment> currentEnrollments = student.getEnrollments();
             currentEnrollments.add(enrollment);
             student.setEnrollments(currentEnrollments);
 
 //            check if they chose the status as Completed straight away rather than in progress
-            if (status == EnrollmentStatus.COMPLETED) {
-                student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
-                rankService.setLevelOfStudent(username);
-                rankService.setRankOfStudent(username);
+//            if (status == EnrollmentStatus.COMPLETED) {
+//                student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);
+//                rankService.setLevelOfStudent(username);
+//                rankService.setRankOfStudent(username);
+//                int creds = student.getCredits();
+//                student.setCredits(creds + 15);
                 awardBadges(student);
-            }
+//            }
 
         }
 
@@ -80,7 +111,7 @@ public class EnrollmentService {
         int completedCourses = student.getNumCompletedCourses();
         List<String> earnedBadges = student.getEarnedBadges();
 
-//        method decides whether badge needs to be awarded based on num of courses completed
+        // Method decides whether badge needs to be awarded based on num of courses completed
         if (completedCourses >= 1 && !earnedBadges.contains("Novice Badge"))
             earnedBadges.add("Novice Badge");
         if (completedCourses >= 3 && !earnedBadges.contains("Intermediate Badge"))

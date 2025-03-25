@@ -1,7 +1,10 @@
 package com.example.skillsbuildgamification.controller;
 
+import com.example.skillsbuildgamification.model.Student;
+import com.example.skillsbuildgamification.repository.StudentRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,11 +26,20 @@ import java.util.Optional;
 public class AuthenticationController {
     // Handles requests to login-related endpoints
 
+    @Autowired
+    private StudentRepository studentRepository;
+
     @RequestMapping("/")
     public String index(Principal principal) {
         if (principal != null) {
             String username = principal.getName();
-            return "redirect:/" + username + "/dashboard-page";
+            Student student = studentRepository.findByUsername(username);
+            // Redirect normal users to the dashboard page
+            if (!student.isAdmin()) {
+                return "redirect:" + username + "/dashboard-page";
+            }
+            // Redirect admins to the analytics page
+            return "redirect:/analytics";
         } else {
             return "redirect:/login-page";
         }
@@ -61,9 +73,18 @@ public class AuthenticationController {
 
     @RequestMapping("/login-success")
     public String loginSuccess(Principal principal, Model model) {
+        // Method to handle where to redirect a user after login.
         if (principal != null) {
             String username = principal.getName();
-            return "redirect:" + username + "/dashboard-page";
+            Student student = studentRepository.findByUsername(username);
+            if (student != null) {
+                // Redirect normal users to the dashboard page
+                if (!student.isAdmin()) {
+                    return "redirect:" + username + "/dashboard-page";
+                }
+                // Redirect admins to the analytics page
+                return "redirect:/analytics";
+            }
         }
         // If the user is not logged in, redirect them to the login page
         System.out.println("principal doesn't exist");

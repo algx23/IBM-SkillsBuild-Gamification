@@ -47,3 +47,7 @@ tasks.named('test') {
     // Attach the Mockito agent explicitly at test startup.
     jvmArgs += "-javaagent:${configurations.mockitoAgent.singleFile.absolutePath}"
 }
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+}

@@ -1,0 +1,121 @@
+package com.example.skillsbuildgamification.service;
+
+import com.example.skillsbuildgamification.model.*;
+import com.example.skillsbuildgamification.repository.EnrollmentRepository;
+import com.example.skillsbuildgamification.repository.GoalRepository;
+import com.example.skillsbuildgamification.repository.StudentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class GoalService {
+    @Autowired
+    private GoalRepository goalRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private EnrollmentRepository enrollmentRepository;
+
+    public void saveGoal(Goal goal, String username) {
+        Student student = studentRepository.findByUsername(username);
+        if (student == null) {
+            throw new RuntimeException("Student not found for username: " + username);
+        }
+
+        // Check if the user already has an active goal
+        List<Goal> activeGoals = goalRepository.findByStudent_UsernameAndStatus(username, GoalStatus.ACTIVE);
+        if (!activeGoals.isEmpty()) {
+            throw new IllegalStateException("You already have an active goal. Complete or delete it before creating a new one.");
+        }
+
+        // Ensure the goal completion date is in the future
+        if (goal.getCompletionDate().before(new Date())) {
+            throw new IllegalArgumentException("Completion date must be in the future.");
+        }
+
+        // Set the student, status, and save the goal
+        goal.setStudent(student);
+        goal.setStatus(GoalStatus.ACTIVE);
+        goal.setCreationDate(new Date());
+        goalRepository.save(goal);
+    }
+
+    public int getGoalProgress(Goal goal) {
+        if (goal.getCreationDate() == null) {
+            goal.setCreationDate(new Date());
+            goalRepository.save(goal);
+        }
+
+        List<Enrollment> completedEnrollments = enrollmentRepository.findByStudentAndStatusAndCompletionDateBetween(
+                goal.getStudent(), EnrollmentStatus.COMPLETED, goal.getCreationDate(), goal.getCompletionDate());
+        double progress = ((double) completedEnrollments.size() / goal.getNumberOfGoals()) * 100;
+
+        if (completedEnrollments.size() >= goal.getNumberOfGoals()) {
+            goal.setStatus(GoalStatus.COMPLETED);
+            goalRepository.save(goal);
+        }
+
+        return (int) progress;
+    }
+
+    public void updateGoalStatuses() {
+        List<Goal> allGoals = goalRepository.findAll();
+        Date today = new Date();
+
+        for (Goal goal : allGoals) {
+            if (goal.getStatus() == GoalStatus.COMPLETED) {
+                continue;
+            }
+
+            if (goal.getCompletionDate().before(today)) {
+                goal.setStatus(GoalStatus.EXPIRED);
+            } else {
+                goal.setStatus(GoalStatus.ACTIVE);
+            }
+        }
+        goalRepository.saveAll(allGoals);
+    }
+
+    public List<Goal> getActiveGoals(String username) {
+        return goalRepository.findByStudent_UsernameAndStatus(username, GoalStatus.ACTIVE);
+    }
+
+    public boolean checkAndCompleteGoal(Goal goal) {
+        List<Enrollment> completedEnrollments = enrollmentRepository.findByStudentAndStatusAndCompletionDateBetween(
+                goal.getStudent(), EnrollmentStatus.COMPLETED, goal.getCreationDate(), new Date());
+
+        if (completedEnrollments.size() >= goal.getNumberOfGoals()) {
+            goal.setStatus(GoalStatus.COMPLETED);
+            goal.setActualCompletionDate(new Date());
+            goalRepository.save(goal);
+            return true;
+        }
+        return false;
+    }
+
+    public List<Goal> getCompletedGoals(String username) {
+        return goalRepository.findByStudent_UsernameAndStatus(username, GoalStatus.COMPLETED);
+    }
+
+    public boolean deleteActiveGoal(String username) {
+        Student student = studentRepository.findByUsername(username);
+        if (student == null) return false;
+
+        List<Goal> activeGoals = goalRepository.findByStudent_UsernameAndStatus(username, GoalStatus.ACTIVE);
+        if (activeGoals.isEmpty()) return false;
+
+        goalRepository.delete(activeGoals.get(0));
+        return true;
+    }
+}
+
+
+
+
+

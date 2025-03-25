@@ -64,15 +64,17 @@
 /* Styling for leaderboard and profile links */
 .redirect-box {
     background-color: #d3d3d3;
+    cursor: pointer;
     padding: 10px;
     width: 150px;
     text-align: center;
     border-radius: 5px;
-    display: inline-block;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    margin: 5px 10px 0;
+    margin: 5px 10px;
+    transition: background-color 0.3s ease-in-out;
 }
 
 /* Container for navigation buttons */
@@ -147,11 +149,13 @@ body {
     font-weight: bold;
     cursor: pointer;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
 }
 
 /* Hover effect for status selection */
 .status-box:hover {
     background-color: #a9a9a9;
+    transform: scale(1.05);
 }
 
 /* Styling for status selection radio buttons */
@@ -181,7 +185,15 @@ body {
 /* Full-width course boxes on smaller screens */
 @media (max-width: 768px) {
     .course-box {
-        flex: 1 1 100%; /* Full width on smaller screens */
+        flex: 1 1 100%;
+    }
+}
+
+/* Ensure review sections stack properly on smaller screens */
+@media (max-width: 768px) {
+    .review-course-section {
+        max-width: 100%;
+        padding: 10px;
     }
 }
 
@@ -201,12 +213,13 @@ body {
     cursor: pointer;
     border: none;
     margin: 10px;
-    transition: background-color 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
 }
 
 /* Hover effect for buttons */
 .button-style:hover {
     background-color: #a9a9a9;
+    transform: scale(1.05);
 }
 
 /* Ensure buttons are centered */
@@ -215,6 +228,160 @@ body {
     justify-content: center;
     gap: 15px;
 }
+
+/* ============================
+   Reviews
+   ============================ */
+
+.add-see-review-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.review-course-link {
+    text-decoration: none;
+    color: #324aa8;
+    margin: 3px;
+}
+
+/* ============================
+   Goal Styling
+   ============================ */
+.active-goals {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.active-goal-text {
+    display: inline-block;
+    background-color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.goal-progress-container {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.progress-bar-container {
+    display: flex;
+    justify-content: center;
+}
+
+.progress-bar-container {
+    width: 50%;
+    margin: auto;
+    text-align: center;
+}
+
+.progress-bar {
+    width: 50%;
+    height: 12px;
+    background-color: #ddd;
+    border-radius: 5px;
+    margin: 0 auto;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: #4CAF50;
+    border-radius: 5px;
+}
+
+.progress-percentage {
+    font-size: 14px;
+    color: black;
+    margin-top: 5px;
+}
+
+.congrats-container {
+    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+    margin: 15px auto;
+    border-radius: 8px;
+    width: 40%;
+    font-weight: bold;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1s ease-in-out;
+}
+
+.congrats-container p {
+    margin: 0;
+}
+
+.congrats-container span {
+    font-size: 24px;
+}
+
+.goal-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.goal-action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.view-completed-goals-link {
+    font-size: 14px;
+    font-weight: bold;
+    color: #007BFF;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.view-completed-goals-link:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+.delete-goal-btn {
+    display: inline-block;
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    background-color: #dc3545;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-goal-btn:hover {
+    background-color: #c82333;
+    text-decoration: none;
+    transform: scale(1.05);
+}
+
+.delete-goal-btn:focus {
+    outline: none;
+}
+
+.delete-goal-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+
+
+
+
+
+
 
 
 

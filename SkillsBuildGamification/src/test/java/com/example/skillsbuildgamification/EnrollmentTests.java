@@ -52,7 +52,7 @@ class EnrollmentTests {
         String status = "COMPLETED";
         int testCourseId = 1;
 
-        mockMvc.perform(post("/"+testUsername+"/courseStatus/"+testCourseId)
+        mockMvc.perform(post("/"+testUsername+"/courseStatus/"+testCourseId+"/update?username="+testUsername+"&courseId="+testCourseId)
                         .secure(true)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -72,7 +72,7 @@ class EnrollmentTests {
         String invalidStatus = "invalid";
         int testCourseId = 1;
 
-        mockMvc.perform(post("/"+testUsername+"/courseStatus/"+testCourseId)
+        mockMvc.perform(post("/"+testUsername+"/courseStatus/"+testCourseId+"/update?username="+testUsername+"&courseId="+testCourseId)
                         .secure(true)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -93,7 +93,7 @@ class EnrollmentTests {
         String sourcePage = "editProfile";
         int testCourseId = 1;
 
-        mockMvc.perform(post("/"+testUsername+"/courseStatus/"+testCourseId)
+        mockMvc.perform(post("/"+testUsername+"/courseStatus/"+testCourseId+"/update?username="+testUsername+"&courseId="+testCourseId)
                         .secure(true)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -116,7 +116,7 @@ class EnrollmentTests {
         String sourcePage = "other";
         int testCourseId = 1;
 
-        mockMvc.perform(post("/"+testUsername+"/courseStatus/"+testCourseId)
+        mockMvc.perform(post("/"+testUsername+"/courseStatus/"+testCourseId+"/update?username="+testUsername+"&courseId="+testCourseId)
                         .secure(true)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)

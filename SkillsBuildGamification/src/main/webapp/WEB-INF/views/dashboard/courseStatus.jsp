@@ -40,7 +40,7 @@
     <h2>${course.courseName}</h2> <!-- Display course name -->
 
     <!-- Form to update course status -->
-    <form action="<c:url value='/${username}/courseStatus/${course.courseID}' />" method="post">
+    <form action="<c:url value='/${username}/courseStatus/${course.courseID}/update' />" method="post">
         <!-- CSRF token for security -->
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         <!-- Track where the request is coming from -->

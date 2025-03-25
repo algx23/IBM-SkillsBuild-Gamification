@@ -12,13 +12,27 @@ public class Student {
     @Id
     private String username;
     private String password;
+    private boolean isAdmin;
+
     private int points = 0;
     private int level = 0;
+    private int credits = 0;
     private String bio; // Student Bio
-    private String profilePic; // img url as string
+    // Avatar URL from API replaced profile picture)
+    private String avatarUrl;
+    private String activeCategory = "bottts"; // Default category
+
+    @ElementCollection
+    private List<String> equippedItems = new ArrayList<>();  // Tracks worn accessories
+
+    @ElementCollection
+    private List<String> ownedItems = new ArrayList<>();  // Tracks purchased items
 
     private UserRank userRank = UserRank.BRONZE;
     private int numCompletedCourses;
+
+    @OneToMany(mappedBy = "studentId", cascade = CascadeType.ALL)
+    private List<Review> reviewsByStudent = new ArrayList<>();
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<Enrollment> enrollments = new ArrayList<>();
@@ -26,13 +40,29 @@ public class Student {
     @ElementCollection
     private List<String> earnedBadges = new ArrayList<>(); // badges as a collection
 
+    @ManyToMany()
+    private List<Student> friends = new ArrayList<>();
+
+    @OneToMany
+    private List<FriendRequest> requests = new ArrayList<>();
+
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = username.toLowerCase();
+        if (this.avatarUrl == null || this.avatarUrl.isEmpty()) {
+            this.avatarUrl = getDefaultAvatarUrl(username.toLowerCase());
+        }
     }
+
+
+    private String getDefaultAvatarUrl(String username) {
+        String defaultCategory = "bottts"; // Changeable in future
+        return "https://api.dicebear.com/8.x/" + defaultCategory + "/svg?seed=" + username;
+    }
+
 
     public String getPassword() {
         return password;
@@ -40,6 +70,14 @@ public class Student {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     public int getPoints() {
@@ -74,13 +112,29 @@ public class Student {
         this.bio = bio;
     }
 
-    public String getProfilePic() {
-        return profilePic;
+    public String getAvatarUrl() {
+        return this.avatarUrl;
     }
 
-    public void setProfilePic(String profilePic) {
-        this.profilePic = profilePic;
+    /**
+     * Generates the Avatar URL based on equipped items
+     */
+    /**
+     * Generates the Avatar URL based on equipped items
+     */
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
+
+
+    public List<String> getEquippedItems() {return equippedItems;}
+
+    public void setEquippedItems(List<String> equippedItems) {this.equippedItems = equippedItems;}
+
+    public List<String> getOwnedItems() {return ownedItems;}
+
+    public void setOwnedItems(List<String> ownedItems) {this.ownedItems = ownedItems;}
 
     public List<Enrollment> getEnrollments() {
         return enrollments;
@@ -98,7 +152,49 @@ public class Student {
         return numCompletedCourses;
     }
 
-    public List<String> getEarnedBadges() { return earnedBadges; }
-    public void setEarnedBadges(List<String> earnedBadges) { this.earnedBadges = earnedBadges; }
+    public List<Review> getReviewsByStudent() {
+        return reviewsByStudent;
+    }
+
+    public void setReviewsByStudent(List<Review> reviewsByStudent) {
+        this.reviewsByStudent = reviewsByStudent;
+    }
+
+    public List<String> getEarnedBadges() {
+        return earnedBadges;
+    }
+
+    public void setEarnedBadges(List<String> earnedBadges) {
+        this.earnedBadges = earnedBadges;
+    }
+
+    public List<Student> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<Student> friends) {
+        this.friends = friends;
+    }
+
+    public List<FriendRequest> getRequests() {
+        return requests;
+    }
+    public void setRequests(List<FriendRequest> requests) {
+        this.requests = requests;
+    }
+
+    public int getCredits() {return credits;}
+
+    public void setCredits(int credits) {this.credits = credits;}
+
+    public String getActiveCategory() {
+        return activeCategory;
+    }
+
+    public void setActiveCategory(String category) {
+        this.activeCategory = category;
+    }
+
+
 
 }

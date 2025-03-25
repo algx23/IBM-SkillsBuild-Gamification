@@ -1,6 +1,7 @@
 package com.example.skillsbuildgamification.service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import jakarta.transaction.Transactional;
@@ -14,19 +15,19 @@ import com.example.skillsbuildgamification.model.Student;
 @Transactional
 public class LeaderboardService {
 
-  public int findPrincipalPosInSortedLB(Student student, List<Student> listToSearch) {
+  public int findPrincipalPosInSortedLB(Student student, List<Student> listToSearch, List<Integer> handledPosList) {
     int position = 0;
     for (int i = 0; i < listToSearch.size(); ++i) {
-      // find the index (position) of the student in the list
-      // search for the student in the list (listToSearch is a list of student
-      // objects)
-      if (listToSearch.get(i) == student) {
-        position = i;
+      // handlePosList is the list of positions to be displayed, and this wil be the same as listToSearch,
+//      is the already sorted list of friends. Since these are sorted in the same way and are the same length (when sorting by friends),
+//      the index of the student in the
+//      listToSearch corresponds to the index of the handledPosList
+      if (listToSearch.get(i).equals(student)) {
+        position = handledPosList.get(i);
         break;
       }
     }
-    return position + 1; // return position + 1 as index starts at 0, so index 0 (first item in the
-                         // list), will actually be in Place 1
+    return position ;
   }
 
   public List<Integer> findAndHandleJointLBPos(List<Student> orderedList) {
@@ -56,5 +57,41 @@ public class LeaderboardService {
       }
     }
     return handledLeaderboardPositions;
+  }
+
+  public List<Student> sortFriendsInLeaderboard(List<Student> studentAndFriends, String sortBy) {
+    /*
+    * Based on the sortBy, use Comparator which compares the attributes of each student in the list
+    *
+    * If the sort needs to be from high to low, use reversed() which will sort from highest to lowest
+    * as the default for Comparator is low to high
+    */
+    switch (sortBy) {
+      case ("HighestScoreFirst"):
+        studentAndFriends.sort(Comparator.comparingInt(Student::getPoints).reversed());
+        break;
+      case ("lowestScoreFirst"):
+        studentAndFriends.sort(Comparator.comparingInt(Student::getPoints));
+        break;
+      case ("A-Z"):
+        studentAndFriends.sort(Comparator.comparing(Student::getUsername));
+        break;
+
+      case ("Z-A"):
+        studentAndFriends.sort(Comparator.comparing(Student::getUsername).reversed());
+        break;
+
+      case ("LowestCourseFirst"):
+        studentAndFriends.sort(Comparator.comparingInt(Student::getNumCompletedCourses));
+        break;
+      case ("HighestCourseFirst"):
+        studentAndFriends.sort(Comparator.comparingInt(Student::getNumCompletedCourses).reversed());
+        break;
+
+      default: // default is points high to low
+        studentAndFriends.sort(Comparator.comparingInt(Student::getPoints).reversed());
+        break;
+    }
+    return studentAndFriends;
   }
 }

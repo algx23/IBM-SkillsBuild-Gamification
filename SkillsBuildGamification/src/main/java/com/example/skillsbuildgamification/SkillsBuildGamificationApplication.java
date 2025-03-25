@@ -1,10 +1,7 @@
 package com.example.skillsbuildgamification;
 
 import com.example.skillsbuildgamification.config.PasswordEncoder;
-import com.example.skillsbuildgamification.model.Course;
-import com.example.skillsbuildgamification.model.Enrollment;
-import com.example.skillsbuildgamification.model.EnrollmentStatus;
-import com.example.skillsbuildgamification.model.Student;
+import com.example.skillsbuildgamification.model.*;
 import com.example.skillsbuildgamification.repository.CourseRepository;
 import com.example.skillsbuildgamification.repository.EnrollmentRepository;
 import com.example.skillsbuildgamification.repository.StudentRepository;
@@ -37,6 +34,7 @@ public class SkillsBuildGamificationApplication implements CommandLineRunner {
         // test data
         Student student1 = new Student();
         student1.setUsername("bob12");
+        student1.setAdmin(true);
         student1.setPassword(encoder.encoder().encode("password"));
 //        student1.setPoints(12);
 

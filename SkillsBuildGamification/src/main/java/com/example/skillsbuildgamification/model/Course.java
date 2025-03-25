@@ -8,6 +8,7 @@ import java.util.List;
 public class Course {
     @Id
     @GeneratedValue
+
     private Integer courseID;
 
     private String courseName;
@@ -17,7 +18,19 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Enrollment> enrollments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "reviewID", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
+
     // Getters and setters
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
     public String getCourseLink() {
         return courseLink;
     }
@@ -40,6 +53,25 @@ public class Course {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    private int getNumStudentsWithStatus(EnrollmentStatus status) {
+        // Returns the number of students who are in a certain stage of completing a course
+        int count = 0;
+        for (Enrollment enrollment : enrollments) {
+            if (enrollment.getStatus() == status) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int getNumStudentsInProgress() {
+        return getNumStudentsWithStatus(EnrollmentStatus.IN_PROGRESS);
+    }
+
+    public int getNumStudentsCompleted() {
+        return getNumStudentsWithStatus(EnrollmentStatus.COMPLETED);
     }
 }
 

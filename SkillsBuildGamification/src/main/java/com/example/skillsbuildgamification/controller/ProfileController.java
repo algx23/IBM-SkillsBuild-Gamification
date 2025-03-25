@@ -70,6 +70,8 @@ public class ProfileController { // Handles all profile management related endpo
         model.addAttribute("inProgressCourses", inProgressCourses); // add courses in progress
         model.addAttribute("badgeRequirements", badgeRequirements); // add requirements to display badges
         model.addAttribute("url", student.getUserRank().getUrl()); // add url for rank img
+        model.addAttribute("avatarUrl", student.getAvatarUrl());
+        model.addAttribute("equippedItems", student.getEquippedItems());
 
         return "profile/profile"; // profile.jsp
     }
@@ -111,7 +113,6 @@ public class ProfileController { // Handles all profile management related endpo
     public String updateProfile(@PathVariable String username, // pass username as path variable
                                 @RequestParam String password, // password param
                                 @RequestParam String bio, // bio as param
-                                @RequestParam String profilePic, // profile pic url as param
                                 Principal principal) {
 
         if (principal == null || !principal.getName().equals(username)) {
@@ -124,7 +125,6 @@ public class ProfileController { // Handles all profile management related endpo
                 student.setPassword(passwordEncoder.encoder().encode(password)); // encode new password
             }
             student.setBio(bio); // add bio
-            student.setProfilePic(profilePic); // set profile pic
             studentRepository.save(student); // save changes
         }
         return "redirect:/profile/" + username; // Redirect to updated profile

@@ -65,7 +65,7 @@ class RegistrationTests {
         String testPassword = "password";
 
         // Simulate that a student with the given username already exists
-        when(studentRepository.findByUsername(eq(duplicateUsername))).thenReturn(new Student());
+        when(studentRepository.findByUsername(eq(duplicateUsername.toLowerCase()))).thenReturn(new Student());
 
         mockMvc.perform(post("/registration-process")
                         .secure(true)

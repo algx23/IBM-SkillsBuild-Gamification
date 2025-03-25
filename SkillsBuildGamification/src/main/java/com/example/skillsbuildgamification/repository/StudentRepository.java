@@ -6,7 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface StudentRepository extends CrudRepository<Student, String> {
     Student findByUsername(String name);
@@ -34,4 +33,7 @@ public interface StudentRepository extends CrudRepository<Student, String> {
     // order by courses completed high -> low, and low -> high
     List<Student> findAllByOrderByNumCompletedCoursesDesc();
     List<Student> findAllByOrderByNumCompletedCoursesAsc();
+
+//    find the friends of each student
+   List<Student> findFriendsByUsername(String username);
 }

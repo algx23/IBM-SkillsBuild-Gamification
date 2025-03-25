@@ -46,13 +46,69 @@
     </div>
   </div>
 
+  <!-- Goals Section -->
+  <div class="active-goals">
+    <c:choose>
+      <c:when test="${not empty activeGoals}">
+        <c:forEach var="goal" items="${activeGoals}">
+          <div class="goal-progress-container">
+            <p class="goal-text">
+              <strong>Goal:</strong> ${goal.numberOfGoals} Courses |
+              <strong>Completion Date:</strong> ${goal.completionDate.toString().substring(0, 10)}
+            </p>
+            <div class="progress-bar">
+              <div class="progress-bar-fill" style="width: ${goalProgressMap[goal.goalID]}%;"></div>
+            </div>
+            <p class="goal-progress-text">${goalProgressMap[goal.goalID]}% Completed</p>
+
+            <c:if test="${not empty congratsMessage}">
+              <div class="congrats-container">
+                <p>${congratsMessage}</p>
+              </div>
+            </c:if>
+          </div>
+        </c:forEach>
+      </c:when>
+      <c:otherwise>
+        <p class="no-goals">No active goals set.</p>
+      </c:otherwise>
+    </c:choose>
+  </div>
+
+  <div class="goal-actions">
+    <c:if test="${not empty activeGoals and activeGoals[0].status ne 'COMPLETED'}">
+      <a href="${pageContext.request.contextPath}/${username}/delete-goal" class="delete-goal-btn"
+         onclick="return confirm('Are you sure you want to delete this goal?');">
+        Delete Goal
+      </a>
+    </c:if>
+
+    <a href="${pageContext.request.contextPath}/${username}/completed-goals" class="view-completed-goals-link">
+      View Completed Goals
+    </a>
+  </div>
+
   <!-- Display list of courses -->
   <div class="course-container">
     <c:forEach var="course" items="${courses}">
-      <div class="course-box" id="${course.courseName}">
-        <a href="${course.courseLink}" target="_blank" data-courseid="${course.courseID}">
-            ${course.courseName}
-        </a>
+      <div class ="review-course-section" id="${course.courseName}">
+        <div class="course-box" id="${course.courseName}">
+          <a href="${course.courseLink}" target="_blank" data-courseid="${course.courseID}">
+              ${course.courseName}
+          </a>
+        </div>
+        <div class="add-see-review-box">
+          <c:forEach var="enrollment" items="${enrollments}">
+            <c:if test="${enrollment.status == 'COMPLETED' && enrollment.course.courseName == course.courseName}">
+              <a class="review-course-link" href = "<c:url value='/addReviews?courseName=${course.courseName}&username=${username}' />">
+                Add Reviews
+              </a>
+            </c:if>
+          </c:forEach>
+          <a class="review-course-link" href = "<c:url value='/seeReviews?courseName=${course.courseName}&username=${username}' />">
+            See reviews
+          </a>
+        </div>
       </div>
     </c:forEach>
   </div>
@@ -65,6 +121,18 @@
     <div class="redirect-box">
       <a href="<c:url value='/profile/${username}' />">User Profile</a>
     </div>
+    <div class="redirect-box">
+      <a href="${pageContext.request.contextPath}/${username}/goal-creation">Create Goal</a>
+    </div>
+    <div class="redirect-box">
+      <a href="<c:url value='/shop' />">Visit Shop</a>
+    </div>
+    <!-- Show a button for the admin page if the student is an admin -->
+    <c:if test="${isAdmin == true}">
+      <div class="redirect-box">
+        <a href="${pageContext.request.contextPath}/analytics">Analytics</a>
+      </div>
+    </c:if>
   </div>
 </main>
 
@@ -100,7 +168,7 @@
   // Filter courses based on selected status
   function filterCourses() {
     let selectedValue = document.getElementById("courses-available").value;
-    let courseBoxes = document.getElementsByClassName("course-box");
+    let courseBoxes = document.getElementsByClassName("review-course-section");
 
     // Hide all courses initially
     for (let i = 0; i < courseBoxes.length; i++) {
@@ -156,7 +224,7 @@
     input = document.getElementById("textInput");
     filter = input.value.toUpperCase().split(' ');
 
-    courseBoxes = document.getElementsByClassName("course-box");
+    courseBoxes = document.getElementsByClassName("review-course-section");
 
     // Hide all courses initially
     for (let i = 0; i < courseBoxes.length; i++) {
