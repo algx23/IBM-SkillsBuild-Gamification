@@ -23,6 +23,7 @@
         Review ID:${review.reviewId}<br>
         Username:${student.username}<br>
         Course: ${course.courseName}<br>
+        Rating: ${review.rating}<br>
         Users review:
         <div>
                 ${review.reviewText}
