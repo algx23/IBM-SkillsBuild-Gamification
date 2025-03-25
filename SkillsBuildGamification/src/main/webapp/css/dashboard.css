@@ -230,6 +230,15 @@ body {
 }
 
 /* ============================
+   Review Links
+   ============================ */
+
+.review-course-link {
+    text-decoration: none;
+    color: #324aa8;
+}
+
+/* ============================
    Goal Styling
    ============================ */
 .active-goals {

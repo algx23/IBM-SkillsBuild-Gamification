@@ -104,7 +104,7 @@
             </a>
           </c:if>
         </c:forEach>
-        <a href = "<c:url value='/seeReviews?courseName=${course.courseName}&username=${username}' />">
+        <a class="review-course-link" href = "<c:url value='/seeReviews?courseName=${course.courseName}&username=${username}' />">
           See reviews
         </a>
       </div>
