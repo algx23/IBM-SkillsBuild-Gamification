@@ -71,9 +71,9 @@ public class LeaderboardTests {
         // test that all students have been added correctly
         assert studentList.size() == 3;
         // check the students are in the same place
-        assert studentList.get(0).getUsername().equals("Alex");
-        assert studentList.get(1).getUsername().equals("Jack");
-        assert studentList.get(2).getUsername().equals("Bob");
+        assert studentList.get(0).getUsername().equals("alex");
+        assert studentList.get(1).getUsername().equals("jack");
+        assert studentList.get(2).getUsername().equals("bob");
 
     }
 
@@ -82,9 +82,9 @@ public class LeaderboardTests {
     public void testSortByPointsDescending() {
         List<Student> studentList = studentRepository.findAllByOrderByPointsDesc();
         assert studentList.size() == 3;
-        assert studentList.get(0).getUsername().equals("Bob");
-        assert studentList.get(1).getUsername().equals("Jack");
-        assert studentList.get(2).getUsername().equals("Alex");
+        assert studentList.get(0).getUsername().equals("bob");
+        assert studentList.get(1).getUsername().equals("jack");
+        assert studentList.get(2).getUsername().equals("alex");
     }
 
     // testing leadeboard positions are correct
@@ -127,18 +127,18 @@ public class LeaderboardTests {
     public void testSortByUsernameAscending() {
         List<Student> studentList = studentRepository.findAllByOrderByUsernameAsc();
         assert studentList.size() == 3;
-        assert studentList.get(0).getUsername().equals("Alex");
-        assert studentList.get(1).getUsername().equals("Bob");
-        assert studentList.get(2).getUsername().equals("Jack");
+        assert studentList.get(0).getUsername().equals("alex");
+        assert studentList.get(1).getUsername().equals("bob");
+        assert studentList.get(2).getUsername().equals("jack");
     }
 
     @Test
     public void testSortByUsernameDescending() {
         List<Student> studentList = studentRepository.findAllByOrderByUsernameDesc();
         assert studentList.size() == 3;
-        assert studentList.get(0).getUsername().equals("Jack");
-        assert studentList.get(1).getUsername().equals("Bob");
-        assert studentList.get(2).getUsername().equals("Alex");
+        assert studentList.get(0).getUsername().equals("jack");
+        assert studentList.get(1).getUsername().equals("bob");
+        assert studentList.get(2).getUsername().equals("alex");
     }
 
     @Test
@@ -146,17 +146,17 @@ public class LeaderboardTests {
     public void testSortByNumberOfCoursesCompletedAscending() {
         List<Student> numCourses = studentRepository.findAllByOrderByNumCompletedCoursesAsc();
         assert numCourses.size() == 3;
-        assert numCourses.get(0).getUsername().equals("Alex");
-        assert numCourses.get(1).getUsername().equals("Jack");
-        assert numCourses.get(2).getUsername().equals("Bob");
+        assert numCourses.get(0).getUsername().equals("alex");
+        assert numCourses.get(1).getUsername().equals("jack");
+        assert numCourses.get(2).getUsername().equals("bob");
     }
 
     @Test
     public void testSortByNumberOfCoursesDescending() {
         List<Student> numCourses = studentRepository.findAllByOrderByNumCompletedCoursesDesc();
         assert numCourses.size() == 3;
-        assert numCourses.get(0).getUsername().equals("Bob");
-        assert numCourses.get(1).getUsername().equals("Jack");
-        assert numCourses.get(2).getUsername().equals("Alex");
+        assert numCourses.get(0).getUsername().equals("bob");
+        assert numCourses.get(1).getUsername().equals("jack");
+        assert numCourses.get(2).getUsername().equals("alex");
     }
 }

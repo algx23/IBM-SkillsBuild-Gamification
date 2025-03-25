@@ -91,10 +91,24 @@
   <!-- Display list of courses -->
   <div class="course-container">
     <c:forEach var="course" items="${courses}">
-      <div class="course-box" id="${course.courseName}">
-        <a href="${course.courseLink}" target="_blank" data-courseid="${course.courseID}">
-            ${course.courseName}
-        </a>
+      <div class ="review-course-section" id="${course.courseName}">
+        <div class="course-box" id="${course.courseName}">
+          <a href="${course.courseLink}" target="_blank" data-courseid="${course.courseID}">
+              ${course.courseName}
+          </a>
+        </div>
+        <div class="add-see-review-box">
+          <c:forEach var="enrollment" items="${enrollments}">
+            <c:if test="${enrollment.status == 'COMPLETED' && enrollment.course.courseName == course.courseName}">
+              <a class="review-course-link" href = "<c:url value='/addReviews?courseName=${course.courseName}&username=${username}' />">
+                Add Reviews
+              </a>
+            </c:if>
+          </c:forEach>
+          <a class="review-course-link" href = "<c:url value='/seeReviews?courseName=${course.courseName}&username=${username}' />">
+            See reviews
+          </a>
+        </div>
       </div>
     </c:forEach>
   </div>
@@ -110,6 +124,9 @@
     <div class="redirect-box">
       <a href="${pageContext.request.contextPath}/${username}/goal-creation">Create Goal</a>
     </div>
+    <div class="redirect-box">
+      <a href="<c:url value='/shop' />">Visit Shop</a>
+    </div>
     <!-- Show a button for the admin page if the student is an admin -->
     <c:if test="${isAdmin == true}">
       <div class="redirect-box">
@@ -117,8 +134,6 @@
       </div>
     </c:if>
   </div>
-
-
 </main>
 
 <script>
@@ -153,7 +168,7 @@
   // Filter courses based on selected status
   function filterCourses() {
     let selectedValue = document.getElementById("courses-available").value;
-    let courseBoxes = document.getElementsByClassName("course-box");
+    let courseBoxes = document.getElementsByClassName("review-course-section");
 
     // Hide all courses initially
     for (let i = 0; i < courseBoxes.length; i++) {
@@ -209,7 +224,7 @@
     input = document.getElementById("textInput");
     filter = input.value.toUpperCase().split(' ');
 
-    courseBoxes = document.getElementsByClassName("course-box");
+    courseBoxes = document.getElementsByClassName("review-course-section");
 
     // Hide all courses initially
     for (let i = 0; i < courseBoxes.length; i++) {

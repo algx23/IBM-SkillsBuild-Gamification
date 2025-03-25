@@ -1,10 +1,10 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 35px;
 }
 
 /* 🛠 Fix Shop Layout */
@@ -14,7 +14,7 @@ body {
     width: 90%;
     padding: 20px;
     align-items: flex-start;
-}
+    }
 
 /* Fix Left Side (Avatar Section) */
 #left-container {
@@ -156,3 +156,24 @@ body {
 #back-dashboard:hover {
     background-color: #5a6268;
 }
+
+.owned-highlight {
+    background-color: rgba(0, 123, 255, 0.15); /* Soft blue tint */
+    border-radius: 8px;
+    padding: 3px;
+    transition: transform 0.2s ease;
+}
+
+.owned-highlight:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 6px rgba(40, 167, 69, 0.3);
+}
+
+
+.equipped-highlight {
+    background-color: rgba(40, 167, 69, 0.15); /* Soft green tint */
+    border-radius: 8px;
+    padding: 3px;
+}
+
+/* end of css */

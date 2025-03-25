@@ -107,6 +107,9 @@ public class LeaderboardController {
     public String leaderboardFriendsOnly(@RequestParam(defaultValue = "") String sortBy, Principal principal, Model model) {
         Student loggedInStudent = studentRepository.findByUsername(principal.getName());
         List<Student> studentAndFriends = loggedInStudent.getFriends();
+        if (sortBy.isEmpty()) {
+            sortBy = "HighestScoreFirst";
+        }
         /*
         * if the student has at least one friend add them to the list, so that they also show in the leaderboard (and
         * not just their friends).
@@ -118,9 +121,11 @@ public class LeaderboardController {
         if (!studentAndFriends.contains(loggedInStudent) && !studentAndFriends.isEmpty()) {
             studentAndFriends.add(loggedInStudent);
         }
-        if (sortBy.isEmpty() ) { // if the sort by is higestScoreFirst, then it will be empty so show logged in pos
+        if (sortBy.equals("HighestScoreFirst") && !studentAndFriends.isEmpty()) { // if the sort by is higestScoreFirst, then it will be empty so show logged in pos
+//            sort the list FIRST so the findAndHandleJointLBPos function can find the position properly, as it takes in an ordered list
+            studentAndFriends.sort(Comparator.comparing(Student::getPoints).reversed());
             model.addAttribute("loggedInStudentPos",
-                    studentRepository.findLeaderboardPosition(loggedInStudent.getUsername()));
+                    leaderboardService.findPrincipalPosInSortedLB(loggedInStudent, studentAndFriends, leaderboardService.findAndHandleJointLBPos(studentAndFriends)));
         }
 
 //        dynamically change the url for the sorting buttons based off which page you are at
@@ -129,16 +134,14 @@ public class LeaderboardController {
         model.addAttribute("loggedInStudent", loggedInStudent);
         model.addAttribute("students", leaderboardService.sortFriendsInLeaderboard(studentAndFriends, sortBy));
         model.addAttribute("leaderboardPos", leaderboardService.findAndHandleJointLBPos(studentAndFriends));
-        if (sortBy.isEmpty()) {
-            sortBy = "HighestScoreFirst";
-        }
+
         model.addAttribute("sortingOrder", sortBy);
 
         return "leaderboard/leaderboard";
     }
     //    post mapping to change the sort by param for the FRIENDS leaderboard
     @PostMapping("/leaderboard/friends")
-    public String redirectToSortFriends(@RequestParam("sortBy") String sortBy) {
+    public String redirectToSortFriends(@RequestParam(value = "sortBy", defaultValue = "") String sortBy) {
         return "redirect:/leaderboard/friends?sortBy=" + sortBy;
     }
 }

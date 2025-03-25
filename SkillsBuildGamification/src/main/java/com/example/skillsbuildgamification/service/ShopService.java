@@ -78,6 +78,12 @@ public class ShopService {
             return false;
         }
 
+        String fullItemKey = category + "_" + featureType + "_" + variant;
+
+        if (!student.getOwnedItems().contains(fullItemKey)) {
+            return false; // Not owned
+        }
+
         // Correct the format of equipped item
         String diceBearParam = featureType + "=" + variant;
 

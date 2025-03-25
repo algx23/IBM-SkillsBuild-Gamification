@@ -31,7 +31,7 @@ public class DashBoardController {
         this.courseRepository = courseRepository;
     }
 
-    @RequestMapping("{username}/dashboard-page")
+    @RequestMapping("/{username}/dashboard-page")
     public String dashboardPage(@PathVariable String username, Model model) {
         Student student = studentRepository.findByUsername(username);
 

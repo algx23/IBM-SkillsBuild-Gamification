@@ -27,7 +27,7 @@
     <div id="left-container">
         <h1>Your Avatar</h1>
         <img id="avatar-preview" src="${student.avatarUrl}" alt="Your Avatar">
-        <button id="back-dashboard" onclick="window.location.href='/login-success'">Back to Dashboard</button>
+        <button id="back-dashboard" onclick="window.location.href='/${student.username}/dashboard-page'">Back to Dashboard</button>
     </div>
 
     <!-- RIGHT: Tabbing Area -->

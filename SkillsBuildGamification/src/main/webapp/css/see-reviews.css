@@ -1,0 +1,76 @@
+/* ============================
+   General Page Styling
+   ============================ */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+/* ============================
+   Page Title
+   ============================ */
+h1 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #0056b3; /* IBM Blue */
+}
+
+/* ============================
+   Review Container
+   ============================ */
+div {
+    background-color: #ffffff;
+    padding: 15px;
+    max-width: 600px;
+    margin: 10px auto;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+
+/* ============================
+   Review Content Styling
+   ============================ */
+div > div {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-left: 4px solid #0056b3;
+    font-style: italic;
+    margin-top: 5px;
+    border-radius: 5px;
+}
+
+/* ============================
+   Dashboard Link Styling
+   ============================ */
+a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #b0c4de;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+a:hover {
+    background-color: #87a2d1;
+}
+
+/* ============================
+   Responsive Design
+   ============================ */
+@media (max-width: 600px) {
+    div {
+        width: 90%;
+        padding: 10px;
+    }
+}
