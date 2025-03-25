@@ -230,12 +230,18 @@ body {
 }
 
 /* ============================
-   Review Links
+   Reviews
    ============================ */
+
+.add-see-review-box {
+    display: flex;
+    flex-direction: column;
+}
 
 .review-course-link {
     text-decoration: none;
     color: #324aa8;
+    margin: 3px;
 }
 
 /* ============================

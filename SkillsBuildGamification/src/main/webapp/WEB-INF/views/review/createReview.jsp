@@ -28,6 +28,6 @@
     <form:input type="text" id="reviewTextd" maxlength="500" path="reviewText"/>
     <input type="submit">
   </form:form>
-  <a href=/${student.username}/dashboard-page">Dashboard</a>
+  <a href="/${student.username}/dashboard-page">Dashboard</a>
   </body>
 </html>

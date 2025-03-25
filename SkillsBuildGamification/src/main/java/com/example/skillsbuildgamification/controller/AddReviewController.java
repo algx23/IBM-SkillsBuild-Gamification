@@ -44,17 +44,13 @@ public class AddReviewController {
             return "review/createReview";
         }
 
-        //This for loop checks if the user has had a previous review on the course and if so it will be deleted
-        var enrollments=student.getEnrollments();
+
         for (int j = 0; j < student.getReviewsByStudent().size(); j++) {
             if(course.getReviews().contains(student.getReviewsByStudent().get(j))){
-                student.getReviewsByStudent().get(j).setStudentId(null);
-                student.getReviewsByStudent().get(j).setCourseAssociated(null);
-                reviewRepository.save(student.getReviewsByStudent().get(j));
                 reviewRepository.delete(student.getReviewsByStudent().get(j));
             }
         }
-
+        course.getReviews().add(review);
         review.setCourseAssociated(course);
         review.setStudentId(student);
         reviewRepository.save(review);

@@ -49,6 +49,7 @@ public class EnrollmentService {
             enrollment = enrollmentOpt.get();
             enrollment.setStatus(status);
 
+
             if (status == EnrollmentStatus.COMPLETED) {
                 enrollment.setCompletionDate(now);
                 student.setNumCompletedCourses(student.getNumCompletedCourses() + 1);

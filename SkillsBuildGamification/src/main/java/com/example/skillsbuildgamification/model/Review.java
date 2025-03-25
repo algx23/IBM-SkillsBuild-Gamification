@@ -9,12 +9,12 @@ public class Review {
     private int reviewID;
 
     //mapped to the Course table
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,optional = false)
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn
     private Course courseAssociated;
 
     //mapped to the student table
-    @ManyToOne(cascade = CascadeType.ALL,optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn
     private Student studentId;
 
